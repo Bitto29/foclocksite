@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#070b16" />
   <title>Foc Lock — Download</title>
+
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/NG2mdRdd/18933-removebg-preview-edit-651200758610660.png" />
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/NG2mdRdd/18933-removebg-preview-edit-651200758610660.png" />
+
   <style>
     :root{
       --bg:#070b16;
@@ -26,100 +30,545 @@
       --max:1180px;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;height:100%;background:
-      radial-gradient(circle at 20% 20%, rgba(37,99,235,.22), transparent 25%),
-      radial-gradient(circle at 80% 10%, rgba(34,211,238,.15), transparent 18%),
-      radial-gradient(circle at 50% 90%, rgba(16,185,129,.10), transparent 20%),
-      linear-gradient(180deg,#060914 0%, #0a1020 55%, #070b16 100%);
-      color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;}
+    html,body{
+      margin:0;
+      height:100%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(37,99,235,.22), transparent 25%),
+        radial-gradient(circle at 80% 10%, rgba(34,211,238,.15), transparent 18%),
+        radial-gradient(circle at 50% 90%, rgba(16,185,129,.10), transparent 20%),
+        linear-gradient(180deg,#060914 0%, #0a1020 55%, #070b16 100%);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    }
     body{overflow-x:hidden}
     a{text-decoration:none;color:inherit}
-    .wrap{max-width:var(--max);margin:0 auto;padding:22px 20px 72px;position:relative}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0 18px;position:sticky;top:0;backdrop-filter:blur(18px);z-index:20}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,var(--blue) 0%, #1d4ed8 55%, #0ea5e9 100%);box-shadow:0 12px 40px rgba(37,99,235,.35);display:grid;place-items:center}
-    .brand h1{font-size:18px;line-height:1;margin:0;font-weight:800;letter-spacing:-.02em}
-    .brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
-    .navlinks{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:14px}
-    .navlinks a:hover{color:var(--text)}
-    .navcta{display:flex;align-items:center;gap:10px}
-    .pill{padding:11px 16px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--stroke);color:var(--text);font-size:14px;font-weight:700}
-    .pill.primary{background:linear-gradient(135deg,var(--blue) 0%, var(--blue2) 100%);border-color:transparent;box-shadow:0 16px 40px rgba(37,99,235,.35)}
 
-    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center;padding:42px 0 34px}
-    .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:999px;border:1px solid var(--stroke);background:rgba(255,255,255,.04);color:#cbd5e1;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-    .eyebrow span{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 6px rgba(34,211,238,.08)}
-    .hero h2{font-size:clamp(42px,5vw,68px);line-height:.95;margin:18px 0 18px;font-weight:900;letter-spacing:-.05em;max-width:10ch}
-    .hero h2 .grad{background:linear-gradient(135deg,#fff 0%, #dbeafe 55%, #60a5fa 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .hero p{margin:0 0 26px;max-width:58ch;color:var(--muted);font-size:17px;line-height:1.75}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 22px;border-radius:16px;font-weight:800;font-size:15px;border:1px solid transparent}
-    .btn.primary{background:linear-gradient(135deg,#2563eb 0%, #3b82f6 45%, #0ea5e9 100%);color:white;box-shadow:0 20px 45px rgba(37,99,235,.34)}
-    .btn.ghost{background:rgba(255,255,255,.05);border-color:var(--stroke);color:var(--text)}
-    .meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;color:var(--muted);font-size:13px}
-    .meta strong{display:block;color:var(--text);font-size:14px;margin-bottom:3px}
-    .meta .item{padding:14px 16px;border:1px solid var(--stroke);background:rgba(255,255,255,.03);border-radius:16px;min-width:140px}
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:22px 20px 72px;
+      position:relative;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:8px 0 18px;
+      position:sticky;
+      top:0;
+      backdrop-filter:blur(18px);
+      z-index:20;
+    }
+
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      background:linear-gradient(145deg,var(--blue) 0%, #1d4ed8 55%, #0ea5e9 100%);
+      box-shadow:0 12px 40px rgba(37,99,235,.35);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex-shrink:0;
+    }
+    .logo img{
+      width:30px;
+      height:30px;
+      object-fit:contain;
+      display:block;
+    }
+    .brand h1{
+      font-size:18px;
+      line-height:1;
+      margin:0;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    .brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
+
+    .navlinks{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .navlinks a:hover{color:var(--text)}
+
+    .navcta{display:flex;align-items:center;gap:10px}
+
+    .pill{
+      padding:11px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--stroke);
+      color:var(--text);
+      font-size:14px;
+      font-weight:700;
+    }
+    .pill.primary{
+      background:linear-gradient(135deg,var(--blue) 0%, var(--blue2) 100%);
+      border-color:transparent;
+      box-shadow:0 16px 40px rgba(37,99,235,.35);
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:34px;
+      align-items:center;
+      padding:42px 0 34px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 13px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.04);
+      color:#cbd5e1;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .eyebrow span{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--cyan);
+      box-shadow:0 0 0 6px rgba(34,211,238,.08);
+    }
+
+    .hero h2{
+      font-size:clamp(42px,5vw,68px);
+      line-height:.95;
+      margin:18px 0 18px;
+      font-weight:900;
+      letter-spacing:-.05em;
+      max-width:10ch;
+    }
+    .hero h2 .grad{
+      background:linear-gradient(135deg,#fff 0%, #dbeafe 55%, #60a5fa 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .hero p{
+      margin:0 0 26px;
+      max-width:58ch;
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.75;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      align-items:center;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:16px 22px;
+      border-radius:16px;
+      font-weight:800;
+      font-size:15px;
+      border:1px solid transparent;
+    }
+    .btn.primary{
+      background:linear-gradient(135deg,#2563eb 0%, #3b82f6 45%, #0ea5e9 100%);
+      color:white;
+      box-shadow:0 20px 45px rgba(37,99,235,.34);
+    }
+    .btn.ghost{
+      background:rgba(255,255,255,.05);
+      border-color:var(--stroke);
+      color:var(--text);
+    }
+
+    .meta{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+      margin-top:22px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .meta strong{
+      display:block;
+      color:var(--text);
+      font-size:14px;
+      margin-bottom:3px;
+    }
+    .meta .item{
+      padding:14px 16px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.03);
+      border-radius:16px;
+      min-width:140px;
+    }
 
     .visual{position:relative;isolation:isolate}
-    .orb{position:absolute;inset:auto;filter:blur(18px);opacity:.75;z-index:-1}
-    .orb.one{width:240px;height:240px;border-radius:50%;background:rgba(37,99,235,.35);right:30px;top:0}
-    .orb.two{width:180px;height:180px;border-radius:50%;background:rgba(34,211,238,.25);left:40px;bottom:30px}
-    .device{width:min(100%, 440px);margin-left:auto;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:40px;padding:16px;box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.06)}
-    .screen{background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%);border:1px solid rgba(148,163,184,.18);border-radius:28px;overflow:hidden;position:relative}
-    .screen::before{content:"";position:absolute;inset:0;background:
-      radial-gradient(circle at 20% 15%, rgba(59,130,246,.18), transparent 20%),
-      radial-gradient(circle at 80% 10%, rgba(34,211,238,.12), transparent 18%);
-      pointer-events:none}
-    .screen-top{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.06)}
-    .dots{display:flex;gap:6px}.dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18);display:block}
-    .screen-body{padding:18px}
-    .appcard{border-radius:22px;background:linear-gradient(180deg, rgba(59,130,246,.15), rgba(255,255,255,.03));border:1px solid rgba(96,165,250,.2);padding:18px;margin-bottom:14px}
-    .app-title{font-size:20px;font-weight:900;letter-spacing:-.03em;margin:0 0 4px}
-    .app-sub{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
-    .progress{margin-top:16px;height:12px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
-    .progress > div{height:100%;width:78%;background:linear-gradient(90deg,var(--blue) 0%, #60a5fa 55%, var(--cyan) 100%);border-radius:inherit}
-    .mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
-    .mini{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px}
-    .mini b{display:block;font-size:15px;margin-bottom:4px}.mini span{font-size:12px;color:var(--muted2)}
-    .screen-footer{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-top:1px solid rgba(255,255,255,.06);color:var(--muted);font-size:12px}
-    .chip{padding:8px 12px;border-radius:999px;background:rgba(37,99,235,.12);border:1px solid rgba(59,130,246,.2);color:#dbeafe;font-weight:700}
+    .orb{
+      position:absolute;
+      inset:auto;
+      filter:blur(18px);
+      opacity:.75;
+      z-index:-1;
+    }
+    .orb.one{
+      width:240px;
+      height:240px;
+      border-radius:50%;
+      background:rgba(37,99,235,.35);
+      right:30px;
+      top:0;
+    }
+    .orb.two{
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      background:rgba(34,211,238,.25);
+      left:40px;
+      bottom:30px;
+    }
 
-    .band{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0 22px}
-    .stat{padding:18px;border-radius:22px;background:var(--card);border:1px solid var(--stroke);box-shadow:0 12px 40px rgba(0,0,0,.18)}
-    .stat .num{font-size:28px;font-weight:900;letter-spacing:-.04em}
-    .stat .lab{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.5}
+    .device{
+      width:min(100%, 440px);
+      margin-left:auto;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:40px;
+      padding:16px;
+      box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .screen{
+      background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%);
+      border:1px solid rgba(148,163,184,.18);
+      border-radius:28px;
+      overflow:hidden;
+      position:relative;
+    }
+    .screen::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(59,130,246,.18), transparent 20%),
+        radial-gradient(circle at 80% 10%, rgba(34,211,238,.12), transparent 18%);
+      pointer-events:none;
+    }
+    .screen-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 18px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .dots{display:flex;gap:6px}
+    .dots i{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:rgba(255,255,255,.18);
+      display:block;
+    }
+    .screen-body{padding:18px}
+
+    .appcard{
+      border-radius:22px;
+      background:linear-gradient(180deg, rgba(59,130,246,.15), rgba(255,255,255,.03));
+      border:1px solid rgba(96,165,250,.2);
+      padding:18px;
+      margin-bottom:14px;
+    }
+    .app-title{
+      font-size:20px;
+      font-weight:900;
+      letter-spacing:-.03em;
+      margin:0 0 4px;
+    }
+    .app-sub{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.6;
+      margin:0;
+    }
+    .progress{
+      margin-top:16px;
+      height:12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+    }
+    .progress > div{
+      height:100%;
+      width:78%;
+      background:linear-gradient(90deg,var(--blue) 0%, #60a5fa 55%, var(--cyan) 100%);
+      border-radius:inherit;
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    .mini{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:14px;
+    }
+    .mini b{
+      display:block;
+      font-size:15px;
+      margin-bottom:4px;
+    }
+    .mini span{
+      font-size:12px;
+      color:var(--muted2);
+    }
+
+    .screen-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 18px;
+      border-top:1px solid rgba(255,255,255,.06);
+      color:var(--muted);
+      font-size:12px;
+    }
+    .chip{
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(37,99,235,.12);
+      border:1px solid rgba(59,130,246,.2);
+      color:#dbeafe;
+      font-weight:700;
+    }
+
+    .band{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+      margin:28px 0 22px;
+    }
+    .stat{
+      padding:18px;
+      border-radius:22px;
+      background:var(--card);
+      border:1px solid var(--stroke);
+      box-shadow:0 12px 40px rgba(0,0,0,.18);
+    }
+    .stat .num{
+      font-size:28px;
+      font-weight:900;
+      letter-spacing:-.04em;
+    }
+    .stat .lab{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
 
     section{margin-top:18px}
-    .section-head{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:16px}
-    .section-head h3{margin:0;font-size:28px;letter-spacing:-.04em;line-height:1.05}
-    .section-head p{margin:0;color:var(--muted);max-width:64ch;line-height:1.7;font-size:14px}
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:18px;
+      margin-bottom:16px;
+    }
+    .section-head h3{
+      margin:0;
+      font-size:28px;
+      letter-spacing:-.04em;
+      line-height:1.05;
+    }
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      max-width:64ch;
+      line-height:1.7;
+      font-size:14px;
+    }
 
-    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .fcard{padding:22px;border-radius:24px;background:var(--card);border:1px solid var(--stroke);position:relative;overflow:hidden;min-height:190px}
-    .fcard::after{content:"";position:absolute;inset:auto -20px -50px auto;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle, rgba(59,130,246,.18), transparent 65%);pointer-events:none}
-    .icon{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg, rgba(37,99,235,.24), rgba(14,165,233,.18));border:1px solid rgba(96,165,250,.22);display:grid;place-items:center;margin-bottom:18px}
-    .fcard h4{margin:0 0 8px;font-size:18px;letter-spacing:-.02em}
-    .fcard p{margin:0;color:var(--muted);line-height:1.7;font-size:14px}
+    .features{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+    .fcard{
+      padding:22px;
+      border-radius:24px;
+      background:var(--card);
+      border:1px solid var(--stroke);
+      position:relative;
+      overflow:hidden;
+      min-height:190px;
+    }
+    .fcard::after{
+      content:"";
+      position:absolute;
+      inset:auto -20px -50px auto;
+      width:160px;
+      height:160px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(59,130,246,.18), transparent 65%);
+      pointer-events:none;
+    }
+    .icon{
+      width:46px;
+      height:46px;
+      border-radius:16px;
+      background:linear-gradient(135deg, rgba(37,99,235,.24), rgba(14,165,233,.18));
+      border:1px solid rgba(96,165,250,.22);
+      display:grid;
+      place-items:center;
+      margin-bottom:18px;
+    }
+    .fcard h4{
+      margin:0 0 8px;
+      font-size:18px;
+      letter-spacing:-.02em;
+    }
+    .fcard p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:14px;
+    }
 
-    .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
-    .panel{border-radius:28px;background:var(--card);border:1px solid var(--stroke);padding:26px;box-shadow:0 18px 50px rgba(0,0,0,.16)}
-    .panel h4{margin:0 0 14px;font-size:22px;letter-spacing:-.03em}
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    .panel{
+      border-radius:28px;
+      background:var(--card);
+      border:1px solid var(--stroke);
+      padding:26px;
+      box-shadow:0 18px 50px rgba(0,0,0,.16);
+    }
+    .panel h4{
+      margin:0 0 14px;
+      font-size:22px;
+      letter-spacing:-.03em;
+    }
     .list{display:grid;gap:14px}
-    .li{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid rgba(148,163,184,.14)}
+    .li{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      padding:14px 0;
+      border-bottom:1px solid rgba(148,163,184,.14);
+    }
     .li:last-child{border-bottom:none;padding-bottom:0}
-    .numdot{width:34px;height:34px;border-radius:12px;background:rgba(37,99,235,.12);border:1px solid rgba(59,130,246,.2);color:#bfdbfe;display:grid;place-items:center;font-weight:800;flex:0 0 auto}
-    .li b{display:block;margin-bottom:4px;font-size:15px}.li span{display:block;color:var(--muted);font-size:13px;line-height:1.6}
+    .numdot{
+      width:34px;
+      height:34px;
+      border-radius:12px;
+      background:rgba(37,99,235,.12);
+      border:1px solid rgba(59,130,246,.2);
+      color:#bfdbfe;
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      flex:0 0 auto;
+    }
+    .li b{
+      display:block;
+      margin-bottom:4px;
+      font-size:15px;
+    }
+    .li span{
+      display:block;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
 
-    .download{margin-top:18px;padding:28px;border-radius:30px;background:linear-gradient(135deg, rgba(37,99,235,.14), rgba(15,23,42,.9));border:1px solid rgba(96,165,250,.2);display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:center;overflow:hidden;position:relative}
-    .download::before{content:"";position:absolute;inset:auto -120px -140px auto;width:320px;height:320px;border-radius:50%;background:rgba(59,130,246,.18);filter:blur(10px)}
-    .download h3{margin:0 0 10px;font-size:32px;letter-spacing:-.04em}
-    .download p{margin:0 0 18px;color:var(--muted);line-height:1.7}
-    .dlbox{background:rgba(255,255,255,.06);border:1px solid var(--stroke);border-radius:24px;padding:20px;backdrop-filter:blur(12px)}
-    .dlrow{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+    .download{
+      margin-top:18px;
+      padding:28px;
+      border-radius:30px;
+      background:linear-gradient(135deg, rgba(37,99,235,.14), rgba(15,23,42,.9));
+      border:1px solid rgba(96,165,250,.2);
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:18px;
+      align-items:center;
+      overflow:hidden;
+      position:relative;
+    }
+    .download::before{
+      content:"";
+      position:absolute;
+      inset:auto -120px -140px auto;
+      width:320px;
+      height:320px;
+      border-radius:50%;
+      background:rgba(59,130,246,.18);
+      filter:blur(10px);
+    }
+    .download h3{
+      margin:0 0 10px;
+      font-size:32px;
+      letter-spacing:-.04em;
+    }
+    .download p{
+      margin:0 0 18px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+    .dlbox{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--stroke);
+      border-radius:24px;
+      padding:20px;
+      backdrop-filter:blur(12px);
+      position:relative;
+      z-index:1;
+    }
+    .dlrow{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      padding:12px 0;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
     .dlrow:last-child{border-bottom:none;padding-bottom:0}
-    .dlrow span{color:var(--muted);font-size:13px}.dlrow b{font-size:14px}
+    .dlrow span{color:var(--muted);font-size:13px}
+    .dlrow b{font-size:14px}
 
-    .footer{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);color:var(--muted);font-size:13px;flex-wrap:wrap}
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      margin-top:24px;
+      padding-top:16px;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:var(--muted);
+      font-size:13px;
+      flex-wrap:wrap;
+    }
     .tiny{color:var(--muted2)}
 
     @media (max-width: 960px){
@@ -141,6 +590,7 @@
       .navcta .pill:not(.primary){display:none}
       .download h3{font-size:26px}
     }
+
     svg{display:block}
   </style>
 </head>
@@ -149,24 +599,23 @@
     <header class="nav">
       <div class="brand">
         <div class="logo" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="10" width="16" height="10" rx="3"></rect>
-            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
-          </svg>
+          <img src="https://i.postimg.cc/NG2mdRdd/18933-removebg-preview-edit-651200758610660.png" alt="Foc Lock icon" />
         </div>
         <div>
           <h1>Foc Lock</h1>
           <p>Focus tracking, sessions, rewards</p>
         </div>
       </div>
+
       <nav class="navlinks">
         <a href="#features">Features</a>
         <a href="#why">Why it works</a>
         <a href="#download">Download</a>
       </nav>
+
       <div class="navcta">
         <a class="pill" href="#features">Explore</a>
-        <a class="pill primary" href="https://github.com/Bitto29/foclocksite/releases/tag/v1.0.0" download>Download APK</a>
+        <a class="pill primary" href="https://github.com/Bitto29/foclocksite/releases/download/v1.0.0/_Foc_Lock_19814750.apk" download>Download APK</a>
       </div>
     </header>
 
@@ -177,13 +626,19 @@
         <p>
           Foc Lock helps you start sessions faster, stay on track, monitor progress, and keep your study routine organized in one polished mobile app.
         </p>
+
         <div class="hero-actions">
-          <a class="btn primary" href="foc-lock.apk" download>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5"></path><path d="M12 15V3"></path></svg>
+          <a class="btn primary" href="https://github.com/Bitto29/foclocksite/releases/download/v1.0.0/_Foc_Lock_19814750.apk" download>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <path d="M7 10l5 5 5-5"></path>
+              <path d="M12 15V3"></path>
+            </svg>
             Download APK
           </a>
           <a class="btn ghost" href="#download">View details</a>
         </div>
+
         <div class="meta">
           <div class="item"><strong>Android APK</strong>Direct install package</div>
           <div class="item"><strong>Focus tools</strong>Timer, reminders, music</div>
@@ -200,12 +655,14 @@
               <div class="dots"><i></i><i></i><i></i></div>
               <div class="chip">Premium UI</div>
             </div>
+
             <div class="screen-body">
               <div class="appcard">
                 <h3 class="app-title">Stay locked in.</h3>
                 <p class="app-sub">Start a session, choose your subject, and keep your momentum without distractions.</p>
                 <div class="progress"><div></div></div>
               </div>
+
               <div class="mini-grid">
                 <div class="mini"><b>Progress</b><span>Track study time</span></div>
                 <div class="mini"><b>Rewards</b><span>Unlock badges</span></div>
@@ -213,6 +670,7 @@
                 <div class="mini"><b>More</b><span>Tools & settings</span></div>
               </div>
             </div>
+
             <div class="screen-footer">
               <span>Designed for focus</span>
               <span>Android 8+</span>
@@ -236,24 +694,41 @@
           <p>Clean layout, sharp spacing, and a modern dark interface that feels more like a product launch page than a basic file download page.</p>
         </div>
       </div>
+
       <div class="features">
         <article class="fcard">
           <div class="icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4"></path><path d="M8 12H4"></path><path d="M20 12h-4"></path><path d="M12 20v-4"></path><circle cx="12" cy="12" r="4"></circle></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 8V4"></path>
+              <path d="M8 12H4"></path>
+              <path d="M20 12h-4"></path>
+              <path d="M12 20v-4"></path>
+              <circle cx="12" cy="12" r="4"></circle>
+            </svg>
           </div>
           <h4>Focused app overview</h4>
           <p>Show what the app does at a glance with a premium hero section and a polished visual mockup.</p>
         </article>
+
         <article class="fcard">
           <div class="icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"></rect><path d="M8 7h8"></path><path d="M8 11h8"></path><path d="M8 15h4"></path></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="3" width="16" height="18" rx="3"></rect>
+              <path d="M8 7h8"></path>
+              <path d="M8 11h8"></path>
+              <path d="M8 15h4"></path>
+            </svg>
           </div>
           <h4>Clear download action</h4>
           <p>Place the APK download button where users expect it, with strong contrast and instant visibility.</p>
         </article>
+
         <article class="fcard">
           <div class="icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="M12 5l7 7-7 7"></path>
+            </svg>
           </div>
           <h4>Launch-page feel</h4>
           <p>Use a layout inspired by modern hosting and software sites to make the page feel trustworthy.</p>
@@ -265,17 +740,54 @@
       <div class="panel">
         <h4>Why people will download it</h4>
         <div class="list">
-          <div class="li"><div class="numdot">01</div><div><b>Simple install path</b><span>The page explains what the APK is and gives one obvious download button.</span></div></div>
-          <div class="li"><div class="numdot">02</div><div><b>Trustworthy presentation</b><span>The interface looks like a product landing page, not a random file link.</span></div></div>
-          <div class="li"><div class="numdot">03</div><div><b>Better conversion</b><span>Users see the value of the app before downloading, which improves clicks.</span></div></div>
+          <div class="li">
+            <div class="numdot">01</div>
+            <div>
+              <b>Simple install path</b>
+              <span>The page explains what the APK is and gives one obvious download button.</span>
+            </div>
+          </div>
+          <div class="li">
+            <div class="numdot">02</div>
+            <div>
+              <b>Trustworthy presentation</b>
+              <span>The interface looks like a product landing page, not a random file link.</span>
+            </div>
+          </div>
+          <div class="li">
+            <div class="numdot">03</div>
+            <div>
+              <b>Better conversion</b>
+              <span>Users see the value of the app before downloading, which improves clicks.</span>
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="panel">
         <h4>What the app includes</h4>
         <div class="list">
-          <div class="li"><div class="numdot">A</div><div><b>Study sessions</b><span>Start focused sessions and keep your workflow organized.</span></div></div>
-          <div class="li"><div class="numdot">B</div><div><b>Progress tracking</b><span>Review study time, sessions, streaks, and rewards.</span></div></div>
-          <div class="li"><div class="numdot">C</div><div><b>Audio tools</b><span>Ambient sounds, Lo-Fi, and Bengali radio for focus sessions.</span></div></div>
+          <div class="li">
+            <div class="numdot">A</div>
+            <div>
+              <b>Study sessions</b>
+              <span>Start focused sessions and keep your workflow organized.</span>
+            </div>
+          </div>
+          <div class="li">
+            <div class="numdot">B</div>
+            <div>
+              <b>Progress tracking</b>
+              <span>Review study time, sessions, streaks, and rewards.</span>
+            </div>
+          </div>
+          <div class="li">
+            <div class="numdot">C</div>
+            <div>
+              <b>Audio tools</b>
+              <span>Ambient sounds, Lo-Fi, and Bengali radio for focus sessions.</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -285,18 +797,18 @@
         <div class="eyebrow" style="margin-bottom:16px;"><span></span> Ready to install</div>
         <h3>Download Foc Lock now.</h3>
         <p>
-          Place your APK in the same folder as this HTML file and keep the filename as <b>foc-lock.apk</b>, or edit the download link to match your exact file name.
+          Place your APK in the same folder as this HTML file and keep the filename as <b>_Foc_Lock_19814750.apk</b>, or edit the download link to match your exact file name.
         </p>
         <div class="hero-actions">
-          <a class="btn primary" href="https://github.com/Bitto29/foclocksite/releases/tag/v1.0.0" download>Download APK</a>
+          <a class="btn primary" href="https://github.com/Bitto29/foclocksite/releases/download/v1.0.0/_Foc_Lock_19814750.apk" download>Download APK</a>
           <a class="btn ghost" href="#features">See features</a>
         </div>
       </div>
-      <div class="dlbox">
-        <div class="dlrow"><span>File name</span><b>foc-lock.apk</b></div>
-        <div class="dlrow"><span>Size</span><b>33.25 Mb</b></div>
-        <div class="dlrow"><span>Developer</span><b>Basit Iqbal Bitto</b></b></div>
 
+      <div class="dlbox">
+        <div class="dlrow"><span>File name</span><b>_Foc_Lock_19814750.apk</b></div>
+        <div class="dlrow"><span>Size</span><b>33.25 MB</b></div>
+        <div class="dlrow"><span>Developer</span><b>Basit Iqbal Bitto</b></div>
       </div>
     </section>
 
