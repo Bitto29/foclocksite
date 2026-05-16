@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Foc Lock</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --bg:#0f1220;
@@ -220,6 +220,16 @@ body{background:var(--bg);}
 .divider{height:1px;background:var(--border);margin:10px 0;}
 .alink{color:var(--accent2);text-decoration:none;}
 .page-title{font-size:19px;font-weight:800;margin-bottom:13px;}
+
+.auth-card-top{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.auth-card-copy{min-width:0;}
+.auth-card-title{font-size:16px;font-weight:800;}
+.auth-card-sub{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.45;}
+.auth-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--bg3);border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text2);margin-top:10px;}
+.auth-modal-tabs{display:flex;gap:8px;margin-bottom:12px;}
+.auth-modal-tab{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-weight:700;cursor:pointer;}
+.auth-modal-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.auth-helper{font-size:12px;color:var(--text2);line-height:1.5;margin-top:10px;}
 </style>
 </head>
 <body>
@@ -234,6 +244,9 @@ body{background:var(--bg);}
     <div class="hdr-title">Foc Lock</div>
   </div>
   <div class="hdr-btns">
+    <button class="ibtn" onclick="openAuth()" title="Account & sync">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5z"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+    </button>
     <button class="ibtn" onclick="openSM()" title="Start session">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
     </button>
@@ -352,6 +365,19 @@ body{background:var(--bg);}
   <div class="scr" id="scr-more">
     <div class="subp active" id="more-main">
       <div class="page-title">More</div>
+      <div class="card" id="auth-card">
+        <div class="ctitle">Cloud Account</div>
+        <div class="auth-card-top">
+          <div class="auth-card-copy">
+            <div class="auth-card-title" id="auth-card-title">Not signed in</div>
+            <div class="auth-card-sub" id="auth-card-sub">Sign in to sync your study progress across devices. Local storage still works offline.</div>
+            <div class="auth-chip" id="auth-card-chip">Local only</div>
+          </div>
+          <button class="btn btn-p" id="auth-card-btn" style="width:auto;min-width:110px;padding:12px 14px;" onclick="openAuth()">
+            Sign In
+          </button>
+        </div>
+      </div>
       <div class="sec-lbl">Tools</div>
       <div class="mi" onclick="gSub('sub-calc')"><div class="mi-icon" style="background:rgba(124,58,237,.15);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg></div><div style="flex:1;"><div class="mi-t">Calculator</div><div class="mi-s">Quick math tool</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
       <div class="mi" onclick="gSub('sub-rem')"><div class="mi-icon" style="background:rgba(6,182,212,.15);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent3)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div style="flex:1;"><div class="mi-t">Reminders</div><div class="mi-s">Set study alarms</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
@@ -600,6 +626,27 @@ body{background:var(--bg);}
   </div>
 </div>
 
+<!-- AUTH MODAL -->
+<div class="mov" id="auth-modal">
+  <div class="modal">
+    <div class="mhandle"></div>
+    <button class="mclose" onclick="closeAuth()" aria-label="Close auth dialog">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="mtitle" id="auth-modal-title">Sign in to your account</div>
+    <div class="auth-modal-tabs">
+      <button class="auth-modal-tab active" id="auth-tab-signin" onclick="setAuthMode('signin')">Sign In</button>
+      <button class="auth-modal-tab" id="auth-tab-signup" onclick="setAuthMode('signup')">Create Account</button>
+    </div>
+    <input type="email" class="inp" id="auth-email" placeholder="Email address" autocomplete="email">
+    <input type="password" class="inp" id="auth-pass" placeholder="Password" autocomplete="current-password">
+    <input type="password" class="inp" id="auth-pass2" placeholder="Confirm password" autocomplete="new-password" style="display:none;">
+    <button class="btn btn-p" onclick="submitAuth()" id="auth-submit">Sign In</button>
+    <div class="auth-helper" id="auth-help">Your login will be remembered on this device.</div>
+    <div class="auth-helper" id="auth-error" style="color:var(--danger);display:none;"></div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div id="toast"></div>
 
@@ -626,8 +673,341 @@ var PCHART = null, PERIOD = 'week';
 var MANS = 0, SELSUBJ = '', SELT = 15;
 var THEME_MQ = window.matchMedia('(prefers-color-scheme: dark)');
 
+
+// ===== SUPABASE AUTH / SYNC =====
+var SUPABASE_URL = 'https://qwmontyymrygxwanmxcy.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3bW9udHl5bXJ5Z3h3YW5teGN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4OTgxODAsImV4cCI6MjA5NDQ3NDE4MH0.vh8n6V8uPSqahOFALElbzM24D6fR2bfAaP-PZqKrxiE';
+var SB = null;
+var AUTH = { user: null, session: null, ready: false, mode: 'signin', syncing: false };
+var CLOUD_TIMER = null;
+
+function uid(){
+  if(window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return 'id-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+}
+function safeNum(v, fallback){
+  v = parseInt(v, 10);
+  return isNaN(v) ? fallback : v;
+}
+function ensureDefaults(){
+  if(!Array.isArray(D.sess)) D.sess = [];
+  if(!Array.isArray(D.subj) || !D.subj.length) D.subj = ['Mathematics','Physics','Chemistry','Biology','English','History'];
+  if(!Array.isArray(D.rems)) D.rems = [];
+  if(!D.ach || typeof D.ach !== 'object') D.ach = {};
+  if(!D.streak || typeof D.streak !== 'object') D.streak = {c:0,d:''};
+  if(!D.goal) D.goal = 120;
+  if(!D.theme) D.theme = 'device';
+  D.sess = D.sess.map(function(s){
+    return {
+      id: s.id || uid(),
+      subj: s.subj || 'General',
+      dur: safeNum(s.dur, 0),
+      d: s.d || today(),
+      done: s.done !== false,
+      ts: safeNum(s.ts, Date.now()),
+      xp: safeNum(s.xp, Math.max(0, Math.floor(safeNum(s.dur, 0) / 60)))
+    };
+  });
+  D.rems = D.rems.map(function(r){
+    return {
+      id: r.id || uid(),
+      t: r.t || '08:00',
+      l: r.l || 'Study Time',
+      on: r.on !== false
+    };
+  });
+}
+function calcXP(){
+  return D.sess.reduce(function(sum, s){
+    return sum + (typeof s.xp === 'number' ? s.xp : Math.max(0, Math.floor(safeNum(s.dur, 0) / 60)));
+  }, 0);
+}
+function cloneState(){
+  return {
+    sess: D.sess,
+    xp: D.xp,
+    ach: D.ach,
+    subj: D.subj,
+    rems: D.rems,
+    goal: D.goal,
+    theme: D.theme,
+    streak: D.streak
+  };
+}
+function persistLocal(){
+  D.xp = calcXP();
+  localStorage.setItem('fl_s', JSON.stringify(D.sess));
+  localStorage.setItem('fl_xp', D.xp);
+  localStorage.setItem('fl_a', JSON.stringify(D.ach));
+  localStorage.setItem('fl_sj', JSON.stringify(D.subj));
+  localStorage.setItem('fl_r', JSON.stringify(D.rems));
+  localStorage.setItem('fl_g', D.goal);
+  localStorage.setItem('fl_th', D.theme);
+  localStorage.setItem('fl_st', JSON.stringify(D.streak));
+}
+function uniqueStrings(list){
+  var seen = {};
+  return list.filter(function(v){
+    if(!v || seen[v]) return false;
+    seen[v] = true;
+    return true;
+  });
+}
+function mergeByKey(remoteArr, localArr, keyFn){
+  var seen = {};
+  var out = [];
+  [remoteArr || [], localArr || []].forEach(function(arr){
+    arr.forEach(function(item){
+      var key = keyFn(item);
+      if(!seen[key]){
+        seen[key] = true;
+        out.push(item);
+      }
+    });
+  });
+  return out;
+}
+function mergeStreak(a, b){
+  a = a && typeof a === 'object' ? a : {c:0,d:''};
+  b = b && typeof b === 'object' ? b : {c:0,d:''};
+  a.c = safeNum(a.c, 0); b.c = safeNum(b.c, 0);
+  a.d = a.d || ''; b.d = b.d || '';
+  if(!a.d) return b;
+  if(!b.d) return a;
+  if(a.d > b.d) return a;
+  if(b.d > a.d) return b;
+  return a.c >= b.c ? a : b;
+}
+function mergeStates(remote){
+  remote = remote && remote.state ? remote.state : remote;
+  if(!remote || typeof remote !== 'object') return;
+  D.sess = mergeByKey(remote.sess || [], D.sess || [], function(s){
+    return s.id || [s.ts || 0, s.d || '', s.subj || '', s.dur || 0].join('|');
+  }).sort(function(a, b){
+    return safeNum(a.ts, 0) - safeNum(b.ts, 0);
+  });
+  D.rems = mergeByKey(remote.rems || [], D.rems || [], function(r){
+    return r.id || [r.t || '', r.l || ''].join('|');
+  });
+  D.subj = uniqueStrings([].concat(remote.subj || [], D.subj || []));
+  D.ach = Object.assign({}, remote.ach || {}, D.ach || {});
+  D.goal = safeNum(remote.goal, D.goal || 120);
+  D.theme = remote.theme || D.theme || 'device';
+  D.streak = mergeStreak(remote.streak, D.streak);
+  D.xp = calcXP();
+  persistLocal();
+}
+function updateAuthUI(){
+  var signed = !!AUTH.user;
+  var email = signed ? (AUTH.user.email || 'Signed in') : 'Not signed in';
+  var title = document.getElementById('auth-card-title');
+  var sub = document.getElementById('auth-card-sub');
+  var chip = document.getElementById('auth-card-chip');
+  var btn = document.getElementById('auth-card-btn');
+  var hdr = document.querySelector('#hdr .hdr-btns .ibtn');
+  if(title) title.textContent = signed ? email : 'Not signed in';
+  if(sub) sub.textContent = signed
+    ? 'Your study data is syncing across devices with this account.'
+    : 'Sign in to sync your study data across devices. Local storage still works offline.';
+  if(chip) chip.textContent = signed ? 'Cloud sync on' : 'Local only';
+  if(btn){
+    btn.textContent = signed ? 'Sign Out' : 'Sign In';
+    btn.onclick = signed ? signOut : openAuth;
+  }
+  if(hdr){
+    hdr.title = signed ? ('Account: ' + email) : 'Account & sync';
+    hdr.style.color = signed ? 'var(--success)' : '';
+  }
+  var mt = document.getElementById('auth-modal-title');
+  if(mt) mt.textContent = AUTH.mode === 'signup' ? 'Create your account' : 'Sign in to your account';
+  var submit = document.getElementById('auth-submit');
+  if(submit) submit.textContent = AUTH.mode === 'signup' ? 'Create Account' : 'Sign In';
+  var help = document.getElementById('auth-help');
+  if(help) help.textContent = signed ? ('Signed in as ' + email + '. This device will remember your session.') : 'Your login will be remembered on this device.';
+  var err = document.getElementById('auth-error');
+  if(err) err.style.display = 'none';
+  document.getElementById('auth-tab-signin').classList.toggle('active', AUTH.mode === 'signin');
+  document.getElementById('auth-tab-signup').classList.toggle('active', AUTH.mode === 'signup');
+  var pass2 = document.getElementById('auth-pass2');
+  if(pass2) pass2.style.display = AUTH.mode === 'signup' ? 'block' : 'none';
+}
+function setAuthMode(mode){
+  AUTH.mode = mode === 'signup' ? 'signup' : 'signin';
+  updateAuthUI();
+}
+function openAuth(){
+  AUTH.mode = AUTH.mode === 'signup' ? 'signup' : 'signin';
+  updateAuthUI();
+  document.getElementById('auth-modal').classList.add('open');
+  document.getElementById('auth-email').focus();
+}
+function closeAuth(){ document.getElementById('auth-modal').classList.remove('open'); }
+function showAuthError(msg){
+  var err = document.getElementById('auth-error');
+  if(!err) return;
+  err.textContent = msg;
+  err.style.display = 'block';
+}
+function authAction(){
+  if(AUTH.user) signOut();
+  else openAuth();
+}
+function scheduleCloudSave(){
+  if(!SB || !AUTH.user || !AUTH.ready) return;
+  clearTimeout(CLOUD_TIMER);
+  CLOUD_TIMER = setTimeout(saveCloud, 1200);
+}
+async function saveCloud(){
+  if(!SB || !AUTH.user || AUTH.syncing) return;
+  AUTH.syncing = true;
+  try{
+    var payload = cloneState();
+    var row = {
+      user_id: AUTH.user.id,
+      email: AUTH.user.email,
+      state: payload,
+      updated_at: new Date().toISOString()
+    };
+    var res = await SB.from('study_tracking_profiles').upsert(row, { onConflict: 'user_id' });
+    if(res.error) throw res.error;
+    updateCloudStatus('Synced to cloud');
+  }catch(e){
+    updateCloudStatus('Cloud sync failed');
+  }finally{
+    AUTH.syncing = false;
+  }
+}
+async function loadCloud(){
+  if(!SB || !AUTH.user) return;
+  updateCloudStatus('Loading cloud data...');
+  try{
+    var res = await SB.from('study_tracking_profiles').select('state,updated_at').eq('user_id', AUTH.user.id).maybeSingle();
+    if(res.error) throw res.error;
+    if(res.data && res.data.state){
+      mergeStates(res.data.state);
+    } else {
+      persistLocal();
+      await saveCloud();
+    }
+    refreshDerivedAndUI();
+    updateCloudStatus('Synced');
+  }catch(e){
+    updateCloudStatus('Offline');
+  }
+}
+function updateCloudStatus(text){
+  var chip = document.getElementById('auth-card-chip');
+  if(!chip) return;
+  chip.textContent = AUTH.user ? (text || 'Cloud sync on') : 'Local only';
+}
+function refreshDerivedAndUI(){
+  D.xp = calcXP();
+  persistLocal();
+  updHome();
+  renderSubjList();
+  renderRems();
+  renderBadges();
+  updXP();
+  if(PCHART) updChart();
+  if(document.getElementById('scr-progress').classList.contains('active')){ updSBars(); updHist(); }
+  renderAuthState();
+}
+function renderAuthState(){
+  updateAuthUI();
+  var signed = !!AUTH.user;
+  var btn = document.getElementById('auth-card-btn');
+  if(btn){
+    btn.textContent = signed ? 'Sign Out' : 'Sign In';
+  }
+}
+async function bootSupabase(){
+  if(!(window.supabase && window.supabase.createClient)){
+    AUTH.ready = true;
+    updateAuthUI();
+    return;
+  }
+  SB = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: false
+    }
+  });
+  try{
+    var sess = await SB.auth.getSession();
+    AUTH.session = sess.data ? sess.data.session : null;
+    AUTH.user = AUTH.session ? AUTH.session.user : null;
+  }catch(e){}
+  AUTH.ready = true;
+  updateAuthUI();
+  if(AUTH.user) await loadCloud();
+  SB.auth.onAuthStateChange(async function(event, session){
+    AUTH.session = session;
+    AUTH.user = session ? session.user : null;
+    updateAuthUI();
+    if(AUTH.user){
+      await loadCloud();
+      toast('Signed in');
+    } else {
+      updateCloudStatus('Local only');
+      toast('Signed out');
+    }
+  });
+}
+async function submitAuth(){
+  var email = document.getElementById('auth-email').value.trim();
+  var password = document.getElementById('auth-pass').value;
+  var pass2 = document.getElementById('auth-pass2').value;
+  if(!SB){
+    showAuthError('Supabase client is not available.');
+    return;
+  }
+  if(!email || !password){
+    showAuthError('Enter your email and password.');
+    return;
+  }
+  if(AUTH.mode === 'signup' && password !== pass2){
+    showAuthError('Passwords do not match.');
+    return;
+  }
+  showAuthError('');
+  try{
+    if(AUTH.mode === 'signup'){
+      var signUp = await SB.auth.signUp({ email: email, password: password });
+      if(signUp.error) throw signUp.error;
+      if(signUp.data && signUp.data.session){
+        AUTH.user = signUp.data.session.user;
+        AUTH.session = signUp.data.session;
+        await loadCloud();
+        toast('Account created');
+        closeAuth();
+      } else {
+        toast('Check your email to finish sign up');
+      }
+    } else {
+      var signIn = await SB.auth.signInWithPassword({ email: email, password: password });
+      if(signIn.error) throw signIn.error;
+      AUTH.user = signIn.data.user;
+      AUTH.session = signIn.data.session;
+      await loadCloud();
+      toast('Signed in');
+      closeAuth();
+    }
+  }catch(e){
+    showAuthError(e.message || 'Authentication failed.');
+  }
+}
+async function signOut(){
+  if(!SB) return;
+  try{
+    await SB.auth.signOut();
+  }catch(e){}
+}
+
 // ===== INIT =====
 function init() {
+  ensureDefaults();
+  persistLocal();
   applyTheme(D.theme);
   document.getElementById('goal-inp').value = D.goal;
   document.getElementById('date-disp').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
@@ -644,6 +1024,8 @@ function init() {
   checkRems();
   setInterval(checkRems,60000);
   document.addEventListener('visibilitychange',onVis);
+  bootSupabase();
+  updateAuthUI();
 
   if (THEME_MQ.addEventListener) THEME_MQ.addEventListener('change', onSystemThemeChange);
   else if (THEME_MQ.addListener) THEME_MQ.addListener(onSystemThemeChange);
@@ -666,6 +1048,7 @@ function applyTheme(t){
   if(t!=='dark' && t!=='light' && t!=='device') t='device';
   D.theme=t;
   localStorage.setItem('fl_th',t);
+  scheduleCloudSave();
   syncThemeUI();
 }
 function setThemeMode(mode){
@@ -784,10 +1167,11 @@ function endSess(done){
   clearInterval(STMR); clearInterval(PNTMR);
   relWL(); stopSM();
   var dur=CUR.el, xp=CUR.xp, subj=CUR.subj;
-  var rec={subj:subj,dur:dur,d:today(),done:done,ts:Date.now()};
+  var rec={id:uid(),subj:subj,dur:dur,d:today(),done:done,ts:Date.now(),xp:xp};
   D.sess.push(rec); D.xp+=xp;
   localStorage.setItem('fl_s',JSON.stringify(D.sess));
   localStorage.setItem('fl_xp',D.xp);
+  scheduleCloudSave();
   updStreak(); chkAch();
   document.getElementById('sess').classList.remove('active');
   document.getElementById('rbn').classList.remove('show');
@@ -804,6 +1188,7 @@ function updStreak(){
   else D.streak.c=1;
   D.streak.d=t;
   localStorage.setItem('fl_st',JSON.stringify(D.streak));
+  scheduleCloudSave();
 }
 
 // ===== VISIBILITY / APP LOCK =====
@@ -1104,6 +1489,7 @@ function chkAch(){
     if(!D.ach[b.id]&&b.chk()){
       D.ach[b.id]=true;
       localStorage.setItem('fl_a',JSON.stringify(D.ach));
+      scheduleCloudSave();
       toast('Achievement: '+b.n+'!');
     }
   });
@@ -1127,10 +1513,12 @@ function addSubj(){
   if(!v){toast('Enter a subject name.');return;}
   if(D.subj.includes(v)){toast('Already exists!');return;}
   D.subj.push(v); localStorage.setItem('fl_sj',JSON.stringify(D.subj));
+  scheduleCloudSave();
   document.getElementById('new-subj').value=''; renderSubjList(); toast('Subject added!');
 }
 function rmSubj(i){
   D.subj.splice(i,1); localStorage.setItem('fl_sj',JSON.stringify(D.subj));
+  scheduleCloudSave();
   renderSubjList();
 }
 
@@ -1161,11 +1549,12 @@ function addRem(){
   var l=document.getElementById('rem-lbl').value.trim()||'Study Time';
   D.rems.push({t:t,l:l,on:true});
   localStorage.setItem('fl_r',JSON.stringify(D.rems));
+  scheduleCloudSave();
   document.getElementById('rem-lbl').value='';
   renderRems(); renderRemPreview(); toast('Reminder added!');
 }
-function rmRem(i){ D.rems.splice(i,1); localStorage.setItem('fl_r',JSON.stringify(D.rems)); renderRems(); }
-function tglRem(i,v){ D.rems[i].on=v; localStorage.setItem('fl_r',JSON.stringify(D.rems)); }
+function rmRem(i){ D.rems.splice(i,1); localStorage.setItem('fl_r',JSON.stringify(D.rems)); scheduleCloudSave(); renderRems(); }
+function tglRem(i,v){ D.rems[i].on=v; localStorage.setItem('fl_r',JSON.stringify(D.rems)); scheduleCloudSave(); }
 function checkRems(){
   var n=new Date();
   var cur=pad(n.getHours())+':'+pad(n.getMinutes());
@@ -1202,11 +1591,12 @@ function ca(v){
 }
 
 // ===== SETTINGS =====
-function saveGoal(v){ D.goal=parseInt(v)||120; localStorage.setItem('fl_g',D.goal); updHome(); }
+function saveGoal(v){ D.goal=parseInt(v)||120; localStorage.setItem('fl_g',D.goal); scheduleCloudSave(); updHome(); }
 function resetData(){
   if(confirm('Clear all session data? This cannot be undone.')){
     D.sess=[];D.xp=0;D.ach={};D.streak={c:0,d:''};
     ['fl_s','fl_xp','fl_a','fl_st'].forEach(function(k){localStorage.removeItem(k);});
+    scheduleCloudSave();
     updHome();renderBadges();updXP();toast('Data cleared.');
   }
 }
