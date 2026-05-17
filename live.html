@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +7,6 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Foc Lock</title>
-<link rel="icon" type="image/png" href="https://i.postimg.cc/NG2mdRdd/18933-removebg-preview-edit-651200758610660.png" />
-<link rel="apple-touch-icon" href="https://i.postimg.cc/NG2mdRdd/18933-removebg-preview-edit-651200758610660.png" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -232,6 +231,12 @@ body{background:var(--bg);}
 .auth-modal-tab{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-weight:700;cursor:pointer;}
 .auth-modal-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .auth-helper{font-size:12px;color:var(--text2);line-height:1.5;margin-top:10px;}
+.greet-wrap{margin:4px 0 14px;}
+.greet-main{font-size:24px;font-weight:900;line-height:1.1;}
+.greet-sub{font-size:13px;color:var(--text2);margin-top:4px;}
+.blur-bg{filter:blur(7px);pointer-events:none;user-select:none;transition:filter .18s ease;}
+/* keep fixed overlays sharp when background blurs */
+.mov, #toast{pointer-events:auto;}
 </style>
 </head>
 <body>
@@ -260,8 +265,20 @@ body{background:var(--bg);}
 
   <!-- HOME -->
   <div class="scr active" id="scr-home">
+    <div class="greet-wrap">
+      <div class="greet-main" id="home-greeting">Good evening, there</div>
+      <div class="greet-sub" id="date-disp"></div>
+    </div>
     <div class="gr-title">Stay <span style="color:var(--accent2);">Locked In</span></div>
-    <div class="gr-sub" id="date-disp"></div>
+    <!--<div class="card" style="margin-bottom:12px;">
+      <div class="auth-card-top">
+        <div class="auth-card-copy">
+          <div class="auth-card-title" id="home-auth-title">Account &amp; Sync</div>
+          <div class="auth-card-sub" id="home-auth-sub">Sign in or create an account to back up your study progress.</div>
+        </div>
+        <button class="btn btn-p" style="width:auto;min-width:110px;padding:12px 14px;" onclick="openAuth()">Sign In / Sign Up</button>
+      </div>
+    </div>-->
     <div class="stats-grid">
       <div class="sc"><div class="sv" id="s-today">0m</div><div class="sl">Today's Study</div></div>
       <div class="sc"><div class="sv" id="s-streak">0</div><div class="sl">Day Streak</div></div>
@@ -348,13 +365,30 @@ body{background:var(--bg);}
     </div>
     <div class="spanel" id="sp-bengali">
       <div class="card">
-        <div class="ctitle">Bengali Band Radio</div>
-        <div style="font-size:13px;color:var(--text2);margin-bottom:11px;">Direct stream from Mellow Bangla. No iframe, just audio playback.</div>
-        <div class="abtn" id="beng-play" onclick="togBeng(this)" style="display:flex;align-items:center;gap:11px;padding:13px;border-radius:12px;margin-bottom:11px;text-align:left;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8"><path d="M5 3v18l15-9z"/></svg>
-          <div><div style="font-size:13px;font-weight:600;">Play Mellow Bangla</div><div style="font-size:11px;color:var(--text2);" id="beng-status">Ready to play</div></div>
+        <div class="ctitle">Bengali Online Radio</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:11px;">Switch between multiple Bengali music radios anytime. Skip to the next station if you do not like the current song.</div>
+
+        <div id="beng-station-list"></div>
+
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0;">
+          <button class="ibtn" onclick="prevBengali()" title="Previous Station">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"></line></svg>
+          </button>
+          <button class="ibtn" id="beng-main-play" onclick="togBeng()" title="Play / Pause" style="width:52px;height:52px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <button class="ibtn" onclick="nextBengali()" title="Next Station">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"></line></svg>
+          </button>
         </div>
-        <audio id="beng-audio" preload="none" playsinline></audio>
+
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:12px;">
+          <div id="beng-current-name" style="font-size:14px;font-weight:700;">Mellow Bangla</div>
+          <div id="beng-status" style="font-size:11px;color:var(--text2);margin-top:3px;">Ready to play</div>
+        </div>
+
+        <audio id="bg-audio" preload="none" playsinline></audio>
+
         <div style="display:flex;align-items:center;gap:9px;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
           <input type="range" id="beng-vol" min="0" max="100" value="70" style="flex:1;accent-color:var(--accent);" oninput="setBengVol(this.value)">
@@ -374,12 +408,26 @@ body{background:var(--bg);}
             <div class="auth-card-title" id="auth-card-title">Not signed in</div>
             <div class="auth-card-sub" id="auth-card-sub">Sign in to sync your study progress across devices. Local storage still works offline.</div>
             <div class="auth-chip" id="auth-card-chip">Local only</div>
+            <div class="auth-helper" id="auth-card-name" style="margin-top:8px;"></div>
+            <button class="btn btn-s" id="edit-name-btn" style="width:auto;min-width:110px;padding:11px 14px;margin-top:10px;display:none;" onclick="openNameEditor()">
+              Edit your name
+            </button>
           </div>
           <button class="btn btn-p" id="auth-card-btn" style="width:auto;min-width:110px;padding:12px 14px;" onclick="openAuth()">
             Sign In
           </button>
         </div>
       </div>
+      <div class="mi" id="edit-name-row" onclick="openNameEditor()">
+        <div class="mi-icon" style="background:rgba(124,58,237,.15);">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z"/>
+          </svg>
+        </div>
+        <!--<div style="flex:1;"><div class="mi-t">Edit your name</div><div class="mi-s">Change the name shown on your Home screen</div></div>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>-->
       <div class="sec-lbl">Tools</div>
       <div class="mi" onclick="gSub('sub-calc')"><div class="mi-icon" style="background:rgba(124,58,237,.15);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg></div><div style="flex:1;"><div class="mi-t">Calculator</div><div class="mi-s">Quick math tool</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
       <div class="mi" onclick="gSub('sub-rem')"><div class="mi-icon" style="background:rgba(6,182,212,.15);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent3)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div style="flex:1;"><div class="mi-t">Reminders</div><div class="mi-s">Set study alarms</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
@@ -641,11 +689,26 @@ body{background:var(--bg);}
       <button class="auth-modal-tab" id="auth-tab-signup" onclick="setAuthMode('signup')">Create Account</button>
     </div>
     <input type="email" class="inp" id="auth-email" placeholder="Email address" autocomplete="email">
+    <input type="text" class="inp" id="auth-name" placeholder="Your name" autocomplete="name" style="display:none;">
     <input type="password" class="inp" id="auth-pass" placeholder="Password" autocomplete="current-password">
     <input type="password" class="inp" id="auth-pass2" placeholder="Confirm password" autocomplete="new-password" style="display:none;">
     <button class="btn btn-p" onclick="submitAuth()" id="auth-submit">Sign In</button>
     <div class="auth-helper" id="auth-help">Your login will be remembered on this device.</div>
     <div class="auth-helper" id="auth-error" style="color:var(--danger);display:none;"></div>
+  </div>
+</div>
+
+<!-- NAME EDIT MODAL -->
+<div class="mov" id="name-modal">
+  <div class="modal">
+    <div class="mhandle"></div>
+    <button class="mclose" onclick="closeNameEditor()" aria-label="Close name dialog">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="mtitle">Edit your name</div>
+    <div class="auth-helper" style="margin-top:-4px;margin-bottom:10px;">This name appears on your Home screen and in your account.</div>
+    <input type="text" class="inp" id="edit-name-input" placeholder="Your name">
+    <button class="btn btn-p" onclick="saveEditedName()">Save name</button>
   </div>
 </div>
 
@@ -665,6 +728,7 @@ var D = {
   rems: JSON.parse(localStorage.getItem('fl_r')||'[]'),
   goal: +localStorage.getItem('fl_g')||120,
   theme: localStorage.getItem('fl_th')||'device',
+  name: localStorage.getItem('fl_nm')||'',
   streak: JSON.parse(localStorage.getItem('fl_st')||'{"c":0,"d":""}')
 };
 
@@ -733,6 +797,7 @@ function cloneState(){
     rems: D.rems,
     goal: D.goal,
     theme: D.theme,
+    name: D.name,
     streak: D.streak
   };
 }
@@ -745,6 +810,8 @@ function persistLocal(){
   localStorage.setItem('fl_r', JSON.stringify(D.rems));
   localStorage.setItem('fl_g', D.goal);
   localStorage.setItem('fl_th', D.theme);
+  if((D.name||'').trim()) localStorage.setItem('fl_nm', D.name.trim());
+  else localStorage.removeItem('fl_nm');
   localStorage.setItem('fl_st', JSON.stringify(D.streak));
 }
 function uniqueStrings(list){
@@ -780,6 +847,76 @@ function mergeStreak(a, b){
   if(b.d > a.d) return b;
   return a.c >= b.c ? a : b;
 }
+function pickScalar(remoteValue, localValue, defaultValue){
+  var localHas = localValue !== undefined && localValue !== null && localValue !== '';
+  var remoteHas = remoteValue !== undefined && remoteValue !== null && remoteValue !== '';
+  if(localHas && localValue !== defaultValue) return localValue;
+  if(remoteHas) return remoteValue;
+  return localHas ? localValue : defaultValue;
+}
+function getMetaName(user){
+  if(!user || !user.user_metadata) return '';
+  return String(user.user_metadata.full_name || user.user_metadata.name || user.user_metadata.display_name || '').trim();
+}
+function currentDisplayName(){
+  return String(D.name || getMetaName(AUTH.user) || '').trim();
+}
+function syncNameFromAuth(){
+  var metaName = getMetaName(AUTH.user);
+  if(metaName) D.name = metaName;
+}
+function saveDisplayName(name){
+  name = String(name || '').trim();
+  D.name = name;
+  persistLocal();
+  if(SB && AUTH.user && name){
+    SB.auth.updateUser({ data: { full_name: name, name: name, display_name: name } }).catch(function(){});
+  }
+}
+function setBlurState(on){
+  ['hdr','content','nav'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.classList.toggle('blur-bg', !!on);
+  });
+}
+function greetingText(){
+  var h = new Date().getHours();
+  if(h < 12) return 'Good morning';
+  if(h < 18) return 'Good afternoon';
+  return 'Good evening';
+}
+function updateGreeting(){
+  var name = currentDisplayName();
+  var el = document.getElementById('home-greeting');
+  if(el) el.textContent = greetingText() + (name ? ', ' + name : ', there');
+}
+function openNameEditor(){
+  if(!AUTH.user){
+    toast('Please sign in first');
+    openAuth();
+    return;
+  }
+  var input = document.getElementById('edit-name-input');
+  if(input) input.value = currentDisplayName();
+  setBlurState(true);
+  document.getElementById('name-modal').classList.add('open');
+}
+function closeNameEditor(){
+  document.getElementById('name-modal').classList.remove('open');
+  setBlurState(false);
+}
+async function saveEditedName(){
+  var input = document.getElementById('edit-name-input');
+  var name = input ? input.value.trim() : '';
+  if(!name){
+    toast('Please enter your name');
+    return;
+  }
+  saveDisplayName(name);
+  refreshDerivedAndUI();
+  closeNameEditor();
+  toast('Name updated');
+}
 function mergeStates(remote){
   remote = remote && remote.state ? remote.state : remote;
   if(!remote || typeof remote !== 'object') return;
@@ -793,8 +930,9 @@ function mergeStates(remote){
   });
   D.subj = uniqueStrings([].concat(remote.subj || [], D.subj || []));
   D.ach = Object.assign({}, remote.ach || {}, D.ach || {});
-  D.goal = safeNum(remote.goal, D.goal || 120);
-  D.theme = remote.theme || D.theme || 'device';
+  D.goal = pickScalar(remote.goal, D.goal, 120);
+  D.theme = pickScalar(remote.theme, D.theme, 'device');
+  D.name = pickScalar(remote.name, D.name, '');
   D.streak = mergeStreak(remote.streak, D.streak);
   D.xp = calcXP();
   persistLocal();
@@ -802,16 +940,28 @@ function mergeStates(remote){
 function updateAuthUI(){
   var signed = !!AUTH.user;
   var email = signed ? (AUTH.user.email || 'Signed in') : 'Not signed in';
+  var displayName = currentDisplayName();
   var title = document.getElementById('auth-card-title');
   var sub = document.getElementById('auth-card-sub');
   var chip = document.getElementById('auth-card-chip');
   var btn = document.getElementById('auth-card-btn');
   var hdr = document.querySelector('#hdr .hdr-btns .ibtn');
-  if(title) title.textContent = signed ? email : 'Not signed in';
+  var homeTitle = document.getElementById('home-auth-title');
+  var homeSub = document.getElementById('home-auth-sub');
+  var nameBox = document.getElementById('auth-card-name');
+  var nameInput = document.getElementById('auth-name');
+  if(title) title.textContent = signed ? (displayName || email) : 'Not signed in';
   if(sub) sub.textContent = signed
-    ? 'Your study data is syncing across devices with this account.'
+    ? 'Signed in as ' + email + '. Your study data syncs across devices.'
     : 'Sign in to sync your study data across devices. Local storage still works offline.';
   if(chip) chip.textContent = signed ? 'Cloud sync on' : 'Local only';
+  if(nameBox) nameBox.textContent = signed
+    ? ('Display name: ' + (displayName || 'Not set'))
+    : 'Add a display name to personalize your account.';
+  var editBtn = document.getElementById('edit-name-btn');
+  if(editBtn) editBtn.style.display = signed ? 'inline-flex' : 'none';
+  var editRow = document.getElementById('edit-name-row');
+  if(editRow) editRow.style.display = signed ? 'flex' : 'none';
   if(btn){
     btn.textContent = signed ? 'Sign Out' : 'Sign In';
     btn.onclick = signed ? signOut : openAuth;
@@ -820,30 +970,59 @@ function updateAuthUI(){
     hdr.title = signed ? ('Account: ' + email) : 'Account & sync';
     hdr.style.color = signed ? 'var(--success)' : '';
   }
+  if(homeTitle) homeTitle.textContent = signed ? (displayName || email || 'Signed in') : 'Account & Sync';
+  if(homeSub) homeSub.textContent = signed
+    ? 'You are signed in as ' + (displayName || email) + '.'
+    : 'Sign in or create an account to back up your study progress.';
   var mt = document.getElementById('auth-modal-title');
   if(mt) mt.textContent = AUTH.mode === 'signup' ? 'Create your account' : 'Sign in to your account';
   var submit = document.getElementById('auth-submit');
   if(submit) submit.textContent = AUTH.mode === 'signup' ? 'Create Account' : 'Sign In';
   var help = document.getElementById('auth-help');
-  if(help) help.textContent = signed ? ('Signed in as ' + email + '. This device will remember your session.') : 'Your login will be remembered on this device.';
+  if(help) help.textContent = signed
+    ? ('Signed in as ' + email + '. You can update your display name from More > Edit your name.')
+    : 'Sign in to sync your study data across devices. Create an account from the sign-up tab when you want to add a name.';
   var err = document.getElementById('auth-error');
   if(err) err.style.display = 'none';
-  document.getElementById('auth-tab-signin').classList.toggle('active', AUTH.mode === 'signin');
-  document.getElementById('auth-tab-signup').classList.toggle('active', AUTH.mode === 'signup');
+  var signInTab = document.getElementById('auth-tab-signin');
+  var signUpTab = document.getElementById('auth-tab-signup');
+  if(signInTab) signInTab.classList.toggle('active', AUTH.mode === 'signin');
+  if(signUpTab) signUpTab.classList.toggle('active', AUTH.mode === 'signup');
   var pass2 = document.getElementById('auth-pass2');
   if(pass2) pass2.style.display = AUTH.mode === 'signup' ? 'block' : 'none';
+  if(nameInput){
+    nameInput.style.display = AUTH.mode === 'signup' ? 'block' : 'none';
+    nameInput.required = AUTH.mode === 'signup';
+    if(AUTH.mode === 'signup' && document.activeElement !== nameInput){
+      nameInput.value = displayName;
+    }
+  }
 }
 function setAuthMode(mode){
   AUTH.mode = mode === 'signup' ? 'signup' : 'signin';
   updateAuthUI();
+  var nameInput = document.getElementById('auth-name');
+  if(nameInput){
+    if(AUTH.mode === 'signup') nameInput.value = currentDisplayName();
+    else nameInput.value = '';
+  }
 }
 function openAuth(){
-  AUTH.mode = AUTH.mode === 'signup' ? 'signup' : 'signin';
+  AUTH.mode = AUTH.mode || 'signin';
   updateAuthUI();
+  setBlurState(true);
   document.getElementById('auth-modal').classList.add('open');
+  var nameInput = document.getElementById('auth-name');
+  if(nameInput){
+    if(AUTH.mode === 'signup') nameInput.value = currentDisplayName();
+    else nameInput.value = '';
+  }
   document.getElementById('auth-email').focus();
 }
-function closeAuth(){ document.getElementById('auth-modal').classList.remove('open'); }
+function closeAuth(){
+  document.getElementById('auth-modal').classList.remove('open');
+  setBlurState(false);
+}
 function showAuthError(msg){
   var err = document.getElementById('auth-error');
   if(!err) return;
@@ -887,6 +1066,7 @@ async function loadCloud(){
     if(res.error) throw res.error;
     if(res.data && res.data.state){
       mergeStates(res.data.state);
+      await saveCloud();
     } else {
       persistLocal();
       await saveCloud();
@@ -905,7 +1085,9 @@ function updateCloudStatus(text){
 function refreshDerivedAndUI(){
   D.xp = calcXP();
   persistLocal();
+  updateGreeting();
   updHome();
+  updateGreeting();
   renderSubjList();
   renderRems();
   renderBadges();
@@ -939,6 +1121,7 @@ async function bootSupabase(){
     var sess = await SB.auth.getSession();
     AUTH.session = sess.data ? sess.data.session : null;
     AUTH.user = AUTH.session ? AUTH.session.user : null;
+    syncNameFromAuth();
   }catch(e){}
   AUTH.ready = true;
   updateAuthUI();
@@ -946,6 +1129,7 @@ async function bootSupabase(){
   SB.auth.onAuthStateChange(async function(event, session){
     AUTH.session = session;
     AUTH.user = session ? session.user : null;
+    syncNameFromAuth();
     updateAuthUI();
     if(AUTH.user){
       await loadCloud();
@@ -958,6 +1142,7 @@ async function bootSupabase(){
 }
 async function submitAuth(){
   var email = document.getElementById('auth-email').value.trim();
+  var displayName = document.getElementById('auth-name').value.trim();
   var password = document.getElementById('auth-pass').value;
   var pass2 = document.getElementById('auth-pass2').value;
   if(!SB){
@@ -968,6 +1153,10 @@ async function submitAuth(){
     showAuthError('Enter your email and password.');
     return;
   }
+  if(AUTH.mode === 'signup' && !displayName){
+    showAuthError('Please enter your name.');
+    return;
+  }
   if(AUTH.mode === 'signup' && password !== pass2){
     showAuthError('Passwords do not match.');
     return;
@@ -975,11 +1164,17 @@ async function submitAuth(){
   showAuthError('');
   try{
     if(AUTH.mode === 'signup'){
-      var signUp = await SB.auth.signUp({ email: email, password: password });
+      var signUp = await SB.auth.signUp({
+        email: email,
+        password: password,
+        options: { data: { full_name: displayName, name: displayName, display_name: displayName } }
+      });
       if(signUp.error) throw signUp.error;
       if(signUp.data && signUp.data.session){
         AUTH.user = signUp.data.session.user;
         AUTH.session = signUp.data.session;
+        saveDisplayName(displayName);
+        syncNameFromAuth();
         await loadCloud();
         toast('Account created');
         closeAuth();
@@ -991,6 +1186,7 @@ async function submitAuth(){
       if(signIn.error) throw signIn.error;
       AUTH.user = signIn.data.user;
       AUTH.session = signIn.data.session;
+      syncNameFromAuth();
       await loadCloud();
       toast('Signed in');
       closeAuth();
@@ -1014,12 +1210,14 @@ function init() {
   document.getElementById('goal-inp').value = D.goal;
   document.getElementById('date-disp').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   updHome();
+  updateGreeting();
   renderSubjList();
   renderRems();
   renderBadges();
   updXP();
   initChart();
   renderLofi();
+renderBengaliStations();
   document.getElementById('daily-tip').textContent = getTip();
   document.getElementById('sug-routine').textContent = getRoutine();
   if('Notification'in window && Notification.permission==='default') Notification.requestPermission();
@@ -1082,6 +1280,7 @@ function updHome(){
   var t=today();
   var td=D.sess.filter(s=>s.d===t);
   var tm=Math.round(td.reduce((a,s)=>a+s.dur,0)/60);
+  updateGreeting();
   document.getElementById('s-today').textContent=tm+'m';
   document.getElementById('s-streak').textContent=D.streak.c;
   document.getElementById('s-sess').textContent=D.sess.length;
@@ -1293,7 +1492,15 @@ function setAmbVol(v){
   if(CURNAMB&&ANODES[CURNAMB]) ANODES[CURNAMB].gain.gain.value=v/100*0.28;
 }
 
-var BENGALI_STREAM='https://radio.mellowbangla.com/stream';
+var BENGALI_STATIONS=[
+  {name:'Mellow Bangla',sub:'Modern Bengali hits',url:'https://radio.mellowbangla.com/stream'},
+  {name:'Radio Foorti',sub:'Popular Bangla music',url:'https://stream.rcs.revma.com/ypqt40u0x1zuv'},
+  {name:'Radio Today Bangla',sub:'24/7 Bengali entertainment',url:'https://stream.rcast.net/252067'},
+  {name:'Dhaka FM',sub:'Bangla songs & live radio',url:'https://stream.rcast.net/248978'},
+  {name:'Bangla Wadio',sub:'Classic and modern Bengali tracks',url:'https://stream.zeno.fm/r4mpcrfwfzzuv'}
+];
+var CUR_BENGALI_INDEX=0;
+
 var LOFI_STATIONS=[
   {name:'Lofi Hip Hop Radio',sub:'Chill beats to study',url:'https://streams.ilovemusic.de/iloveradio17.mp3'},
   {name:'Chillout Radio',sub:'Ambient & chill vibes',url:'https://streams.ilovemusic.de/iloveradio2.mp3'},
@@ -1359,33 +1566,69 @@ function stopSM(){
   stopLofi();
   stopBengali();
 }
+function renderBengaliStations(){
+  var c=document.getElementById('beng-station-list');
+  if(!c) return;
+  c.innerHTML=BENGALI_STATIONS.map(function(s,i){
+    return '<div class="abtn'+(i===CUR_BENGALI_INDEX?' playing':'')+'" onclick="playBengaliStation('+i+',true)" style="display:flex;align-items:center;gap:11px;padding:13px;border-radius:12px;margin-bottom:8px;text-align:left;">'
+      +'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>'
+      +'<div><div style="font-size:13px;font-weight:600;">'+s.name+'</div><div style="font-size:11px;color:var(--text2);">'+s.sub+'</div></div></div>';
+  }).join('');
+}
+
 function setBengVol(v){
   var a=document.getElementById('bg-audio');
   a.volume=v/100;
 }
-function togBeng(btn){
+
+function playBengaliStation(index,showToast){
+  CUR_BENGALI_INDEX=index;
+  var station=BENGALI_STATIONS[index];
   var a=document.getElementById('bg-audio');
+  var st=document.getElementById('beng-status');
+  var nm=document.getElementById('beng-current-name');
+
+  renderBengaliStations();
+
+  if(nm) nm.textContent=station.name;
+  if(st) st.textContent='Connecting to stream...';
+
+  a.src=station.url;
+  a.volume=document.getElementById('beng-vol').value/100;
+
+  a.play().then(function(){
+    if(st) st.textContent='Now playing • '+station.sub;
+    if(showToast) toast('Playing '+station.name);
+  }).catch(function(){
+    if(st) st.textContent='Stream unavailable. Try next station.';
+    toast('Could not play this station');
+  });
+}
+
+function nextBengali(){
+  CUR_BENGALI_INDEX=(CUR_BENGALI_INDEX+1)%BENGALI_STATIONS.length;
+  playBengaliStation(CUR_BENGALI_INDEX,true);
+}
+
+function prevBengali(){
+  CUR_BENGALI_INDEX=(CUR_BENGALI_INDEX-1+BENGALI_STATIONS.length)%BENGALI_STATIONS.length;
+  playBengaliStation(CUR_BENGALI_INDEX,true);
+}
+
+function togBeng(){
+  var a=document.getElementById('bg-audio');
+  var st=document.getElementById('beng-status');
+
   if(!a.src || a.paused){
-    playBengali(btn,true);
+    playBengaliStation(CUR_BENGALI_INDEX,true);
   } else {
-    stopBengali();
-    SAMAN=null;
+    a.pause();
+    if(st) st.textContent='Paused';
   }
 }
+
 function playBengali(btn,showToast){
-  var a=document.getElementById('bg-audio');
-  if(btn) btn.classList.add('playing');
-  var st=document.getElementById('beng-status');
-  if(st) st.textContent='Connecting to stream...';
-  a.src=BENGALI_STREAM;
-  a.volume=document.getElementById('beng-vol').value/100;
-  a.play().then(function(){
-    if(st) st.textContent='Now playing from Mellow Bangla';
-    if(showToast) toast('Mellow Bangla started');
-  }).catch(function(){
-    if(st) st.textContent='Tap again if your browser blocks autoplay';
-    toast('Stream unavailable');
-  });
+  playBengaliStation(CUR_BENGALI_INDEX,showToast);
 }
 
 // ===== SOUND TAB =====
