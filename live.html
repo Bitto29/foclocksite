@@ -150,6 +150,21 @@ body{background:var(--bg);}
 .theme-opt.active .theme-dot{background:var(--accent2);}
 .mov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;display:none;align-items:flex-end;}
 .mov.open{display:flex;}
+#auth-modal{
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+#auth-modal .modal{
+  width:min(100%, 420px);
+  max-width:420px;
+  border-radius:20px;
+  max-height:88vh;
+  padding:20px;
+}
+#auth-modal .mhandle{
+  display:none;
+}
 .modal{background:var(--bg2);border-radius:20px 20px 0 0;width:100%;max-height:92vh;overflow-y:auto;padding:18px;position:relative;box-shadow:0 -12px 28px rgba(0,0,0,.2);}
 .mhandle{width:38px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 14px;}
 .mtitle{font-size:17px;font-weight:700;margin-bottom:14px;}
@@ -270,16 +285,7 @@ body{background:var(--bg);}
       <div class="greet-sub" id="date-disp"></div>
     </div>
     <div class="gr-title">Stay <span style="color:var(--accent2);">Locked In</span></div>
-    <!--<div class="card" style="margin-bottom:12px;">
-      <div class="auth-card-top">
-        <div class="auth-card-copy">
-          <div class="auth-card-title" id="home-auth-title">Account &amp; Sync</div>
-          <div class="auth-card-sub" id="home-auth-sub">Sign in or create an account to back up your study progress.</div>
-        </div>
-        <button class="btn btn-p" style="width:auto;min-width:110px;padding:12px 14px;" onclick="openAuth()">Sign In / Sign Up</button>
-      </div>
-    </div>-->
-    <div class="stats-grid">
+<div class="stats-grid">
       <div class="sc"><div class="sv" id="s-today">0m</div><div class="sl">Today's Study</div></div>
       <div class="sc"><div class="sv" id="s-streak">0</div><div class="sl">Day Streak</div></div>
       <div class="sc"><div class="sv" id="s-sess">0</div><div class="sl">Sessions Done</div></div>
@@ -408,26 +414,12 @@ body{background:var(--bg);}
             <div class="auth-card-title" id="auth-card-title">Not signed in</div>
             <div class="auth-card-sub" id="auth-card-sub">Sign in to sync your study progress across devices. Local storage still works offline.</div>
             <div class="auth-chip" id="auth-card-chip">Local only</div>
-            <div class="auth-helper" id="auth-card-name" style="margin-top:8px;"></div>
-            <button class="btn btn-s" id="edit-name-btn" style="width:auto;min-width:110px;padding:11px 14px;margin-top:10px;display:none;" onclick="openNameEditor()">
-              Edit your name
-            </button>
-          </div>
+                      </div>
           <button class="btn btn-p" id="auth-card-btn" style="width:auto;min-width:110px;padding:12px 14px;" onclick="openAuth()">
             Sign In
           </button>
         </div>
       </div>
-      <div class="mi" id="edit-name-row" onclick="openNameEditor()">
-        <div class="mi-icon" style="background:rgba(124,58,237,.15);">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2">
-            <path d="M12 20h9"/>
-            <path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z"/>
-          </svg>
-        </div>
-        <!--<div style="flex:1;"><div class="mi-t">Edit your name</div><div class="mi-s">Change the name shown on your Home screen</div></div>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>-->
       <div class="sec-lbl">Tools</div>
       <div class="mi" onclick="gSub('sub-calc')"><div class="mi-icon" style="background:rgba(124,58,237,.15);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg></div><div style="flex:1;"><div class="mi-t">Calculator</div><div class="mi-s">Quick math tool</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
       <div class="mi" onclick="gSub('sub-rem')"><div class="mi-icon" style="background:rgba(6,182,212,.15);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent3)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div style="flex:1;"><div class="mi-t">Reminders</div><div class="mi-s">Set study alarms</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
@@ -698,20 +690,6 @@ body{background:var(--bg);}
   </div>
 </div>
 
-<!-- NAME EDIT MODAL -->
-<div class="mov" id="name-modal">
-  <div class="modal">
-    <div class="mhandle"></div>
-    <button class="mclose" onclick="closeNameEditor()" aria-label="Close name dialog">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <div class="mtitle">Edit your name</div>
-    <div class="auth-helper" style="margin-top:-4px;margin-bottom:10px;">This name appears on your Home screen and in your account.</div>
-    <input type="text" class="inp" id="edit-name-input" placeholder="Your name">
-    <button class="btn btn-p" onclick="saveEditedName()">Save name</button>
-  </div>
-</div>
-
 <!-- TOAST -->
 <div id="toast"></div>
 
@@ -890,33 +868,6 @@ function updateGreeting(){
   var el = document.getElementById('home-greeting');
   if(el) el.textContent = greetingText() + (name ? ', ' + name : ', there');
 }
-function openNameEditor(){
-  if(!AUTH.user){
-    toast('Please sign in first');
-    openAuth();
-    return;
-  }
-  var input = document.getElementById('edit-name-input');
-  if(input) input.value = currentDisplayName();
-  setBlurState(true);
-  document.getElementById('name-modal').classList.add('open');
-}
-function closeNameEditor(){
-  document.getElementById('name-modal').classList.remove('open');
-  setBlurState(false);
-}
-async function saveEditedName(){
-  var input = document.getElementById('edit-name-input');
-  var name = input ? input.value.trim() : '';
-  if(!name){
-    toast('Please enter your name');
-    return;
-  }
-  saveDisplayName(name);
-  refreshDerivedAndUI();
-  closeNameEditor();
-  toast('Name updated');
-}
 function mergeStates(remote){
   remote = remote && remote.state ? remote.state : remote;
   if(!remote || typeof remote !== 'object') return;
@@ -952,16 +903,9 @@ function updateAuthUI(){
   var nameInput = document.getElementById('auth-name');
   if(title) title.textContent = signed ? (displayName || email) : 'Not signed in';
   if(sub) sub.textContent = signed
-    ? 'Signed in as ' + email + '. Your study data syncs across devices.'
+    ? 'Your study data syncs across devices.'
     : 'Sign in to sync your study data across devices. Local storage still works offline.';
   if(chip) chip.textContent = signed ? 'Cloud sync on' : 'Local only';
-  if(nameBox) nameBox.textContent = signed
-    ? ('Display name: ' + (displayName || 'Not set'))
-    : 'Add a display name to personalize your account.';
-  var editBtn = document.getElementById('edit-name-btn');
-  if(editBtn) editBtn.style.display = signed ? 'inline-flex' : 'none';
-  var editRow = document.getElementById('edit-name-row');
-  if(editRow) editRow.style.display = signed ? 'flex' : 'none';
   if(btn){
     btn.textContent = signed ? 'Sign Out' : 'Sign In';
     btn.onclick = signed ? signOut : openAuth;
@@ -970,17 +914,15 @@ function updateAuthUI(){
     hdr.title = signed ? ('Account: ' + email) : 'Account & sync';
     hdr.style.color = signed ? 'var(--success)' : '';
   }
-  if(homeTitle) homeTitle.textContent = signed ? (displayName || email || 'Signed in') : 'Account & Sync';
-  if(homeSub) homeSub.textContent = signed
-    ? 'You are signed in as ' + (displayName || email) + '.'
-    : 'Sign in or create an account to back up your study progress.';
+  if(homeTitle) homeTitle.textContent = 'Account & Sync';
+  if(homeSub) homeSub.textContent = 'Open the account popup to sign in or create a cloud account.';
   var mt = document.getElementById('auth-modal-title');
   if(mt) mt.textContent = AUTH.mode === 'signup' ? 'Create your account' : 'Sign in to your account';
   var submit = document.getElementById('auth-submit');
   if(submit) submit.textContent = AUTH.mode === 'signup' ? 'Create Account' : 'Sign In';
   var help = document.getElementById('auth-help');
   if(help) help.textContent = signed
-    ? ('Signed in as ' + email + '. You can update your display name from More > Edit your name.')
+    ? 'Your study data syncs across devices.'
     : 'Sign in to sync your study data across devices. Create an account from the sign-up tab when you want to add a name.';
   var err = document.getElementById('auth-error');
   if(err) err.style.display = 'none';
