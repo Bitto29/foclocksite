@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -248,6 +249,15 @@ body{background:var(--bg);}
 .auth-modal-tab{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-weight:700;cursor:pointer;}
 .auth-modal-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .auth-helper{font-size:12px;color:var(--text2);line-height:1.5;margin-top:10px;}
+.auth-card-name{font-size:12px;color:var(--text2);margin-top:6px;font-weight:600;line-height:1.35;}
+.auth-card-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center;}
+.small-btn{padding:10px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:12px;font-weight:700;cursor:pointer;box-shadow:var(--shadow);}
+.small-btn:active{transform:translateY(1px);}
+.pw-wrap{position:relative;margin-bottom:11px;}
+.pw-wrap .inp{margin-bottom:0;padding-right:46px;}
+.pw-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:none;border-radius:9px;background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.pw-toggle:hover{background:rgba(255,255,255,.04);}
+
 .greet-wrap{margin:4px 0 14px;}
 .greet-main{font-size:24px;font-weight:900;line-height:1.1;}
 .greet-sub{font-size:13px;color:var(--text2);margin-top:4px;}
@@ -297,6 +307,11 @@ body{background:var(--bg);}
       <svg width="19" height="19" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       Start Focus Session
     </button>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="ctitle">Manual Session</div>
+      <div class="tip-txt">Add a study session by hand when you studied outside the timer.</div>
+      <button class="btn btn-p" style="margin-top:12px;" onclick="openManualSessionHome()">Add Manual Session</button>
+    </div>
     <div class="card">
       <div class="ctitle">Daily Goal Progress</div>
       <div class="xb-wrap"><div class="xb-fill" id="daily-bar" style="width:0%"></div></div>
@@ -414,12 +429,16 @@ body{background:var(--bg);}
         <div class="auth-card-top">
           <div class="auth-card-copy">
             <div class="auth-card-title" id="auth-card-title">Not signed in</div>
+            <div class="auth-card-name" id="auth-card-name">No display name set</div>
             <div class="auth-card-sub" id="auth-card-sub">Sign in to sync your study progress across devices. Local storage still works offline.</div>
             <div class="auth-chip" id="auth-card-chip">Local only</div>
-                      </div>
-          <button class="btn btn-p" id="auth-card-btn" style="width:auto;min-width:110px;padding:12px 14px;" onclick="openAuth()">
-            Sign In
-          </button>
+          </div>
+          <div class="auth-card-actions">
+            <button class="small-btn" id="auth-card-name-btn" onclick="openNameEditor()" style="display:none;">Edit Name</button>
+            <button class="btn btn-p" id="auth-card-btn" style="width:auto;min-width:110px;padding:12px 14px;" onclick="openAuth()">
+              Sign In
+            </button>
+          </div>
         </div>
       </div>
       <div class="sec-lbl">Tools</div>
@@ -497,9 +516,9 @@ body{background:var(--bg);}
     <div class="subp" id="sub-how">
       <button class="back-btn" onclick="gSub('more-main')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
       <div class="page-title">How to Use Foc Lock</div>
-      <div class="card"><div class="ctitle">Starting a Session</div><div class="tip-txt">Tap the play button in the header or the big Start button on Home. Pick your subject and timer mode (15 min, 20 min, custom, or no timer). Hit Start and the app enters fullscreen lock mode.</div></div>
-      <div class="card"><div class="ctitle">App Lock Feature</div><div class="tip-txt">During a session, Foc Lock monitors if you try to leave. If you switch apps or minimize, a fullscreen return banner appears immediately pushing you back. The Wake Lock API also keeps the screen on.</div></div>
-      <div class="card"><div class="ctitle">Pausing a Session</div><div class="tip-txt">Tap the pause button during a session. You must correctly solve a simple math problem to pause. While paused, the app sends you return notifications every 2 minutes until you resume.</div></div>
+      <div class="card"><div class="ctitle">Starting a Session</div><div class="tip-txt">Tap the play button in the header or the big Start button on Home. Pick your subject and timer mode (15 min, 20 min, custom, or no timer). Choose whether fullscreen lock is on, then tap Start. If fullscreen lock is off, the session keeps running across reloads and tab switches.</div></div>
+      <div class="card"><div class="ctitle">App Lock Feature</div><div class="tip-txt">During a session, Foc Lock monitors if you try to leave. When fullscreen lock is on, Foc Lock keeps the screen awake and shows a return banner if you leave the tab. When it is off, the session keeps running normally so you can study in another tab or reload without losing progress.</div></div>
+      <div class="card"><div class="ctitle">Pausing a Session</div><div class="tip-txt">Tap the pause button during a session. You must correctly solve a simple math problem to pause. While paused, the app sends you return notifications every 2 minutes until you resume. During active sessions, it also sends study check-in reminders at regular gaps.</div></div>
       <div class="card"><div class="ctitle">Earning XP &amp; Rewards</div><div class="tip-txt">You earn 1 XP per minute studied. Complete sessions to unlock achievements and level up. Check the Rewards screen for your level, XP bar, and achievement badges.</div></div>
       <div class="card"><div class="ctitle">Setting Reminders</div><div class="tip-txt">Go to More &gt; Reminders. Add a time and label. The app will send a browser notification at that exact time each day reminding you to start a session.</div></div>
       <div class="card"><div class="ctitle">Session Music</div><div class="tip-txt">During a session, swipe the bottom music bar. Choose ambient sounds (Rain, White Noise, Forest, Ocean), Lo-Fi radio, or Bengali band music. Music continues playing while the timer runs.</div></div>
@@ -608,6 +627,28 @@ body{background:var(--bg);}
   </div>
 </div>
 
+<!-- MANUAL SESSION POPUP -->
+<div class="mov" id="manual-modal">
+  <div class="modal">
+    <div class="mhandle"></div>
+    <button class="mclose" onclick="closeManualModal()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="mtitle">Manual Study Log</div>
+    <div class="card" style="margin:0;border-radius:14px;">
+      <div class="ctitle">Add a Session</div>
+      <div class="tip-txt" style="margin-bottom:12px;">Log a study session manually when you were studying without starting the timer in the app.</div>
+      <input type="text" class="inp" id="man-subj" placeholder="Subject (e.g. Mathematics)">
+      <input type="date" class="inp" id="man-date">
+      <input type="time" class="inp" id="man-time">
+      <input type="number" class="inp" id="man-dur" placeholder="Duration in minutes" min="1" max="1440">
+      <button class="btn btn-p" onclick="addManualSession()">Save Session</button>
+    </div>
+    <div class="card" style="margin-top:12px;border-radius:14px;">
+      <div class="ctitle">What gets updated</div>
+      <div class="tip-txt">This adds to your progress chart, session history, subject totals, XP, achievements, and streak tracking.</div>
+    </div>
+  </div>
+</div>
+
 <!-- FOCUS SESSION OVERLAY -->
 <div id="sess">
   <div class="shdr">
@@ -625,6 +666,9 @@ body{background:var(--bg);}
         <div class="ttime" id="t-disp">00:00</div>
         <div class="tlbl" id="t-sub">Focus time</div>
       </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;margin-top:14px;justify-content:center;flex-wrap:wrap;">
+      <button class="small-btn" id="fs-toggle-btn" onclick="toggleSessionFullscreen()" style="min-width:150px;">Fullscreen</button>
     </div>
     <div class="sctrl">
       <button class="sbtn sbtn-pause" onclick="reqPause()" id="btn-pause"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg></button>
@@ -684,8 +728,18 @@ body{background:var(--bg);}
     </div>
     <input type="email" class="inp" id="auth-email" placeholder="Email address" autocomplete="email">
     <input type="text" class="inp" id="auth-name" placeholder="Your name" autocomplete="name" style="display:none;">
-    <input type="password" class="inp" id="auth-pass" placeholder="Password" autocomplete="current-password">
-    <input type="password" class="inp" id="auth-pass2" placeholder="Confirm password" autocomplete="new-password" style="display:none;">
+    <div class="pw-wrap">
+      <input type="password" class="inp" id="auth-pass" placeholder="Password" autocomplete="current-password">
+      <button type="button" class="pw-toggle" onclick="togglePasswordVisibility('auth-pass', this)" aria-label="Show password" title="Show password">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div class="pw-wrap" id="auth-pass2-wrap" style="display:none;">
+      <input type="password" class="inp" id="auth-pass2" placeholder="Confirm password" autocomplete="new-password">
+      <button type="button" class="pw-toggle" onclick="togglePasswordVisibility('auth-pass2', this)" aria-label="Show confirm password" title="Show confirm password">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
     <button class="btn btn-p" onclick="submitAuth()" id="auth-submit">Sign In</button>
     <div class="auth-helper" id="auth-help">Your login will be remembered on this device.</div>
     <div class="auth-helper" id="auth-error" style="color:var(--danger);display:none;"></div>
@@ -709,15 +763,100 @@ var D = {
   goal: +localStorage.getItem('fl_g')||120,
   theme: localStorage.getItem('fl_th')||'device',
   name: localStorage.getItem('fl_nm')||'',
-  streak: JSON.parse(localStorage.getItem('fl_st')||'{"c":0,"d":""}')
+  streak: JSON.parse(localStorage.getItem('fl_st')||'{"c":0,"d":""}'),
+  lock: localStorage.getItem('fl_lk') !== '0'
 };
 
 var CUR = null; // current session
-var STMR = null, PNTMR = null, WL = null;
+var STMR = null, PNTMR = null, REMTMR = null, WL = null;
 var ACTX = null, ANODES = {}, CURNAMB = null, CURLOFI = null;
 var PCHART = null, PERIOD = 'week';
 var MANS = 0, SELSUBJ = '', SELT = 15;
 var THEME_MQ = window.matchMedia('(prefers-color-scheme: dark)');
+
+function getSessionElapsed(now){
+  if(!CUR) return 0;
+  now = now || Date.now();
+  var base = safeNum(CUR.elapsed, 0);
+  if(CUR.paused) return base;
+  return base + Math.max(0, Math.floor((now - safeNum(CUR.savedAt, now)) / 1000));
+}
+function saveSessionState(){
+  if(!CUR) return;
+  localStorage.setItem('fl_cur', JSON.stringify({
+    id: CUR.id || uid(),
+    subj: CUR.subj || 'General',
+    timed: !!CUR.timed,
+    total: safeNum(CUR.total, 0),
+    elapsed: safeNum(CUR.elapsed, 0),
+    savedAt: safeNum(CUR.savedAt, Date.now()),
+    paused: !!CUR.paused,
+    xp: safeNum(CUR.xp, 0),
+    lock: !!CUR.lock,
+    createdAt: safeNum(CUR.createdAt, Date.now())
+  }));
+}
+function clearSessionState(){
+  localStorage.removeItem('fl_cur');
+}
+function syncReminderLoop(){
+  clearInterval(REMTMR);
+  clearInterval(PNTMR);
+  if(!CUR) return;
+  if(CUR.paused){
+    PNTMR = setInterval(function(){
+      sndNotif('Foc Lock','Session paused. Get back to studying!');
+      toast('Your session is waiting! Come back!');
+    }, 120000);
+    return;
+  }
+  REMTMR = setInterval(function(){
+    sndNotif('Foc Lock', CUR.lock ? 'Stay focused — your fullscreen session is still running.' : 'Study check-in: are you still studying?');
+    toast(CUR.lock ? 'Fullscreen session is still running.' : 'Study check-in sent.');
+  }, 120000);
+}
+function restoreSessionState(){
+  var raw = localStorage.getItem('fl_cur');
+  if(!raw) return;
+  try{
+    var s = JSON.parse(raw);
+    if(!s || !s.subj){
+      clearSessionState();
+      return;
+    }
+    CUR = {
+      id: s.id || uid(),
+      subj: s.subj || 'General',
+      timed: !!s.timed,
+      total: safeNum(s.total, 0),
+      elapsed: safeNum(s.elapsed, 0),
+      savedAt: safeNum(s.savedAt, Date.now()),
+      paused: !!s.paused,
+      xp: safeNum(s.xp, 0),
+      lock: s.lock === true,
+      createdAt: safeNum(s.createdAt, Date.now())
+    };
+    document.getElementById('sess').classList.add('active');
+    document.getElementById('s-subj').textContent = CUR.subj;
+    document.getElementById('s-mode').textContent = CUR.timed ? (Math.round(CUR.total / 60) + ' min session' + (CUR.lock ? ' • Fullscreen lock' : ' • Relaxed mode')) : ('Open session' + (CUR.lock ? ' • Fullscreen lock' : ' • Relaxed mode'));
+    document.getElementById('s-status').textContent = CUR.paused ? 'Paused' : 'In Progress';
+    document.getElementById('btn-pause').style.display = CUR.paused ? 'none' : 'flex';
+    document.getElementById('btn-resume').style.display = CUR.paused ? 'flex' : 'none';
+    if(CUR.lock) enterFullscreenMode();
+    syncReminderLoop();
+    updTDisp();
+    setSessionFullscreenUI();
+    if(CUR.timed && getSessionElapsed() >= CUR.total){
+      CUR.el = getSessionElapsed();
+      endSess(true);
+      return;
+    }
+    scheduleCloudSave();
+  }catch(e){
+    clearSessionState();
+    CUR = null;
+  }
+}
 
 
 // ===== SUPABASE AUTH / SYNC =====
@@ -743,6 +882,7 @@ function ensureDefaults(){
   if(!D.streak || typeof D.streak !== 'object') D.streak = {c:0,d:''};
   if(!D.goal) D.goal = 120;
   if(!D.theme) D.theme = 'device';
+  if(typeof D.lock !== 'boolean') D.lock = true;
   D.sess = D.sess.map(function(s){
     return {
       id: s.id || uid(),
@@ -790,6 +930,7 @@ function persistLocal(){
   localStorage.setItem('fl_r', JSON.stringify(D.rems));
   localStorage.setItem('fl_g', D.goal);
   localStorage.setItem('fl_th', D.theme);
+  localStorage.setItem('fl_lk', D.lock ? '1' : '0');
   if((D.name||'').trim()) localStorage.setItem('fl_nm', D.name.trim());
   else localStorage.removeItem('fl_nm');
   localStorage.setItem('fl_st', JSON.stringify(D.streak));
@@ -852,6 +993,7 @@ function saveDisplayName(name){
   if(SB && AUTH.user && name){
     SB.auth.updateUser({ data: { full_name: name, name: name, display_name: name } }).catch(function(){});
   }
+  updateGreeting();
 }
 function setBlurState(on){
   ['hdr','content','nav'].forEach(function(id){
@@ -895,15 +1037,17 @@ function updateAuthUI(){
   var email = signed ? (AUTH.user.email || 'Signed in') : 'Not signed in';
   var displayName = currentDisplayName();
   var title = document.getElementById('auth-card-title');
+  var nameBox = document.getElementById('auth-card-name');
   var sub = document.getElementById('auth-card-sub');
   var chip = document.getElementById('auth-card-chip');
   var btn = document.getElementById('auth-card-btn');
+  var nameBtn = document.getElementById('auth-card-name-btn');
   var hdr = document.querySelector('#hdr .hdr-btns .ibtn');
   var homeTitle = document.getElementById('home-auth-title');
   var homeSub = document.getElementById('home-auth-sub');
-  var nameBox = document.getElementById('auth-card-name');
   var nameInput = document.getElementById('auth-name');
   if(title) title.textContent = signed ? (displayName || email) : 'Not signed in';
+  if(nameBox) nameBox.textContent = signed ? ('Display name: ' + (displayName || 'Not set')) : 'No display name set';
   if(sub) sub.textContent = signed
     ? 'Your study data syncs across devices.'
     : 'Sign in to sync your study data across devices. Local storage still works offline.';
@@ -911,6 +1055,9 @@ function updateAuthUI(){
   if(btn){
     btn.textContent = signed ? 'Sign Out' : 'Sign In';
     btn.onclick = signed ? signOut : openAuth;
+  }
+  if(nameBtn){
+    nameBtn.style.display = signed ? 'inline-flex' : 'none';
   }
   if(hdr){
     hdr.title = signed ? ('Account: ' + email) : 'Account & sync';
@@ -932,7 +1079,7 @@ function updateAuthUI(){
   var signUpTab = document.getElementById('auth-tab-signup');
   if(signInTab) signInTab.classList.toggle('active', AUTH.mode === 'signin');
   if(signUpTab) signUpTab.classList.toggle('active', AUTH.mode === 'signup');
-  var pass2 = document.getElementById('auth-pass2');
+  var pass2 = document.getElementById('auth-pass2-wrap');
   if(pass2) pass2.style.display = AUTH.mode === 'signup' ? 'block' : 'none';
   if(nameInput){
     nameInput.style.display = AUTH.mode === 'signup' ? 'block' : 'none';
@@ -961,7 +1108,8 @@ function openAuth(){
     if(AUTH.mode === 'signup') nameInput.value = currentDisplayName();
     else nameInput.value = '';
   }
-  document.getElementById('auth-email').focus();
+  var emailInput = document.getElementById('auth-email');
+  if(emailInput) emailInput.focus();
 }
 function closeAuth(){
   document.getElementById('auth-modal').classList.remove('open');
@@ -976,6 +1124,35 @@ function showAuthError(msg){
 function authAction(){
   if(AUTH.user) signOut();
   else openAuth();
+}
+function openNameEditor(){
+  var current = currentDisplayName();
+  var next = prompt('Enter your display name:', current);
+  if(next === null) return;
+  next = String(next || '').trim();
+  if(!next){
+    toast('Name cannot be empty.');
+    return;
+  }
+  saveDisplayName(next);
+  syncNameFromAuth();
+  updateAuthUI();
+  updateGreeting();
+  scheduleCloudSave();
+  toast('Name updated');
+}
+function togglePasswordVisibility(id, btn){
+  var inp = document.getElementById(id);
+  if(!inp) return;
+  var show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  if(btn){
+    btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    btn.setAttribute('title', show ? 'Hide password' : 'Show password');
+    btn.innerHTML = show
+      ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.97 10.97 0 0 1 12 20c-7 0-11-8-11-8a21.67 21.67 0 0 1 5.17-6.11M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a21.74 21.74 0 0 1-4.14 5.14M1 1l22 22"/></svg>'
+      : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+  }
 }
 function scheduleCloudSave(){
   if(!SB || !AUTH.user || !AUTH.ready) return;
@@ -1168,6 +1345,7 @@ renderBengaliStations();
   checkRems();
   setInterval(checkRems,60000);
   document.addEventListener('visibilitychange',onVis);
+  restoreSessionState();
   bootSupabase();
   updateAuthUI();
 
@@ -1218,6 +1396,30 @@ function gSub(id){
   document.getElementById(id).classList.add('active');
 }
 
+function setManualDefaults(){
+  var d = document.getElementById('man-date');
+  var t = document.getElementById('man-time');
+  var subj = document.getElementById('man-subj');
+  var dur = document.getElementById('man-dur');
+  if(d) d.value = today();
+  if(t) t.value = pad(new Date().getHours()) + ':' + pad(new Date().getMinutes());
+  if(subj && !subj.value) subj.value = '';
+  if(dur) dur.value = '';
+}
+function setManualMinutes(mins){
+  var d = document.getElementById('man-dur');
+  if(d) d.value = mins;
+}
+function openManualSessionHome(){
+  setManualDefaults();
+  setBlurState(true);
+  document.getElementById('manual-modal').classList.add('open');
+}
+function closeManualModal(){
+  document.getElementById('manual-modal').classList.remove('open');
+  setBlurState(false);
+}
+
 // ===== HOME =====
 function today(){ return new Date().toISOString().split('T')[0]; }
 function updHome(){
@@ -1244,9 +1446,13 @@ function openSM(){
   document.querySelectorAll('.topt')[0].classList.add('sel');
   document.getElementById('cust-t-wrap').style.display='none';
   document.getElementById('cust-subj').value='';
+  setBlurState(true);
   document.getElementById('sm').classList.add('open');
 }
-function closeSM(){ document.getElementById('sm').classList.remove('open'); }
+function closeSM(){
+  document.getElementById('sm').classList.remove('open');
+  setBlurState(false);
+}
 
 function renderChips(){
   var c=document.getElementById('modal-chips'); c.innerHTML='';
@@ -1267,90 +1473,189 @@ function selT(v,el){
   el.classList.add('sel');
   document.getElementById('cust-t-wrap').style.display=v===-1?'block':'none';
 }
+function setSessionFullscreenUI(){
+  var btn = document.getElementById('fs-toggle-btn');
+  if(!btn) return;
+  btn.textContent = (CUR && CUR.lock) ? 'Exit Fullscreen' : 'Fullscreen';
+}
+async function enterFullscreenMode(){
+  try{
+    if(document.fullscreenElement == null && document.documentElement.requestFullscreen){
+      await document.documentElement.requestFullscreen();
+    }
+  }catch(e){}
+  await acqWL();
+}
+async function exitFullscreenMode(){
+  try{
+    if(document.fullscreenElement && document.exitFullscreen){
+      await document.exitFullscreen();
+    }
+  }catch(e){}
+  relWL();
+}
+async function toggleSessionFullscreen(){
+  if(!CUR) return;
+  if(!CUR.lock){
+    CUR.lock = true;
+    await enterFullscreenMode();
+    document.getElementById('s-mode').textContent = CUR.timed ? (Math.round(CUR.total / 60) + ' min session • Fullscreen lock') : 'Open session • Fullscreen lock';
+    toast('Fullscreen lock enabled.');
+  }else{
+    CUR.lock = false;
+    await exitFullscreenMode();
+    document.getElementById('s-mode').textContent = CUR.timed ? (Math.round(CUR.total / 60) + ' min session • Relaxed mode') : 'Open session • Relaxed mode';
+    toast('Fullscreen lock disabled.');
+  }
+  syncReminderLoop();
+  saveSessionState();
+  setSessionFullscreenUI();
+}
+
 function startSess(){
   var subj=SELSUBJ||document.getElementById('cust-subj').value.trim()||'General';
   var mins=SELT;
   if(mins===-1) mins=parseInt(document.getElementById('cust-t').value)||25;
   closeSM();
-  CUR={subj:subj,timed:mins>0,total:mins*60,el:0,paused:false,xp:0};
+  CUR={id:uid(),subj:subj,timed:mins>0,total:mins*60,elapsed:0,savedAt:Date.now(),paused:false,xp:0,lock:false,createdAt:Date.now()};
   document.getElementById('s-subj').textContent=subj;
-  document.getElementById('s-mode').textContent=mins>0?mins+' min session':'Open session';
-  updTDisp();
+  document.getElementById('s-mode').textContent=mins>0?mins+' min session • Relaxed mode':'Open session • Relaxed mode';
   document.getElementById('sess').classList.add('active');
   document.getElementById('btn-pause').style.display='flex';
   document.getElementById('btn-resume').style.display='none';
   document.getElementById('s-status').textContent='In Progress';
-  acqWL();
+  syncReminderLoop();
+  saveSessionState();
+  updTDisp();
+  setSessionFullscreenUI();
   STMR=setInterval(tick,1000);
   toast('Session started! Stay focused!');
 }
 
 function tick(){
   if(!CUR||CUR.paused)return;
-  CUR.el++;
-  var nx=Math.floor(CUR.el/60);
+  var elapsed = getSessionElapsed();
+  CUR.el = elapsed;
+  var nx=Math.floor(elapsed/60);
   if(nx>CUR.xp){CUR.xp=nx;document.getElementById('s-xp').textContent='+'+nx+' XP';}
   updTDisp();
-  if(CUR.timed&&CUR.el>=CUR.total) endSess(true);
+  if(CUR.timed&&elapsed>=CUR.total) endSess(true);
 }
 
 function updTDisp(){
   if(!CUR)return;
+  var elapsed = getSessionElapsed();
+  CUR.el = elapsed;
   var ds, p=0;
-  if(CUR.timed){ ds=Math.max(0,CUR.total-CUR.el); p=CUR.el/CUR.total; document.getElementById('t-sub').textContent='remaining';}
-  else { ds=CUR.el; document.getElementById('t-ring').style.strokeDashoffset=0; document.getElementById('t-sub').textContent='elapsed';}
+  if(CUR.timed){
+    ds=Math.max(0,CUR.total-elapsed);
+    p=CUR.total ? (elapsed/CUR.total) : 0;
+    document.getElementById('t-sub').textContent='remaining';
+  }
+  else {
+    ds=elapsed;
+    document.getElementById('t-ring').style.strokeDashoffset=0;
+    document.getElementById('t-sub').textContent='elapsed';
+  }
   if(CUR.timed) document.getElementById('t-ring').style.strokeDashoffset=(603*(1-p));
   var m=Math.floor(ds/60),s=ds%60;
   document.getElementById('t-disp').textContent=pad(m)+':'+pad(s);
-  var em=Math.floor(CUR.el/60),es=CUR.el%60;
+  var em=Math.floor(elapsed/60),es=elapsed%60;
   document.getElementById('s-elapsed').textContent='Elapsed: '+em+'m '+es+'s';
+  document.getElementById('s-xp').textContent='+'+Math.floor(elapsed/60)+' XP';
 }
 function pad(n){return String(n).padStart(2,'0');}
 
 function endSess(done){
   if(!CUR)return;
-  clearInterval(STMR); clearInterval(PNTMR);
+  clearInterval(STMR); clearInterval(PNTMR); clearInterval(REMTMR);
   relWL(); stopSM();
-  var dur=CUR.el, xp=CUR.xp, subj=CUR.subj;
+  CUR.el = getSessionElapsed();
+  var dur=CUR.el, xp=Math.floor(dur/60), subj=CUR.subj;
   var rec={id:uid(),subj:subj,dur:dur,d:today(),done:done,ts:Date.now(),xp:xp};
-  D.sess.push(rec); D.xp+=xp;
+  D.sess.push(rec);
+  D.sess.sort(function(a,b){ return safeNum(a.ts, 0) - safeNum(b.ts, 0); });
+  D.xp = calcXP();
   localStorage.setItem('fl_s',JSON.stringify(D.sess));
   localStorage.setItem('fl_xp',D.xp);
-  scheduleCloudSave();
-  updStreak(); chkAch();
+  recalcStreak();
+  chkAch();
   document.getElementById('sess').classList.remove('active');
   document.getElementById('rbn').classList.remove('show');
-  closeMG(); CUR=null;
-  updHome(); toast('Session saved! +'+xp+' XP');
+  closeMG();
+  clearSessionState();
+  CUR=null;
+  refreshDerivedAndUI();
+  scheduleCloudSave();
+  toast('Session saved! +' + xp + ' XP');
 }
 
-function updStreak(){
-  var t=today();
-  var yd=new Date(); yd.setDate(yd.getDate()-1);
-  var ys=yd.toISOString().split('T')[0];
-  if(D.streak.d===t)return;
-  if(D.streak.d===ys) D.streak.c++;
-  else D.streak.c=1;
-  D.streak.d=t;
-  localStorage.setItem('fl_st',JSON.stringify(D.streak));
+function recalcStreak(){
+  var days = {};
+  D.sess.forEach(function(s){
+    if(s && s.d) days[s.d] = true;
+  });
+  var c = 0;
+  var dt = new Date();
+  while(days[dt.toISOString().split('T')[0]]){
+    c++;
+    dt.setDate(dt.getDate() - 1);
+  }
+  D.streak = { c: c, d: c ? today() : '' };
+  localStorage.setItem('fl_st', JSON.stringify(D.streak));
   scheduleCloudSave();
+}
+function updStreak(){
+  recalcStreak();
 }
 
 // ===== VISIBILITY / APP LOCK =====
 function onVis(){
-  if(!CUR||CUR.paused)return;
+  if(!CUR||CUR.paused||!CUR.lock){
+    if(CUR) saveSessionState();
+    return;
+  }
   if(document.hidden){
     document.getElementById('rbn').classList.add('show');
     sndNotif('Foc Lock','Get back to your study session!');
   }
+  if(CUR) saveSessionState();
 }
 function retSess(){ document.getElementById('rbn').classList.remove('show'); }
 
+window.addEventListener('beforeunload', function(){
+  if(CUR) saveSessionState();
+});
+window.addEventListener('pagehide', function(){
+  if(CUR) saveSessionState();
+});
+window.addEventListener('fullscreenchange', function(){
+  if(!CUR) return;
+  if(!document.fullscreenElement && CUR.lock){
+    CUR.lock = false;
+    relWL();
+    syncReminderLoop();
+    saveSessionState();
+    setSessionFullscreenUI();
+    document.getElementById('s-mode').textContent = CUR.timed ? (Math.round(CUR.total / 60) + ' min session • Relaxed mode') : 'Open session • Relaxed mode';
+    toast('Fullscreen lock disabled.');
+  }
+});
+
 // ===== WAKE LOCK =====
 async function acqWL(){
-  try{ if('wakeLock'in navigator){ WL=await navigator.wakeLock.request('screen'); }}catch(e){}
+  try{
+    if(CUR && CUR.lock && 'wakeLock' in navigator){
+      WL = await navigator.wakeLock.request('screen');
+    }
+  }catch(e){}
 }
-function relWL(){ if(WL){WL.release();WL=null;}}
+function relWL(){
+  if(WL){
+    try{ WL.release(); }catch(e){}
+    WL = null;
+  }
+}
 
 // ===== MATH GATE =====
 function reqPause(){ genMQ(); document.getElementById('mgate').classList.add('open'); document.getElementById('m-ans').value=''; }
@@ -1370,22 +1675,27 @@ function closeMG(){ document.getElementById('mgate').classList.remove('open'); }
 
 function pauseSess(){
   if(!CUR)return;
+  CUR.el = getSessionElapsed();
   CUR.paused=true;
+  CUR.savedAt = Date.now();
   document.getElementById('s-status').textContent='Paused';
   document.getElementById('btn-pause').style.display='none';
   document.getElementById('btn-resume').style.display='flex';
-  PNTMR=setInterval(function(){
-    sndNotif('Foc Lock','Session paused. Get back to studying!');
-    toast('Your session is waiting! Come back!');
-  },120000);
+  relWL();
+  syncReminderLoop();
+  saveSessionState();
+  updTDisp();
 }
 function resumeSess(){
   if(!CUR)return;
   CUR.paused=false;
-  clearInterval(PNTMR);
+  CUR.savedAt = Date.now();
   document.getElementById('s-status').textContent='In Progress';
   document.getElementById('btn-pause').style.display='flex';
   document.getElementById('btn-resume').style.display='none';
+  if(CUR.lock) acqWL();
+  syncReminderLoop();
+  saveSessionState();
   toast('Session resumed!');
 }
 
@@ -1742,6 +2052,44 @@ function addRem(){
   document.getElementById('rem-lbl').value='';
   renderRems(); renderRemPreview(); toast('Reminder added!');
 }
+
+function addManualSession(){
+  var subj = document.getElementById('man-subj').value.trim() || 'General';
+  var date = document.getElementById('man-date').value;
+  var time = document.getElementById('man-time').value || '00:00';
+  var mins = parseInt(document.getElementById('man-dur').value, 10);
+  if(!date){
+    toast('Choose a date.');
+    return;
+  }
+  if(!mins || mins < 1){
+    toast('Enter a valid duration.');
+    return;
+  }
+  var ts = new Date(date + 'T' + time + ':00').getTime();
+  if(isNaN(ts)) ts = Date.now();
+  var rec = {
+    id: uid(),
+    subj: subj,
+    dur: mins * 60,
+    d: date,
+    done: true,
+    ts: ts,
+    xp: mins
+  };
+  D.sess.push(rec);
+  D.sess.sort(function(a,b){ return safeNum(a.ts, 0) - safeNum(b.ts, 0); });
+  D.xp = calcXP();
+  localStorage.setItem('fl_s', JSON.stringify(D.sess));
+  localStorage.setItem('fl_xp', D.xp);
+  recalcStreak();
+  chkAch();
+  refreshDerivedAndUI();
+  scheduleCloudSave();
+  document.getElementById('man-dur').value = '';
+  toast('Manual session saved!');
+  closeManualModal();
+}
 function rmRem(i){ D.rems.splice(i,1); localStorage.setItem('fl_r',JSON.stringify(D.rems)); scheduleCloudSave(); renderRems(); }
 function tglRem(i,v){ D.rems[i].on=v; localStorage.setItem('fl_r',JSON.stringify(D.rems)); scheduleCloudSave(); }
 function checkRems(){
@@ -1784,7 +2132,8 @@ function saveGoal(v){ D.goal=parseInt(v)||120; localStorage.setItem('fl_g',D.goa
 function resetData(){
   if(confirm('Clear all session data? This cannot be undone.')){
     D.sess=[];D.xp=0;D.ach={};D.streak={c:0,d:''};
-    ['fl_s','fl_xp','fl_a','fl_st'].forEach(function(k){localStorage.removeItem(k);});
+    D.lock = true;
+    ['fl_s','fl_xp','fl_a','fl_st','fl_lk','fl_cur'].forEach(function(k){localStorage.removeItem(k);});
     scheduleCloudSave();
     updHome();renderBadges();updXP();toast('Data cleared.');
   }
