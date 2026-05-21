@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -264,6 +265,24 @@ body{background:var(--bg);}
 .blur-bg{filter:blur(7px);pointer-events:none;user-select:none;transition:filter .18s ease;}
 /* keep fixed overlays sharp when background blurs */
 .mov, #toast{pointer-events:auto;}
+
+.session-tools{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:12px;flex-wrap:wrap;}
+.session-xp-live{margin-top:10px;text-align:center;font-size:13px;font-weight:800;color:var(--accent3);}
+.session-xp-sub{margin-top:3px;text-align:center;font-size:11px;color:var(--text2);line-height:1.35;}
+.goal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.goal-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow);}
+.goal-card.done{border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.08);}
+.goal-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;}
+.goal-title{font-size:13px;font-weight:800;line-height:1.25;}
+.goal-sub{font-size:11px;color:var(--text2);line-height:1.4;margin-top:4px;}
+.goal-pill{flex-shrink:0;padding:4px 8px;border-radius:999px;background:rgba(168,85,247,.12);color:var(--accent2);font-size:10px;font-weight:800;white-space:nowrap;}
+.goal-pill.done{background:rgba(16,185,129,.14);color:var(--success);}
+.goal-meta{margin-top:8px;display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:700;color:var(--text2);}
+.goal-bar{height:8px;background:var(--bg2);border-radius:999px;overflow:hidden;margin-top:8px;}
+.goal-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent3));}
+.calc-top-actions{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px;}
+.calc-note{font-size:12px;color:var(--text2);line-height:1.4;}
+.calc-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
 </style>
 </head>
 <body>
@@ -349,6 +368,7 @@ body{background:var(--bg);}
       </div>
       <div class="xb-wrap"><div class="xb-fill" id="xp-bar" style="width:0%"></div></div>
     </div>
+    <div class="card"><div class="ctitle">Goals</div><div class="goal-grid" id="goals-grid"></div></div>
     <div class="card"><div class="ctitle">Achievements</div><div class="badges-grid" id="badges-grid"></div></div>
   </div>
 
@@ -584,6 +604,15 @@ body{background:var(--bg);}
           <div style="font-size:14px;font-weight:600;margin-bottom:7px;">Daily Study Goal (minutes)</div>
           <input type="number" class="inp" id="goal-inp" min="10" max="600" value="120" oninput="saveGoal(this.value)">
         </div>
+        <div class="divider"></div>
+        <div style="margin-top:13px;">
+          <div style="font-size:14px;font-weight:600;margin-bottom:7px;">Browser Notifications</div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:12px;">Allow reminders, pause alerts, focus-loss alerts, and session completion popups to appear in your browser.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="small-btn" type="button" onclick="enableBrowserNotifications()">Enable Notifications</button>
+            <button class="small-btn" type="button" onclick="testBrowserNotification()">Test Notification</button>
+          </div>
+        </div>
       </div>
       <div class="card">
         <div style="font-size:14px;font-weight:600;color:var(--danger);margin-bottom:8px;">Danger Zone</div>
@@ -653,7 +682,7 @@ body{background:var(--bg);}
 <div id="sess">
   <div class="shdr">
     <div><div class="ssubj" id="s-subj">Mathematics</div><div class="smode" id="s-mode">Timed Session</div></div>
-    <div style="font-size:13px;font-weight:700;color:var(--success);" id="s-xp">+0 XP</div>
+    <div style="font-size:13px;font-weight:700;color:var(--success);" id="s-xp">Focus</div>
   </div>
   <div class="twrap">
     <div class="tring">
@@ -667,9 +696,12 @@ body{background:var(--bg);}
         <div class="tlbl" id="t-sub">Focus time</div>
       </div>
     </div>
-    <div style="display:flex;gap:10px;align-items:center;margin-top:14px;justify-content:center;flex-wrap:wrap;">
+    <div class="session-tools">
       <button class="small-btn" id="fs-toggle-btn" onclick="toggleSessionFullscreen()" style="min-width:150px;">Fullscreen</button>
+      <button class="small-btn" type="button" onclick="openSessionCalc()">Calculator</button>
     </div>
+    <div class="session-xp-live" id="session-xp-live">Session XP: 0 XP</div>
+    <div class="session-xp-sub" id="session-xp-sub">Total XP if ended now: 0 XP</div>
     <div class="sctrl">
       <button class="sbtn sbtn-pause" onclick="reqPause()" id="btn-pause"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg></button>
       <button class="sbtn sbtn-resume" onclick="resumeSess()" id="btn-resume" style="display:none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
@@ -746,6 +778,38 @@ body{background:var(--bg);}
   </div>
 </div>
 
+
+<!-- SESSION CALCULATOR MODAL -->
+<div class="mov" id="session-calc-modal" style="z-index:1001;">
+  <div class="modal">
+    <div class="mhandle"></div>
+    <button class="mclose" onclick="closeSessionCalc()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="mtitle">Session Calculator</div>
+    <div class="calc-top-actions">
+      <div class="calc-note">Use the calculator without leaving your focus session.</div>
+      <div class="calc-actions">
+        <button class="small-btn" type="button" onclick="clearActiveCalculator()">Clear</button>
+      </div>
+    </div>
+    <div class="cdsp"><div class="cexpr" id="sc-expr"></div><div class="cres" id="sc-res">0</div></div>
+    <div class="cgrid">
+      <button class="cbtn cl" onclick="ca('C')">C</button>
+      <button class="cbtn op" onclick="ca('+/-')">+/-</button>
+      <button class="cbtn op" onclick="ca('%')">%</button>
+      <button class="cbtn op" onclick="ca('/')">÷</button>
+      <button class="cbtn" onclick="ca('7')">7</button><button class="cbtn" onclick="ca('8')">8</button><button class="cbtn" onclick="ca('9')">9</button>
+      <button class="cbtn op" onclick="ca('*')">×</button>
+      <button class="cbtn" onclick="ca('4')">4</button><button class="cbtn" onclick="ca('5')">5</button><button class="cbtn" onclick="ca('6')">6</button>
+      <button class="cbtn op" onclick="ca('-')">-</button>
+      <button class="cbtn" onclick="ca('1')">1</button><button class="cbtn" onclick="ca('2')">2</button><button class="cbtn" onclick="ca('3')">3</button>
+      <button class="cbtn op" onclick="ca('+')">+</button>
+      <button class="cbtn" onclick="ca('0')" style="grid-column:span 2;">0</button>
+      <button class="cbtn" onclick="ca('.')">.</button>
+      <button class="cbtn eq" onclick="ca('=')">=</button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div id="toast"></div>
 
@@ -805,14 +869,12 @@ function syncReminderLoop(){
   if(!CUR) return;
   if(CUR.paused){
     PNTMR = setInterval(function(){
-      sndNotif('Foc Lock','Session paused. Get back to studying!');
-      toast('Your session is waiting! Come back!');
+      notifyApp('Foc Lock', 'Session paused. Get back to studying!', {tag:'paused-reminder', requireInteraction:true});
     }, 120000);
     return;
   }
   REMTMR = setInterval(function(){
-    sndNotif('Foc Lock', CUR.lock ? 'Stay focused — your fullscreen session is still running.' : 'Study check-in: are you still studying?');
-    toast(CUR.lock ? 'Fullscreen session is still running.' : 'Study check-in sent.');
+    notifyApp('Foc Lock', CUR.lock ? 'Stay focused. Your fullscreen session is still running.' : 'Study check-in: are you still studying?', {tag:'study-check', requireInteraction:false});
   }, 120000);
 }
 function restoreSessionState(){
@@ -845,6 +907,7 @@ function restoreSessionState(){
     if(CUR.lock) enterFullscreenMode();
     syncReminderLoop();
     updTDisp();
+    updateSessionXPDisplay();
     setSessionFullscreenUI();
     if(CUR.timed && getSessionElapsed() >= CUR.total){
       CUR.el = getSessionElapsed();
@@ -857,7 +920,6 @@ function restoreSessionState(){
     CUR = null;
   }
 }
-
 
 // ===== SUPABASE AUTH / SYNC =====
 var SUPABASE_URL = 'https://qwmontyymrygxwanmxcy.supabase.co';
@@ -1208,10 +1270,10 @@ function refreshDerivedAndUI(){
   persistLocal();
   updateGreeting();
   updHome();
-  updateGreeting();
   renderSubjList();
   renderRems();
   renderBadges();
+  renderGoals();
   updXP();
   if(PCHART) updChart();
   if(document.getElementById('scr-progress').classList.contains('active')){ updSBars(); updHist(); }
@@ -1335,13 +1397,13 @@ function init() {
   renderSubjList();
   renderRems();
   renderBadges();
+  renderGoals();
   updXP();
   initChart();
   renderLofi();
-renderBengaliStations();
+  renderBengaliStations();
   document.getElementById('daily-tip').textContent = getTip();
   document.getElementById('sug-routine').textContent = getRoutine();
-  if('Notification'in window && Notification.permission==='default') Notification.requestPermission();
   checkRems();
   setInterval(checkRems,60000);
   document.addEventListener('visibilitychange',onVis);
@@ -1352,7 +1414,6 @@ renderBengaliStations();
   if (THEME_MQ.addEventListener) THEME_MQ.addEventListener('change', onSystemThemeChange);
   else if (THEME_MQ.addListener) THEME_MQ.addListener(onSystemThemeChange);
 }
-
 // ===== THEME =====
 function getSystemTheme(){ return THEME_MQ.matches ? 'dark' : 'light'; }
 function resolvedTheme(mode){ return mode==='device' ? getSystemTheme() : mode; }
@@ -1392,8 +1453,13 @@ function goScr(n,el){
   if(n==='home'){updHome();}
 }
 function gSub(id){
-  document.querySelectorAll('#scr-more .subp').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('#scr-more .subp').forEach(function(s){ s.classList.remove('active'); });
+  var el = document.getElementById(id);
+  if(el) el.classList.add('active');
+  if(id === 'sub-calc'){
+    CALC_TARGET = 'main';
+    updateCalcUI();
+  }
 }
 
 function setManualDefaults(){
@@ -1513,81 +1579,95 @@ async function toggleSessionFullscreen(){
 }
 
 function startSess(){
-  var subj=SELSUBJ||document.getElementById('cust-subj').value.trim()||'General';
-  var mins=SELT;
-  if(mins===-1) mins=parseInt(document.getElementById('cust-t').value)||25;
+  var subj = SELSUBJ || document.getElementById('cust-subj').value.trim() || 'General';
+  var mins = SELT;
+  if(mins === -1) mins = parseInt(document.getElementById('cust-t').value) || 25;
   closeSM();
-  CUR={id:uid(),subj:subj,timed:mins>0,total:mins*60,elapsed:0,savedAt:Date.now(),paused:false,xp:0,lock:false,createdAt:Date.now()};
-  document.getElementById('s-subj').textContent=subj;
-  document.getElementById('s-mode').textContent=mins>0?mins+' min session • Relaxed mode':'Open session • Relaxed mode';
+  ensureBrowserNotifications();
+  CUR = {id:uid(), subj:subj, timed:mins>0, total:mins*60, elapsed:0, savedAt:Date.now(), paused:false, xp:0, lock:false, createdAt:Date.now()};
+  document.getElementById('s-subj').textContent = subj;
+  document.getElementById('s-mode').textContent = mins>0 ? mins + ' min session • Relaxed mode' : 'Open session • Relaxed mode';
   document.getElementById('sess').classList.add('active');
-  document.getElementById('btn-pause').style.display='flex';
-  document.getElementById('btn-resume').style.display='none';
-  document.getElementById('s-status').textContent='In Progress';
+  document.getElementById('btn-pause').style.display = 'flex';
+  document.getElementById('btn-resume').style.display = 'none';
+  document.getElementById('s-status').textContent = 'In Progress';
+  updateSessionXPDisplay();
   syncReminderLoop();
   saveSessionState();
   updTDisp();
   setSessionFullscreenUI();
-  STMR=setInterval(tick,1000);
-  toast('Session started! Stay focused!');
+  clearInterval(STMR);
+  STMR = setInterval(tick, 1000);
+  notifyApp('Foc Lock', 'Session started. Stay focused!', {tag:'session-start', requireInteraction:false});
 }
 
 function tick(){
-  if(!CUR||CUR.paused)return;
+  if(!CUR || CUR.paused) return;
   var elapsed = getSessionElapsed();
   CUR.el = elapsed;
-  var nx=Math.floor(elapsed/60);
-  if(nx>CUR.xp){CUR.xp=nx;document.getElementById('s-xp').textContent='+'+nx+' XP';}
+  CUR.xp = Math.floor(elapsed / 60);
   updTDisp();
-  if(CUR.timed&&elapsed>=CUR.total) endSess(true);
+  if(CUR.timed && elapsed >= CUR.total) endSess(true);
+}
+
+function updateSessionXPDisplay(){
+  if(!CUR) return;
+  var earned = Math.floor(getSessionElapsed() / 60);
+  var totalXp = D.xp + earned;
+  var liveEl = document.getElementById('session-xp-live');
+  var subEl = document.getElementById('session-xp-sub');
+  if(liveEl) liveEl.textContent = 'Session XP: ' + earned + ' XP';
+  if(subEl) subEl.textContent = 'Total XP if ended now: ' + totalXp + ' XP';
 }
 
 function updTDisp(){
-  if(!CUR)return;
+  if(!CUR) return;
   var elapsed = getSessionElapsed();
   CUR.el = elapsed;
-  var ds, p=0;
+  CUR.xp = Math.floor(elapsed / 60);
+  var ds, p = 0;
   if(CUR.timed){
-    ds=Math.max(0,CUR.total-elapsed);
-    p=CUR.total ? (elapsed/CUR.total) : 0;
-    document.getElementById('t-sub').textContent='remaining';
+    ds = Math.max(0, CUR.total - elapsed);
+    p = CUR.total ? (elapsed / CUR.total) : 0;
+    document.getElementById('t-sub').textContent = 'remaining';
+  }else{
+    ds = elapsed;
+    document.getElementById('t-ring').style.strokeDashoffset = 0;
+    document.getElementById('t-sub').textContent = 'elapsed';
   }
-  else {
-    ds=elapsed;
-    document.getElementById('t-ring').style.strokeDashoffset=0;
-    document.getElementById('t-sub').textContent='elapsed';
-  }
-  if(CUR.timed) document.getElementById('t-ring').style.strokeDashoffset=(603*(1-p));
-  var m=Math.floor(ds/60),s=ds%60;
-  document.getElementById('t-disp').textContent=pad(m)+':'+pad(s);
-  var em=Math.floor(elapsed/60),es=elapsed%60;
-  document.getElementById('s-elapsed').textContent='Elapsed: '+em+'m '+es+'s';
-  document.getElementById('s-xp').textContent='+'+Math.floor(elapsed/60)+' XP';
+  if(CUR.timed) document.getElementById('t-ring').style.strokeDashoffset = (603 * (1 - p));
+  var m = Math.floor(ds / 60), s = ds % 60;
+  document.getElementById('t-disp').textContent = pad(m) + ':' + pad(s);
+  var em = Math.floor(elapsed / 60), es = elapsed % 60;
+  document.getElementById('s-elapsed').textContent = 'Elapsed: ' + em + 'm ' + es + 's';
+  document.getElementById('s-xp').textContent = '+' + CUR.xp + ' XP';
+  updateSessionXPDisplay();
 }
 function pad(n){return String(n).padStart(2,'0');}
 
 function endSess(done){
-  if(!CUR)return;
+  if(!CUR) return;
   clearInterval(STMR); clearInterval(PNTMR); clearInterval(REMTMR);
   relWL(); stopSM();
   CUR.el = getSessionElapsed();
-  var dur=CUR.el, xp=Math.floor(dur/60), subj=CUR.subj;
-  var rec={id:uid(),subj:subj,dur:dur,d:today(),done:done,ts:Date.now(),xp:xp};
+  var dur = CUR.el, xp = Math.floor(dur / 60), subj = CUR.subj;
+  var rec = {id:uid(), subj:subj, dur:dur, d:today(), done:done, ts:Date.now(), xp:xp};
   D.sess.push(rec);
   D.sess.sort(function(a,b){ return safeNum(a.ts, 0) - safeNum(b.ts, 0); });
   D.xp = calcXP();
-  localStorage.setItem('fl_s',JSON.stringify(D.sess));
-  localStorage.setItem('fl_xp',D.xp);
+  localStorage.setItem('fl_s', JSON.stringify(D.sess));
+  localStorage.setItem('fl_xp', D.xp);
   recalcStreak();
   chkAch();
   document.getElementById('sess').classList.remove('active');
   document.getElementById('rbn').classList.remove('show');
   closeMG();
+  closeSessionCalc();
   clearSessionState();
-  CUR=null;
+  CUR = null;
   refreshDerivedAndUI();
   scheduleCloudSave();
-  toast('Session saved! +' + xp + ' XP');
+  notifyApp('Session complete', 'You earned ' + xp + ' XP from this session.', {tag:'session-complete', requireInteraction:true});
 }
 
 function recalcStreak(){
@@ -1611,36 +1691,17 @@ function updStreak(){
 
 // ===== VISIBILITY / APP LOCK =====
 function onVis(){
-  if(!CUR||CUR.paused||!CUR.lock){
+  if(!CUR || CUR.paused || !CUR.lock){
     if(CUR) saveSessionState();
     return;
   }
   if(document.hidden){
     document.getElementById('rbn').classList.add('show');
-    sndNotif('Foc Lock','Get back to your study session!');
+    notifyApp('Foc Lock', 'Get back to your study session!', {tag:'focus-loss', requireInteraction:true});
   }
   if(CUR) saveSessionState();
 }
 function retSess(){ document.getElementById('rbn').classList.remove('show'); }
-
-window.addEventListener('beforeunload', function(){
-  if(CUR) saveSessionState();
-});
-window.addEventListener('pagehide', function(){
-  if(CUR) saveSessionState();
-});
-window.addEventListener('fullscreenchange', function(){
-  if(!CUR) return;
-  if(!document.fullscreenElement && CUR.lock){
-    CUR.lock = false;
-    relWL();
-    syncReminderLoop();
-    saveSessionState();
-    setSessionFullscreenUI();
-    document.getElementById('s-mode').textContent = CUR.timed ? (Math.round(CUR.total / 60) + ' min session • Relaxed mode') : 'Open session • Relaxed mode';
-    toast('Fullscreen lock disabled.');
-  }
-});
 
 // ===== WAKE LOCK =====
 async function acqWL(){
@@ -1674,34 +1735,70 @@ function chkMath(){
 function closeMG(){ document.getElementById('mgate').classList.remove('open'); }
 
 function pauseSess(){
-  if(!CUR)return;
+  if(!CUR) return;
   CUR.el = getSessionElapsed();
-  CUR.paused=true;
+  CUR.paused = true;
   CUR.savedAt = Date.now();
-  document.getElementById('s-status').textContent='Paused';
-  document.getElementById('btn-pause').style.display='none';
-  document.getElementById('btn-resume').style.display='flex';
+  document.getElementById('s-status').textContent = 'Paused';
+  document.getElementById('btn-pause').style.display = 'none';
+  document.getElementById('btn-resume').style.display = 'flex';
   relWL();
   syncReminderLoop();
   saveSessionState();
   updTDisp();
+  notifyApp('Foc Lock', 'Session paused. Get back to studying!', {tag:'session-paused', requireInteraction:true});
 }
 function resumeSess(){
-  if(!CUR)return;
-  CUR.paused=false;
+  if(!CUR) return;
+  CUR.paused = false;
   CUR.savedAt = Date.now();
-  document.getElementById('s-status').textContent='In Progress';
-  document.getElementById('btn-pause').style.display='flex';
-  document.getElementById('btn-resume').style.display='none';
+  document.getElementById('s-status').textContent = 'In Progress';
+  document.getElementById('btn-pause').style.display = 'flex';
+  document.getElementById('btn-resume').style.display = 'none';
   if(CUR.lock) acqWL();
   syncReminderLoop();
   saveSessionState();
-  toast('Session resumed!');
+  updTDisp();
+  notifyApp('Foc Lock', 'Session resumed.', {tag:'session-resumed', requireInteraction:false});
 }
 
 // ===== NOTIFICATIONS =====
-function sndNotif(t,b){
-  if('Notification'in window&&Notification.permission==='granted') new Notification(t,{body:b});
+var NOTIF_ICON = 'https://i.postimg.cc/NG2mdRdd/18933-removebg-preview-edit-651200758610660.png';
+function ensureBrowserNotifications(){
+  if(!('Notification' in window)) return Promise.resolve(false);
+  if(Notification.permission === 'granted') return Promise.resolve(true);
+  if(Notification.permission === 'denied') return Promise.resolve(false);
+  return Notification.requestPermission().then(function(p){ return p === 'granted'; }).catch(function(){ return false; });
+}
+function sndNotif(t,b,o){
+  if(!('Notification' in window) || Notification.permission !== 'granted') return false;
+  try{
+    new Notification(t,{
+      body: String(b || ''),
+      icon: NOTIF_ICON,
+      tag: o && o.tag ? String(o.tag) : undefined,
+      renotify: true,
+      silent: false,
+      requireInteraction: !!(o && o.requireInteraction)
+    });
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+function notifyApp(t,b,o){
+  if(!sndNotif(t,b,o)) toast(b || t);
+}
+function enableBrowserNotifications(){
+  ensureBrowserNotifications().then(function(ok){
+    toast(ok ? 'Browser notifications enabled.' : 'Notifications are blocked.');
+  });
+}
+function testBrowserNotification(){
+  ensureBrowserNotifications().then(function(ok){
+    if(ok) notifyApp('Foc Lock test', 'This is a browser notification test.', {tag:'test-notification', requireInteraction:true});
+    else toast('Notifications are blocked.');
+  });
 }
 
 // ===== AUDIO =====
@@ -1972,6 +2069,36 @@ function updXP(){
     document.getElementById('xp-next').textContent='Max Level!';
   }
 }
+
+var GOALS = [
+  {id:'g1', n:'Daily Target', d:'Reach today\'s study goal', goal:function(){return D.goal;}, value:function(){return Math.round(D.sess.filter(function(s){return s.d===today();}).reduce(function(a,s){return a+s.dur;},0)/60);}, unit:'min'},
+  {id:'g2', n:'Session Builder', d:'Complete 3 sessions in a day', goal:function(){return 3;}, value:function(){return D.sess.filter(function(s){return s.d===today();}).length;}, unit:'sess'},
+  {id:'g3', n:'XP Sprint', d:'Earn 250 total XP', goal:function(){return 250;}, value:function(){return D.xp;}, unit:'XP'},
+  {id:'g4', n:'Streak Guard', d:'Hold a 7-day streak', goal:function(){return 7;}, value:function(){return D.streak.c;}, unit:'days'},
+  {id:'g5', n:'Manual Logger', d:'Log 1 manual session', goal:function(){return 1;}, value:function(){return D.sess.filter(function(s){return !!s.manual;}).length;}, unit:'log'},
+  {id:'g6', n:'Subject Explorer', d:'Study 5 different subjects', goal:function(){return 5;}, value:function(){return uniqueStrings(D.sess.map(function(s){return s.subj;})).length;}, unit:'subj'}
+];
+function renderGoals(){
+  var el = document.getElementById('goals-grid');
+  if(!el) return;
+  el.innerHTML = GOALS.map(function(g){
+    var cur = safeNum(g.value(), 0);
+    var goal = Math.max(1, safeNum(g.goal(), 1));
+    var pct = Math.min(100, Math.round(cur / goal * 100));
+    var done = cur >= goal;
+    return '<div class="goal-card' + (done ? ' done' : '') + '">' +
+      '<div class="goal-top">' +
+        '<div style="min-width:0;">' +
+          '<div class="goal-title">' + g.n + '</div>' +
+          '<div class="goal-sub">' + g.d + '</div>' +
+        '</div>' +
+        '<div class="goal-pill' + (done ? ' done' : '') + '">' + (done ? 'Done' : 'Goal') + '</div>' +
+      '</div>' +
+      '<div class="goal-meta"><span>' + cur + ' / ' + goal + ' ' + g.unit + '</span><span>' + pct + '%</span></div>' +
+      '<div class="goal-bar"><div class="goal-fill" style="width:' + pct + '%"></div></div>' +
+    '</div>';
+  }).join('');
+}
 var BDGS=[
   {id:'f1',n:'First Step',d:'Complete 1st session',chk:function(){return D.sess.length>=1;}},
   {id:'m30',n:'30 Min Day',d:'Study 30 min in a day',chk:function(){return D.sess.filter(function(s){return s.d===today();}).reduce(function(a,s){return a+s.dur;},0)>=1800;}},
@@ -1985,11 +2112,11 @@ var BDGS=[
 ];
 function chkAch(){
   BDGS.forEach(function(b){
-    if(!D.ach[b.id]&&b.chk()){
-      D.ach[b.id]=true;
-      localStorage.setItem('fl_a',JSON.stringify(D.ach));
+    if(!D.ach[b.id] && b.chk()){
+      D.ach[b.id] = true;
+      localStorage.setItem('fl_a', JSON.stringify(D.ach));
       scheduleCloudSave();
-      toast('Achievement: '+b.n+'!');
+      notifyApp('Achievement unlocked', b.n + ' unlocked!', {tag:'ach-' + b.id, requireInteraction:true});
     }
   });
 }
@@ -2074,6 +2201,7 @@ function addManualSession(){
     dur: mins * 60,
     d: date,
     done: true,
+    manual: true,
     ts: ts,
     xp: mins
   };
@@ -2087,7 +2215,7 @@ function addManualSession(){
   refreshDerivedAndUI();
   scheduleCloudSave();
   document.getElementById('man-dur').value = '';
-  toast('Manual session saved!');
+  notifyApp('Manual session saved', mins + ' minute session added to your records.', {tag:'manual-session', requireInteraction:false});
   closeManualModal();
 }
 function rmRem(i){ D.rems.splice(i,1); localStorage.setItem('fl_r',JSON.stringify(D.rems)); scheduleCloudSave(); renderRems(); }
@@ -2095,36 +2223,82 @@ function tglRem(i,v){ D.rems[i].on=v; localStorage.setItem('fl_r',JSON.stringify
 function checkRems(){
   var n=new Date();
   var cur=pad(n.getHours())+':'+pad(n.getMinutes());
+  var stamp = today() + ' ' + cur;
   D.rems.forEach(function(r){
-    if(r.on&&r.t===cur){ sndNotif('Foc Lock - Study Time!',r.l); toast('Reminder: '+r.l); }
+    if(r.on && r.t===cur && r._lastHit !== stamp){
+      r._lastHit = stamp;
+      localStorage.setItem('fl_r', JSON.stringify(D.rems));
+      notifyApp('Foc Lock - Study Time!', r.l, {tag:'reminder-' + r.t, requireInteraction:true});
+    }
   });
 }
 
 // ===== CALCULATOR =====
-var CE='',CR='0',CJE=false;
+var CE='', CR='0', CJE=false, CALC_TARGET='main';
+
+function calcIds(){
+  return CALC_TARGET === 'session' ? {expr:'sc-expr', res:'sc-res'} : {expr:'c-expr', res:'c-res'};
+}
+function updateCalcUI(){
+  var ids = calcIds();
+  var exprEl = document.getElementById(ids.expr);
+  var resEl = document.getElementById(ids.res);
+  if(exprEl) exprEl.textContent = CE;
+  if(resEl) resEl.textContent = CR;
+}
+function openSessionCalc(){
+  CALC_TARGET = 'session';
+  updateCalcUI();
+  var m = document.getElementById('session-calc-modal');
+  if(m) m.classList.add('open');
+}
+function closeSessionCalc(){
+  var m = document.getElementById('session-calc-modal');
+  if(m) m.classList.remove('open');
+  CALC_TARGET = 'main';
+  updateCalcUI();
+}
+function clearActiveCalculator(){
+  CE = '';
+  CR = '0';
+  CJE = false;
+  updateCalcUI();
+}
+function copyCalcResult(){
+  var v = String(CR || '0');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(v).then(function(){ toast('Result copied'); }).catch(function(){ toast('Copy failed'); });
+  }else{
+    toast('Clipboard not available');
+  }
+}
 function ca(v){
-  if(v==='C'){CE='';CR='0';CJE=false;}
+  if(v==='C'){ CE=''; CR='0'; CJE=false; }
   else if(v==='='){
     try{
-      CE+=CR;
-      var r=Function('"use strict";return('+CE+')')();
-      CR=parseFloat(r.toFixed(10)).toString(); CE=''; CJE=true;
-    }catch(e){CR='Error';CE='';}
+      CE += CR;
+      var r = Function('"use strict";return(' + CE + ')')();
+      CR = Number(r).toFixed(10).replace(/\.0+$/,'').replace(/(\.\d*?)0+$/,'$1');
+      CE = '';
+      CJE = true;
+    }catch(e){
+      CR = 'Error';
+      CE = '';
+    }
   }
-  else if(['+','-','*','/'].includes(v)){CE+=CR+v;CR='0';CJE=false;}
-  else if(v==='+/-'){CR=(parseFloat(CR)*-1).toString();}
-  else if(v==='%'){CR=(parseFloat(CR)/100).toString();}
+  else if(['+','-','*','/'].includes(v)){ CE += CR + v; CR='0'; CJE=false; }
+  else if(v==='+/-'){ CR = (parseFloat(CR) * -1).toString(); if(CR==='-0') CR='0'; }
+  else if(v==='%'){ CR = (parseFloat(CR) / 100).toString(); }
   else if(v==='.'){
-    if(CJE){CR='0.';CJE=false;}
-    else if(!CR.includes('.'))CR+='.';
+    if(CJE){ CR='0.'; CJE=false; }
+    else if(!String(CR).includes('.')) CR += '.';
   }
   else{
-    if(CR==='0'||CJE){CR=v;CJE=false;}
-    else CR+=v;
-    if(CR.length>12)CR=CR.slice(0,12);
+    if(CR==='0' || CJE){ CR = v; CJE=false; }
+    else CR += v;
+    if(CR.length>12) CR = CR.slice(0,12);
   }
-  document.getElementById('c-expr').textContent=CE;
-  document.getElementById('c-res').textContent=CR;
+  updateCalcUI();
 }
 
 // ===== SETTINGS =====
