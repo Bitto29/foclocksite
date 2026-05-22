@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,15 +91,15 @@ body{background:var(--bg);}
 .hdr-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:9px;display:flex;align-items:center;justify-content:center;}
 .hdr-title{font-size:18px;font-weight:800;background:linear-gradient(90deg,var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .hdr-btns{display:flex;gap:7px;}
-.ibtn{width:36px;height:36px;border:none;background:var(--bg3);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);border:1px solid var(--border);box-shadow:var(--shadow);}
+.ibtn{width:36px;height:36px;border:none;background:var(--bg3);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);border:1px solid var(--border);box-shadow:var(--shadow);transition:transform .2s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease;}
 #content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
 #nav{height:calc(var(--nh) + var(--sb));padding-bottom:var(--sb);background:var(--bg2);border-top:1px solid var(--border);display:flex;flex-shrink:0;box-shadow:0 -8px 22px rgba(0,0,0,.08);}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--text2);transition:color .2s;padding:7px 0;}
-.ni.active{color:var(--accent2);}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--text2);transition:color .2s,transform .2s,background-color .2s; padding:7px 0;}
+.ni.active{color:var(--accent2);transform:translateY(-1px);}
 .ni span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
-.scr{display:none;padding:14px;padding-bottom:74px;min-height:100%;}
-.scr.active{display:block;}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px;margin-bottom:12px;box-shadow:var(--shadow);}
+.scr{display:none;padding:14px;padding-bottom:74px;min-height:100%;opacity:0;transform:translateY(10px);transition:opacity .25s ease,transform .25s ease;}
+.scr.active{display:block;opacity:1;transform:translateY(0);}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px;margin-bottom:12px;box-shadow:var(--shadow);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background-color .22s ease,opacity .22s ease;}
 .ctitle{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:11px;}
 .gr-title{font-size:21px;font-weight:800;margin-bottom:3px;}
 .gr-sub{font-size:13px;color:var(--text2);margin-bottom:14px;}
@@ -118,7 +115,7 @@ body{background:var(--bg);}
 .tip-title{font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:5px;}
 .tip-txt{font-size:13px;color:var(--text2);line-height:1.6;}
 .ptabs{display:flex;gap:7px;margin-bottom:12px;}
-.ptab{flex:1;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;text-align:center;}
+.ptab{flex:1;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:transform .18s ease,background-color .18s ease,border-color .18s ease,color .18s ease;}
 .ptab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .chart-wrap{width:100%;height:190px;position:relative;}
 .sbrow{display:flex;align-items:center;gap:9px;margin-bottom:9px;}
@@ -132,11 +129,11 @@ body{background:var(--bg);}
 .badge-nm{font-size:11px;font-weight:700;margin-top:5px;}
 .badge-ds{font-size:10px;color:var(--text2);margin-top:2px;line-height:1.3;}
 .stabs{display:flex;gap:7px;margin-bottom:12px;}
-.stab{flex:1;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;text-align:center;}
+.stab{flex:1;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:transform .18s ease,background-color .18s ease,border-color .18s ease,color .18s ease;}
 .stab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .spanel{display:none;}.spanel.active{display:block;}
 .agrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
-.abtn{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:15px;text-align:center;cursor:pointer;box-shadow:var(--shadow);}
+.abtn{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:15px;text-align:center;cursor:pointer;box-shadow:var(--shadow);transition:transform .2s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease;}
 .abtn.playing{border-color:var(--accent2);background:rgba(168,85,247,.12);}
 .anm{font-size:13px;font-weight:600;margin-top:7px;}
 .mi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:11px;cursor:pointer;box-shadow:var(--shadow);}
@@ -145,7 +142,7 @@ body{background:var(--bg);}
 .mi-s{font-size:11px;color:var(--text2);margin-top:2px;}
 .sec-lbl{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin:14px 0 7px;}
 .theme-grid{display:grid;gap:10px;margin-top:8px;}
-.theme-opt{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;color:var(--text);cursor:pointer;text-align:left;box-shadow:var(--shadow);}
+.theme-opt{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;color:var(--text);cursor:pointer;text-align:left;box-shadow:var(--shadow);transition:transform .2s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease;}
 .theme-opt.active{background:linear-gradient(135deg,rgba(124,58,237,.16),rgba(6,182,212,.10));border-color:rgba(124,58,237,.35);}
 .theme-opt-main{min-width:0;}
 .theme-opt-title{font-size:14px;font-weight:700;}
@@ -174,10 +171,10 @@ body{background:var(--bg);}
 .mtitle{font-size:17px;font-weight:700;margin-bottom:14px;}
 .mclose{position:absolute;right:16px;top:16px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;width:30px;height:30px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;}
 .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
-.chip{padding:7px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;font-size:13px;cursor:pointer;color:var(--text);}
+.chip{padding:7px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;font-size:13px;cursor:pointer;color:var(--text);transition:transform .18s ease,background-color .18s ease,border-color .18s ease;}
 .chip.sel{background:var(--accent);border-color:var(--accent);color:#fff;}
 .topts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px;}
-.topt{padding:11px 3px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;text-align:center;cursor:pointer;font-size:12px;font-weight:700;color:var(--text);}
+.topt{padding:11px 3px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;text-align:center;cursor:pointer;font-size:12px;font-weight:700;color:var(--text);transition:transform .18s ease,background-color .18s ease,border-color .18s ease;}
 .topt.sel{background:var(--accent);border-color:var(--accent);color:#fff;}
 .inp{width:100%;padding:11px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;margin-bottom:11px;}
 .inp:focus{outline:none;border-color:var(--accent);}
@@ -225,7 +222,7 @@ body{background:var(--bg);}
 .cbtn.op{background:rgba(124,58,237,.2);color:var(--accent2);}
 .cbtn.eq{background:var(--accent);color:#fff;}
 .cbtn.cl{background:rgba(239,68,68,.18);color:var(--danger);}
-.subp{display:none;}.subp.active{display:block;}
+.subp{display:none;opacity:0;transform:translateY(8px);transition:opacity .22s ease,transform .22s ease;}.subp.active{display:block;opacity:1;transform:translateY(0);}
 .back-btn{display:flex;align-items:center;gap:7px;background:none;border:none;color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;padding:0;margin-bottom:14px;}
 .ritem{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow);}
 .tgl{position:relative;width:44px;height:24px;flex-shrink:0;}
@@ -237,6 +234,7 @@ body{background:var(--bg);}
 #toast{position:fixed;top:62px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:8000;opacity:0;transition:opacity .3s;pointer-events:none;max-width:calc(100% - 28px);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:var(--shadow);}
 #toast.show{opacity:1;}
 ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 .divider{height:1px;background:var(--border);margin:10px 0;}
 .alink{color:var(--accent2);text-decoration:none;}
 .page-title{font-size:19px;font-weight:800;margin-bottom:13px;}
@@ -252,7 +250,7 @@ body{background:var(--bg);}
 .auth-helper{font-size:12px;color:var(--text2);line-height:1.5;margin-top:10px;}
 .auth-card-name{font-size:12px;color:var(--text2);margin-top:6px;font-weight:600;line-height:1.35;}
 .auth-card-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center;}
-.small-btn{padding:10px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:12px;font-weight:700;cursor:pointer;box-shadow:var(--shadow);}
+.small-btn{padding:10px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:12px;font-weight:700;cursor:pointer;box-shadow:var(--shadow);transition:transform .2s ease,background-color .2s ease,border-color .2s ease,box-shadow .2s ease;}
 .small-btn:active{transform:translateY(1px);}
 .pw-wrap{position:relative;margin-bottom:11px;}
 .pw-wrap .inp{margin-bottom:0;padding-right:46px;}
@@ -378,7 +376,7 @@ body{background:var(--bg);}
     <div class="stabs">
       <div class="stab active" onclick="setSTab('ambient',this)">Ambient</div>
       <div class="stab" onclick="setSTab('lofi',this)">Lo-Fi</div>
-      <div class="stab" onclick="setSTab('bengali',this)">Bengali</div>
+      <div class="stab" onclick="setSTab('bengali',this)">Song</div>
     </div>
     <div class="spanel active" id="sp-ambient">
       <div class="card">
@@ -408,8 +406,8 @@ body{background:var(--bg);}
     </div>
     <div class="spanel" id="sp-bengali">
       <div class="card">
-        <div class="ctitle">Bengali Online Radio</div>
-        <div style="font-size:13px;color:var(--text2);margin-bottom:11px;">Switch between multiple Bengali music radios anytime. Skip to the next station if you do not like the current song.</div>
+        <div class="ctitle">Song Radio Stations</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:11px;">Use next or previous to swap stations quickly.</div>
 
         <div id="beng-station-list"></div>
 
@@ -541,7 +539,7 @@ body{background:var(--bg);}
       <div class="card"><div class="ctitle">Pausing a Session</div><div class="tip-txt">Tap the pause button during a session. You must correctly solve a simple math problem to pause. While paused, the app sends you return notifications every 2 minutes until you resume. During active sessions, it also sends study check-in reminders at regular gaps.</div></div>
       <div class="card"><div class="ctitle">Earning XP &amp; Rewards</div><div class="tip-txt">You earn 1 XP per minute studied. Complete sessions to unlock achievements and level up. Check the Rewards screen for your level, XP bar, and achievement badges.</div></div>
       <div class="card"><div class="ctitle">Setting Reminders</div><div class="tip-txt">Go to More &gt; Reminders. Add a time and label. The app will send a browser notification at that exact time each day reminding you to start a session.</div></div>
-      <div class="card"><div class="ctitle">Session Music</div><div class="tip-txt">During a session, swipe the bottom music bar. Choose ambient sounds (Rain, White Noise, Forest, Ocean), Lo-Fi radio, or Bengali band music. Music continues playing while the timer runs.</div></div>
+      <div class="card"><div class="ctitle">Session Music</div><div class="tip-txt">During a session, swipe the bottom music bar. Choose ambient sounds (Rain, White Noise, Forest, Ocean), Lo-Fi radio, or Bengali music radio. Music continues playing while the timer runs.</div></div>
       <div class="card"><div class="ctitle">Progress Tracking</div><div class="tip-txt">The Progress tab shows a bar chart of daily study time (weekly or monthly), a breakdown by subject, and your full session history with timestamps.</div></div>
     </div>
 
@@ -721,7 +719,7 @@ body{background:var(--bg);}
       <div class="mchip" onclick="setSM('forest',this)">Forest</div>
       <div class="mchip" onclick="setSM('ocean',this)">Ocean</div>
       <div class="mchip" onclick="setSM('lofi',this)">Lo-Fi</div>
-      <div class="mchip" onclick="setSM('bengali',this)">Bengali</div>
+      <div class="mchip" onclick="setSM('bengali',this)">Song</div>
     </div>
   </div>
 </div>
@@ -1444,10 +1442,16 @@ function onSystemThemeChange(){
 
 // ===== NAV =====
 function goScr(n,el){
-  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.ni').forEach(i=>i.classList.remove('active'));
-  document.getElementById('scr-'+n).classList.add('active');
-  el.classList.add('active');
+  document.querySelectorAll('.scr').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.ni').forEach(function(i){ i.classList.remove('active'); });
+  var target=document.getElementById('scr-'+n);
+  if(target){
+    target.classList.add('active');
+    target.style.animation='none';
+    void target.offsetWidth;
+    target.style.animation='fadeInUp .25s ease';
+  }
+  if(el) el.classList.add('active');
   if(n==='progress'){updChart();updSBars();updHist();}
   if(n==='rewards'){renderBadges();updXP();}
   if(n==='home'){updHome();}
@@ -1815,7 +1819,13 @@ function mkNoise(type){
     if(type==='white') d[i]=(Math.random()*2-1);
     else if(type==='rain') d[i]=(Math.random()*2-1)*(0.2+0.8*Math.random());
     else if(type==='forest') d[i]=(Math.random()*2-1)*0.25+(Math.random()<.0008?Math.sin(i*.008)*.4:0);
-    else if(type==='ocean') d[i]=(Math.random()*2-1)*0.35*(0.5+0.5*Math.sin(i/ctx.sampleRate*1.5*Math.PI));
+    else if(type==='ocean'){
+      var t=i/ctx.sampleRate;
+      var swell=(Math.sin(t*0.45*Math.PI)+1)/2;
+      var wave=Math.sin(t*1.2*Math.PI)*0.18;
+      var foam=(Math.random()*2-1)*0.48;
+      d[i]=(foam*swell*0.55)+(wave*0.35)+(Math.sin(t*0.08*Math.PI)*0.08);
+    }
   }
   var src=ctx.createBufferSource(); src.buffer=buf; src.loop=true;
   var gain=ctx.createGain();
@@ -1845,10 +1855,7 @@ function setAmbVol(v){
 
 var BENGALI_STATIONS=[
   {name:'Mellow Bangla',sub:'Modern Bengali hits',url:'https://radio.mellowbangla.com/stream'},
-  {name:'Radio Foorti',sub:'Popular Bangla music',url:'https://stream.rcs.revma.com/ypqt40u0x1zuv'},
-  {name:'Radio Today Bangla',sub:'24/7 Bengali entertainment',url:'https://stream.rcast.net/252067'},
-  {name:'Dhaka FM',sub:'Bangla songs & live radio',url:'https://stream.rcast.net/248978'},
-  {name:'Bangla Wadio',sub:'Classic and modern Bengali tracks',url:'https://stream.zeno.fm/r4mpcrfwfzzuv'}
+  {name:'Radio Foorti 88.0',sub:'Bangla music and entertainment',url:'https://stream.zeno.fm/cwa3vg8s8druv'}
 ];
 var CUR_BENGALI_INDEX=0;
 
@@ -1891,7 +1898,7 @@ function stopBengali(){
   a.load();
   var st=document.getElementById('beng-status');
   if(st) st.textContent='Ready to play';
-  var btn=document.getElementById('beng-play');
+  var btn=document.getElementById('beng-main-play');
   if(btn) btn.classList.remove('playing');
 }
 function setSM(type,chip){
@@ -1938,11 +1945,13 @@ function playBengaliStation(index,showToast){
   var a=document.getElementById('bg-audio');
   var st=document.getElementById('beng-status');
   var nm=document.getElementById('beng-current-name');
+  var btn=document.getElementById('beng-main-play');
 
   renderBengaliStations();
 
   if(nm) nm.textContent=station.name;
   if(st) st.textContent='Connecting to stream...';
+  if(btn) btn.classList.add('playing');
 
   a.src=station.url;
   a.volume=document.getElementById('beng-vol').value/100;
@@ -1952,6 +1961,7 @@ function playBengaliStation(index,showToast){
     if(showToast) toast('Playing '+station.name);
   }).catch(function(){
     if(st) st.textContent='Stream unavailable. Try next station.';
+    if(btn) btn.classList.remove('playing');
     toast('Could not play this station');
   });
 }
