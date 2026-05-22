@@ -199,8 +199,17 @@ body{background:var(--bg);}
 .sbtn-pause{background:var(--warn);}
 .sbtn-end{background:var(--danger);}
 .sbtn-resume{background:var(--success);}
-.smusic{width:100%;padding:11px 14px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;gap:9px;}
-.mcopts{display:flex;gap:7px;flex:1;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.smusic{width:100%;padding:11px 14px;background:var(--bg2);border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px;}
+.smusic-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.smusic-copy{min-width:0;}
+.smusic-name{font-size:13px;font-weight:800;line-height:1.2;}
+.smusic-state{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.25;}
+.smctl{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.smctl-btn{width:34px;height:34px;border:none;border-radius:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow);transition:transform .2s ease,background-color .2s ease,border-color .2s ease,opacity .2s ease;}
+.smctl-btn:active{transform:translateY(1px);}
+.smctl-btn.play{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:var(--accent);color:#fff;}
+.smctl-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.mcopts{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .mchip{padding:6px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;font-size:12px;white-space:nowrap;cursor:pointer;flex-shrink:0;color:var(--text);}
 .mchip.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 #rbn{position:fixed;inset:0;background:var(--accent);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;}
@@ -376,7 +385,7 @@ body{background:var(--bg);}
     <div class="stabs">
       <div class="stab active" onclick="setSTab('ambient',this)">Ambient</div>
       <div class="stab" onclick="setSTab('lofi',this)">Lo-Fi</div>
-      <div class="stab" onclick="setSTab('bengali',this)">Song</div>
+      <div class="stab" onclick="setSTab('bengali',this)">Bengali</div>
     </div>
     <div class="spanel active" id="sp-ambient">
       <div class="card">
@@ -406,8 +415,8 @@ body{background:var(--bg);}
     </div>
     <div class="spanel" id="sp-bengali">
       <div class="card">
-        <div class="ctitle">Song Radio Stations</div>
-        <div style="font-size:13px;color:var(--text2);margin-bottom:11px;">Use next or previous to swap stations quickly.</div>
+        <div class="ctitle">Bengali Online Radio</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:11px;">Switch between Mellow Bangla and Radio Foorti anytime. Use next or previous to swap stations quickly.</div>
 
         <div id="beng-station-list"></div>
 
@@ -711,7 +720,23 @@ body{background:var(--bg);}
     </div>
   </div>
   <div class="smusic">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    <div class="smusic-top">
+      <div class="smusic-copy">
+        <div class="smusic-name">Session Music</div>
+        <div class="smusic-state" id="smusic-state">No music selected</div>
+      </div>
+      <div class="smctl">
+        <button class="smctl-btn" id="sm-prev" onclick="sessionMediaPrev()" title="Previous">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"></line></svg>
+        </button>
+        <button class="smctl-btn play" id="sm-play" onclick="sessionMediaPlayPause()" title="Play / Pause">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </button>
+        <button class="smctl-btn" id="sm-next" onclick="sessionMediaNext()" title="Next">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"></line></svg>
+        </button>
+      </div>
+    </div>
     <div class="mcopts">
       <div class="mchip" onclick="setSM('none',this)">Off</div>
       <div class="mchip" onclick="setSM('rain',this)">Rain</div>
@@ -719,7 +744,7 @@ body{background:var(--bg);}
       <div class="mchip" onclick="setSM('forest',this)">Forest</div>
       <div class="mchip" onclick="setSM('ocean',this)">Ocean</div>
       <div class="mchip" onclick="setSM('lofi',this)">Lo-Fi</div>
-      <div class="mchip" onclick="setSM('bengali',this)">Song</div>
+      <div class="mchip" onclick="setSM('bengali',this)">Bengali</div>
     </div>
   </div>
 </div>
@@ -831,7 +856,7 @@ var D = {
 
 var CUR = null; // current session
 var STMR = null, PNTMR = null, REMTMR = null, WL = null;
-var ACTX = null, ANODES = {}, CURNAMB = null, CURLOFI = null;
+var ACTX = null, ANODES = {}, CURNAMB = null, CURLOFI = null, CUR_LOFI_INDEX = 0;
 var PCHART = null, PERIOD = 'week';
 var MANS = 0, SELSUBJ = '', SELT = 15;
 var THEME_MQ = window.matchMedia('(prefers-color-scheme: dark)');
@@ -907,6 +932,7 @@ function restoreSessionState(){
     updTDisp();
     updateSessionXPDisplay();
     setSessionFullscreenUI();
+    updateSessionMusicUI();
     if(CUR.timed && getSessionElapsed() >= CUR.total){
       CUR.el = getSessionElapsed();
       endSess(true);
@@ -1400,6 +1426,7 @@ function init() {
   initChart();
   renderLofi();
   renderBengaliStations();
+  updateSessionMusicUI();
   document.getElementById('daily-tip').textContent = getTip();
   document.getElementById('sug-routine').textContent = getRoutine();
   checkRems();
@@ -1866,73 +1893,59 @@ var LOFI_STATIONS=[
 ];
 function renderLofi(){
   var c=document.getElementById('lofi-list');
+  if(!c) return;
   c.innerHTML=LOFI_STATIONS.map(function(s,i){
-    return '<div class="abtn" id="lf-'+i+'" onclick="plyLofi(\''+s.url+'\',this)" style="display:flex;align-items:center;gap:11px;padding:13px;border-radius:12px;margin-bottom:7px;text-align:left;">'
+    return '<div class="abtn'+(i===CUR_LOFI_INDEX?' playing':'')+'" id="lf-'+i+'" onclick="playLofiStation('+i+',this,true)" style="display:flex;align-items:center;gap:11px;padding:13px;border-radius:12px;margin-bottom:7px;text-align:left;">'
       +'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'
       +'<div><div style="font-size:13px;font-weight:600;">'+s.name+'</div><div style="font-size:11px;color:var(--text2);">'+s.sub+'</div></div></div>';
   }).join('');
 }
-function plyLofi(url,btn){
+function playLofiStation(index,btn,showToast){
+  CUR_LOFI_INDEX=((index%LOFI_STATIONS.length)+LOFI_STATIONS.length)%LOFI_STATIONS.length;
+  SAMAN='lofi';
+  var s=LOFI_STATIONS[CUR_LOFI_INDEX];
   var a=document.getElementById('lofi-audio');
   document.querySelectorAll('#lofi-list .abtn').forEach(function(b){b.classList.remove('playing');});
-  if(CURLOFI===url&&!a.paused){a.pause();a.src='';CURLOFI=null;}
-  else{a.src=url;a.volume=document.getElementById('lofi-vol').value/100;a.play().catch(function(){toast('Stream unavailable. Try another.');});btn.classList.add('playing');CURLOFI=url;}
-}
-
-// Session music
-var SAMAN=null,SANODE=null;
-function stopNoise(){
-  if(SANODE){try{SANODE.src.stop();}catch(e){} SANODE=null;}
-}
-function stopLofi(){
-  var a=document.getElementById('lofi-audio');
-  a.pause();
-  a.src='';
-  CURLOFI=null;
-  document.querySelectorAll('#lofi-list .abtn').forEach(function(b){b.classList.remove('playing');});
-}
-function stopBengali(){
-  var a=document.getElementById('bg-audio');
-  a.pause();
-  a.removeAttribute('src');
-  a.load();
-  var st=document.getElementById('beng-status');
-  if(st) st.textContent='Ready to play';
-  var btn=document.getElementById('beng-main-play');
-  if(btn) btn.classList.remove('playing');
-}
-function setSM(type,chip){
-  document.querySelectorAll('.mchip').forEach(function(c){c.classList.remove('active');});
-  stopNoise();
-  stopLofi();
-  stopBengali();
-  if(type==='none'){SAMAN=null;return;}
-  if(chip) chip.classList.add('active');
-  SAMAN=type;
-  if(['rain','white','forest','ocean'].includes(type)){
-    try{SANODE=mkNoise(type);}catch(e){}
-  } else if(type==='lofi'){
-    var a=document.getElementById('lofi-audio');
-    a.src=LOFI_STATIONS[0].url; a.volume=0.7;
-    a.play().catch(function(){toast('Stream unavailable');});
-  } else if(type==='bengali'){
-    playBengali(chip,false);
+  var active=document.getElementById('lf-'+CUR_LOFI_INDEX);
+  if(active) active.classList.add('playing');
+  if(CURLOFI===s.url && a && !a.paused){
+    a.pause();
+    updateSessionMusicUI();
+    if(showToast) toast('Paused '+s.name);
+    return;
   }
+  a.src=s.url;
+  a.volume=document.getElementById('lofi-vol').value/100;
+  a.play().then(function(){
+    CURLOFI=s.url;
+    if(btn) btn.classList.add('playing');
+    updateSessionMusicUI();
+    if(showToast) toast('Playing '+s.name);
+  }).catch(function(){
+    toast('Stream unavailable. Try another.');
+    updateSessionMusicUI();
+  });
 }
-function stopSM(){
-  stopNoise();
-  stopLofi();
-  stopBengali();
+function toggleLofiPlayback(){
+  var a=document.getElementById('lofi-audio');
+  if(!LOFI_STATIONS.length) return;
+  if(a.src && !a.paused){
+    a.pause();
+    updateSessionMusicUI();
+    return;
+  }
+  if(!CURLOFI){
+    playLofiStation(CUR_LOFI_INDEX || 0, null, true);
+    return;
+  }
+  a.play().then(function(){
+    updateSessionMusicUI();
+  }).catch(function(){
+    playLofiStation(CUR_LOFI_INDEX || 0, null, true);
+  });
 }
-function renderBengaliStations(){
-  var c=document.getElementById('beng-station-list');
-  if(!c) return;
-  c.innerHTML=BENGALI_STATIONS.map(function(s,i){
-    return '<div class="abtn'+(i===CUR_BENGALI_INDEX?' playing':'')+'" onclick="playBengaliStation('+i+',true)" style="display:flex;align-items:center;gap:11px;padding:13px;border-radius:12px;margin-bottom:8px;text-align:left;">'
-      +'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>'
-      +'<div><div style="font-size:13px;font-weight:600;">'+s.name+'</div><div style="font-size:11px;color:var(--text2);">'+s.sub+'</div></div></div>';
-  }).join('');
-}
+function nextLofi(){ playLofiStation((CUR_LOFI_INDEX+1)%LOFI_STATIONS.length,null,true); }
+function prevLofi(){ playLofiStation((CUR_LOFI_INDEX-1+LOFI_STATIONS.length)%LOFI_STATIONS.length,null,true); }
 
 function setBengVol(v){
   var a=document.getElementById('bg-audio');
@@ -1941,6 +1954,7 @@ function setBengVol(v){
 
 function playBengaliStation(index,showToast){
   CUR_BENGALI_INDEX=index;
+  SAMAN='bengali';
   var station=BENGALI_STATIONS[index];
   var a=document.getElementById('bg-audio');
   var st=document.getElementById('beng-status');
@@ -1959,9 +1973,11 @@ function playBengaliStation(index,showToast){
   a.play().then(function(){
     if(st) st.textContent='Now playing • '+station.sub;
     if(showToast) toast('Playing '+station.name);
+    updateSessionMusicUI();
   }).catch(function(){
     if(st) st.textContent='Stream unavailable. Try next station.';
     if(btn) btn.classList.remove('playing');
+    updateSessionMusicUI();
     toast('Could not play this station');
   });
 }
@@ -1985,6 +2001,7 @@ function togBeng(){
   } else {
     a.pause();
     if(st) st.textContent='Paused';
+    updateSessionMusicUI();
   }
 }
 
@@ -1992,12 +2009,179 @@ function playBengali(btn,showToast){
   playBengaliStation(CUR_BENGALI_INDEX,showToast);
 }
 
+// Session music
+var SAMAN=null,SANODE=null;
+
+function getAmbientLabel(type){
+  return {
+    rain:'Rain',
+    white:'White Noise',
+    forest:'Forest',
+    ocean:'Ocean'
+  }[type] || 'Ambient';
+}
+function renderBengaliStations(){
+  var c=document.getElementById('beng-station-list');
+  if(!c) return;
+  c.innerHTML=BENGALI_STATIONS.map(function(s,i){
+    return '<div class="abtn'+(i===CUR_BENGALI_INDEX?' playing':'')+'" onclick="playBengaliStation('+i+',true)" style="display:flex;align-items:center;gap:11px;padding:13px;border-radius:12px;margin-bottom:8px;text-align:left;">'
+      +'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>'
+      +'<div><div style="font-size:13px;font-weight:600;">'+s.name+'</div><div style="font-size:11px;color:var(--text2);">'+s.sub+'</div></div></div>';
+  }).join('');
+}
+function updateSessionMusicUI(){
+  var state=document.getElementById('smusic-state');
+  var prev=document.getElementById('sm-prev');
+  var play=document.getElementById('sm-play');
+  var next=document.getElementById('sm-next');
+  var lofiAudio=document.getElementById('lofi-audio');
+  var bengAudio=document.getElementById('bg-audio');
+  var label='No music selected';
+  var playing=false;
+
+  if(['rain','white','forest','ocean'].includes(SAMAN)){
+    label='Ambient • '+getAmbientLabel(SAMAN)+(CURNAMB===SAMAN && SANODE ? ' • Playing' : ' • Paused');
+    playing = (CURNAMB===SAMAN && !!SANODE);
+  }else if(SAMAN==='lofi'){
+    var st=LOFI_STATIONS[CUR_LOFI_INDEX] || LOFI_STATIONS[0];
+    label='Lo-Fi • '+(st ? st.name : 'Station')+(lofiAudio && !lofiAudio.paused && CURLOFI ? ' • Playing' : ' • Paused');
+    playing = !!(lofiAudio && !lofiAudio.paused && CURLOFI);
+  }else if(SAMAN==='bengali'){
+    var bs=BENGALI_STATIONS[CUR_BENGALI_INDEX] || BENGALI_STATIONS[0];
+    label='Bengali • '+(bs ? bs.name : 'Radio')+(bengAudio && !bengAudio.paused && bengAudio.src ? ' • Playing' : ' • Paused');
+    playing = !!(bengAudio && !bengAudio.paused && bengAudio.src);
+  }
+  if(state) state.textContent=label;
+  if(play){
+    play.innerHTML = playing
+      ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>'
+      : '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+    play.title = playing ? 'Pause' : 'Play';
+  }
+  if(prev) prev.disabled = !(SAMAN && SAMAN !== 'none');
+  if(next) next.disabled = !(SAMAN && SAMAN !== 'none');
+}
+function stopNoise(){
+  if(SANODE){try{SANODE.src.stop();}catch(e){} SANODE=null;}
+}
+function stopLofi(){
+  var a=document.getElementById('lofi-audio');
+  a.pause();
+  a.src='';
+  CURLOFI=null;
+  document.querySelectorAll('#lofi-list .abtn').forEach(function(b){b.classList.remove('playing');});
+  updateSessionMusicUI();
+}
+function stopBengali(){
+  var a=document.getElementById('bg-audio');
+  a.pause();
+  a.removeAttribute('src');
+  a.load();
+  var st=document.getElementById('beng-status');
+  if(st) st.textContent='Ready to play';
+  var btn=document.getElementById('beng-main-play');
+  if(btn) btn.classList.remove('playing');
+  updateSessionMusicUI();
+}
+function setSM(type,chip){
+  document.querySelectorAll('.mchip').forEach(function(c){c.classList.remove('active');});
+  stopNoise();
+  stopLofi();
+  stopBengali();
+  if(type==='none'){
+    SAMAN=null;
+    updateSessionMusicUI();
+    return;
+  }
+  if(chip) chip.classList.add('active');
+  SAMAN=type;
+  if(['rain','white','forest','ocean'].includes(type)){
+    try{SANODE=mkNoise(type); CURNAMB=type;}catch(e){}
+  } else if(type==='lofi'){
+    playLofiStation(CUR_LOFI_INDEX || 0, null, false);
+  } else if(type==='bengali'){
+    playBengaliStation(CUR_BENGALI_INDEX,false);
+  }
+  updateSessionMusicUI();
+}
+function stopSM(){
+  stopNoise();
+  stopLofi();
+  stopBengali();
+  SAMAN=null;
+  updateSessionMusicUI();
+}
+function sessionMediaPlayPause(){
+  if(!SAMAN || SAMAN==='none'){
+    toast('Choose a music section first.');
+    return;
+  }
+  if(['rain','white','forest','ocean'].includes(SAMAN)){
+    if(CURNAMB===SAMAN && SANODE){
+      stopNoise();
+      CURNAMB=null;
+      updateSessionMusicUI();
+      return;
+    }
+    try{ SANODE = mkNoise(SAMAN); CURNAMB = SAMAN; }catch(e){ toast('Audio not available'); }
+    updateSessionMusicUI();
+    return;
+  }
+  if(SAMAN==='lofi'){
+    toggleLofiPlayback();
+    return;
+  }
+  if(SAMAN==='bengali'){
+    togBeng();
+    updateSessionMusicUI();
+    return;
+  }
+}
+function sessionMediaNext(){
+  if(!SAMAN || SAMAN==='none') return;
+  if(['rain','white','forest','ocean'].includes(SAMAN)){
+    var am=['rain','white','forest','ocean'];
+    var i=am.indexOf(SAMAN);
+    setSM(am[(i+1)%am.length], null);
+    return;
+  }
+  if(SAMAN==='lofi'){
+    nextLofi();
+    return;
+  }
+  if(SAMAN==='bengali'){
+    nextBengali();
+    updateSessionMusicUI();
+    return;
+  }
+}
+function sessionMediaPrev(){
+  if(!SAMAN || SAMAN==='none') return;
+  if(['rain','white','forest','ocean'].includes(SAMAN)){
+    var am=['rain','white','forest','ocean'];
+    var i=am.indexOf(SAMAN);
+    setSM(am[(i-1+am.length)%am.length], null);
+    return;
+  }
+  if(SAMAN==='lofi'){
+    prevLofi();
+    return;
+  }
+  if(SAMAN==='bengali'){
+    prevBengali();
+    updateSessionMusicUI();
+    return;
+  }
+}
+
 // ===== SOUND TAB =====
+
 function setSTab(tab,el){
   document.querySelectorAll('.stab').forEach(function(t){t.classList.remove('active');});
   document.querySelectorAll('.spanel').forEach(function(p){p.classList.remove('active');});
   el.classList.add('active');
   document.getElementById('sp-'+tab).classList.add('active');
+  updateSessionMusicUI();
 }
 
 // ===== CHART =====
