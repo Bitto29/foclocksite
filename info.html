@@ -1,0 +1,816 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Foc Lock — Student Performance</title>
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/NG2mdRdd/18933-removebg-preview-edit-651200758610660.png" />
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/NG2mdRdd/18933-removebg-preview-edit-651200758610660.png" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{
+      --bg:#0f1220;
+      --bg2:#171b2d;
+      --bg3:#202642;
+      --card:#1b2037;
+      --border:#2a3150;
+      --accent:#7c3aed;
+      --accent2:#a855f7;
+      --accent3:#06b6d4;
+      --text:#e5ebf5;
+      --text2:#99a3b8;
+      --success:#10b981;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --shadow:0 12px 28px rgba(0,0,0,.18);
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f4f7fb;
+        --bg2:#ffffff;
+        --bg3:#edf2f8;
+        --card:#ffffff;
+        --border:#d8e0eb;
+        --accent:#6d28d9;
+        --accent2:#7c3aed;
+        --accent3:#0891b2;
+        --text:#0f172a;
+        --text2:#64748b;
+        --success:#059669;
+        --warn:#d97706;
+        --danger:#dc2626;
+        --shadow:0 12px 28px rgba(15,23,42,.06);
+      }
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:Segoe UI,system-ui,sans-serif}
+    body{overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .app{min-height:100vh;display:flex;flex-direction:column}
+    .hdr{
+      position:sticky;top:0;z-index:10;
+      background:var(--bg2);border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:14px 16px;box-shadow:var(--shadow)
+    }
+    .brand{display:flex;align-items:center;gap:10px;min-width:0}
+    .logo{
+      width:40px;height:40px;border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      display:flex;align-items:center;justify-content:center;flex-shrink:0
+    }
+    .brand h1{font-size:18px;line-height:1.1;font-weight:900}
+    .brand p{font-size:12px;color:var(--text2);margin-top:3px}
+    .hdr-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .btn,.btn2,.chipbtn{
+      border:none;border-radius:12px;cursor:pointer;font-weight:800;
+      box-shadow:var(--shadow);transition:transform .15s ease,opacity .15s ease
+    }
+    .btn:active,.btn2:active,.chipbtn:active{transform:translateY(1px)}
+    .btn{
+      padding:12px 14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff
+    }
+    .btn2{
+      padding:12px 14px;background:var(--bg3);color:var(--text);border:1px solid var(--border)
+    }
+    .shell{width:min(1400px,100%);margin:0 auto;padding:16px}
+    .hero{
+      display:grid;grid-template-columns:1.2fr .8fr;gap:12px;align-items:stretch;
+      margin-bottom:12px
+    }
+    .card{
+      background:var(--card);border:1px solid var(--border);border-radius:18px;
+      padding:16px;box-shadow:var(--shadow)
+    }
+    .hero-title{font-size:26px;font-weight:900;line-height:1.1}
+    .hero-sub{font-size:13px;color:var(--text2);margin-top:8px;line-height:1.55}
+    .status-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .pill{
+      display:inline-flex;align-items:center;gap:7px;
+      padding:8px 11px;border-radius:999px;background:var(--bg3);
+      border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text2)
+    }
+    .pill strong{color:var(--text)}
+    .grid{
+      display:grid;grid-template-columns:390px 1fr;gap:12px;align-items:start
+    }
+    .stats{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px
+    }
+    .stat{
+      background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;
+      box-shadow:var(--shadow)
+    }
+    .stat-v{font-size:22px;font-weight:900;color:var(--accent2);line-height:1}
+    .stat-l{font-size:11px;color:var(--text2);margin-top:6px;text-transform:uppercase;letter-spacing:.8px}
+    .panel-title{font-size:12px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;color:var(--text2);margin-bottom:10px}
+    .tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .search{
+      width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--border);
+      background:var(--bg2);color:var(--text);outline:none;font-size:14px
+    }
+    .search:focus{border-color:var(--accent)}
+    .list{
+      display:grid;gap:10px;max-height:calc(100vh - 285px);overflow:auto;padding-right:2px
+    }
+    .student{
+      background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;
+      cursor:pointer;box-shadow:var(--shadow)
+    }
+    .student.active{border-color:rgba(168,85,247,.55);background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(6,182,212,.06))}
+    .topline{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .leftbit{display:flex;gap:12px;min-width:0}
+    .rank{
+      width:40px;height:40px;border-radius:12px;background:var(--bg3);
+      display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--accent2);flex-shrink:0
+    }
+    .name{font-size:15px;font-weight:900;line-height:1.2;word-break:break-word}
+    .email{font-size:11px;color:var(--text2);margin-top:4px;word-break:break-word}
+    .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px;color:var(--text2)}
+    .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .chip{
+      padding:5px 9px;border-radius:999px;background:var(--bg3);border:1px solid var(--border);
+      font-size:11px;color:var(--text)
+    }
+    .detail{
+      min-height:650px
+    }
+    .detail-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+    .detail-name{font-size:26px;font-weight:950;line-height:1.1}
+    .detail-sub{font-size:13px;color:var(--text2);margin-top:5px;line-height:1.5}
+    .scorebox{
+      background:linear-gradient(135deg,rgba(124,58,237,.16),rgba(6,182,212,.09));
+      border:1px solid rgba(124,58,237,.28);border-radius:16px;padding:14px;min-width:220px
+    }
+    .score-v{font-size:28px;font-weight:950;color:var(--accent2);line-height:1}
+    .score-l{font-size:11px;color:var(--text2);margin-top:6px;text-transform:uppercase;letter-spacing:.8px}
+    .detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+    .kv{
+      background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px
+    }
+    .kv-k{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--text2)}
+    .kv-v{font-size:18px;font-weight:900;margin-top:6px;word-break:break-word}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .section{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px}
+    .section h3{font-size:14px;font-weight:900;margin-bottom:10px}
+    .small{font-size:12px;color:var(--text2);line-height:1.5}
+    .session-list{display:grid;gap:8px;max-height:240px;overflow:auto;padding-right:2px}
+    .session{
+      display:flex;justify-content:space-between;gap:10px;align-items:flex-start;
+      background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px
+    }
+    .session b{font-size:13px}
+    .session span{font-size:11px;color:var(--text2)}
+    .subjrow{display:flex;flex-wrap:wrap;gap:8px}
+    .subjbar{margin-top:10px}
+    .subjbar label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:5px}
+    .bar{height:8px;background:var(--bg3);border-radius:999px;overflow:hidden}
+    .fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+    .detail-blank{
+      display:flex;align-items:center;justify-content:center;min-height:420px;text-align:center;color:var(--text2);
+      padding:24px
+    }
+    .topbar{
+      display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px
+    }
+    .updated{font-size:12px;color:var(--text2)}
+    .error{
+      background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:var(--danger);
+      padding:12px 14px;border-radius:14px;font-size:13px;line-height:1.5
+    }
+    .footer{
+      margin-top:12px;font-size:12px;color:var(--text2);line-height:1.5
+    }
+    .hide-mobile{display:block}
+    @media (max-width: 1100px){
+      .hero,.grid,.two-col,.detail-grid,.stats{grid-template-columns:1fr 1fr}
+      .grid{grid-template-columns:1fr}
+      .list{max-height:none}
+    }
+    @media (max-width: 760px){
+      .shell{padding:12px}
+      .hero,.detail-grid,.stats,.two-col{grid-template-columns:1fr}
+      .hdr{padding:12px}
+      .brand h1{font-size:16px}
+      .hero-title{font-size:22px}
+      .detail-name{font-size:22px}
+      .scorebox{width:100%;min-width:0}
+      .detail{min-height:auto}
+      .session{flex-direction:column}
+      .hide-mobile{display:none}
+    }
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:999px}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="hdr">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Student Performance</h1>
+          <p>Live class leaderboard with full student details</p>
+        </div>
+      </div>
+      <div class="hdr-actions">
+        <a class="btn2" href="./Foc Lock dev.html">Open Foc Lock</a>
+        <button class="btn" id="refresh-btn">Refresh now</button>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <div class="card">
+          <div class="hero-title">See every student’s performance in one live dashboard.</div>
+          <div class="hero-sub">
+            The list is ranked by a combined performance score using study time, consistency, streak, sessions, and recency.
+            Click any student to open a full profile with subject breakdowns and recent sessions.
+          </div>
+          <div class="status-row">
+            <div class="pill"><strong id="conn-status">Connecting</strong></div>
+            <div class="pill"><strong id="live-count">0</strong> students</div>
+            <div class="pill"><strong id="auto-status">Auto refresh</strong></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="panel-title">What the page shows</div>
+          <div class="small">
+            Rank, score, total study time, number of sessions, streak, last activity, top subjects, full session history, and all saved profile fields that exist in the synced row.
+          </div>
+          <div class="footer">
+            This page is public. For it to work without login, your Supabase table needs a public read policy on <code>study_tracking_profiles</code>.
+          </div>
+        </div>
+      </section>
+
+      <section class="stats" id="stats"></section>
+
+      <section class="grid">
+        <aside class="card">
+          <div class="topbar">
+            <div>
+              <div class="panel-title">Student list</div>
+              <div class="updated" id="list-updated">Waiting for data…</div>
+            </div>
+            <button class="chipbtn btn2" id="toggle-sort" style="padding:10px 12px;">Sort: Performance</button>
+          </div>
+          <input class="search" id="search" type="text" placeholder="Search by name, email, subject, or rank…" />
+          <div class="list" id="student-list"></div>
+        </aside>
+
+        <article class="card detail" id="detail-panel">
+          <div class="detail-blank" id="detail-blank">
+            Select a student from the list to view full performance details.
+          </div>
+          <div id="detail-content" style="display:none;">
+            <div class="detail-head">
+              <div>
+                <div class="detail-name" id="detail-name">—</div>
+                <div class="detail-sub" id="detail-sub">—</div>
+              </div>
+              <div class="scorebox">
+                <div class="score-v" id="detail-score">0</div>
+                <div class="score-l">Performance score</div>
+              </div>
+            </div>
+
+            <div class="detail-grid" id="detail-grid"></div>
+
+            <div class="two-col">
+              <div class="section">
+                <h3>Subject breakdown</h3>
+                <div class="small" id="detail-subject-note">No subject data yet.</div>
+                <div id="detail-subjects" style="margin-top:10px;"></div>
+              </div>
+
+              <div class="section">
+                <h3>Recent sessions</h3>
+                <div class="session-list" id="detail-sessions"></div>
+              </div>
+            </div>
+
+            <div class="two-col">
+              <div class="section">
+                <h3>All available profile fields</h3>
+                <div class="small" id="detail-fields"></div>
+              </div>
+
+              <div class="section">
+                <h3>Activity by subject</h3>
+                <canvas id="subject-chart" height="240"></canvas>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <div class="footer">
+        Live updates happen every 30 seconds and also whenever the table changes, if Supabase realtime is enabled.
+      </div>
+    </main>
+  </div>
+
+<script>
+// ===== CONFIG =====
+const SUPABASE_URL = 'https://qwmontyymrygxwanmxcy.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3bW9udHl5bXJ5Z3h3YW5teGN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4OTgxODAsImV4cCI6MjA5NDQ3NDE4MH0.vh8n6V8uPSqahOFALElbzM24D6fR2bfAaP-PZqKrxiE';
+const TABLE = 'study_tracking_profiles';
+
+let SB = null;
+let CHANNEL = null;
+let PROFILES = [];
+let SELECTED = null;
+let SEARCH = '';
+let SORT_MODE = 'performance';
+let REFRESH_TIMER = null;
+let CHART = null;
+let LAST_UPDATED = null;
+let LOADING = false;
+
+const fmt = new Intl.DateTimeFormat(undefined, {
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+});
+
+function safeNum(v, fallback = 0){
+  const n = Number(v);
+  return Number.isFinite(n) ? n : fallback;
+}
+function escapeHtml(str){
+  return String(str ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+function fmtDuration(sec){
+  sec = safeNum(sec, 0);
+  const m = Math.round(sec / 60);
+  if(m < 60) return `${m}m`;
+  const h = Math.floor(m / 60);
+  const r = m % 60;
+  return `${h}h${r ? ` ${r}m` : ''}`;
+}
+function fmtDate(ts){
+  if(!ts) return 'No activity yet';
+  try{
+    return fmt.format(new Date(ts));
+  }catch(e){
+    return 'No activity yet';
+  }
+}
+function parseMaybeJson(value, fallback){
+  if(value && typeof value === 'object') return value;
+  if(typeof value !== 'string') return fallback;
+  try{
+    const parsed = JSON.parse(value);
+    return parsed && typeof parsed === 'object' ? parsed : fallback;
+  }catch(e){
+    return fallback;
+  }
+}
+function normalizeState(value){
+  return parseMaybeJson(value, {});
+}
+function parseTime(value){
+  if(value === null || value === undefined || value === '') return 0;
+  if(typeof value === 'number') return value < 1e12 ? value * 1000 : value;
+  if(value instanceof Date) return value.getTime();
+  const n = Number(value);
+  if(Number.isFinite(n)) return n < 1e12 ? n * 1000 : n;
+  const d = Date.parse(value);
+  return Number.isFinite(d) ? d : 0;
+}
+function getDisplayName(row, state){
+  state = state || {};
+  const name = (state.name || state.full_name || state.display_name || state.user_name || state.nickname || row?.name || '').toString().trim();
+  if(name) return name;
+  if(row?.email) return String(row.email).split('@')[0];
+  if(row?.user_id) return String(row.user_id).slice(0, 8);
+  return 'Student';
+}
+function durationFromSession(s){
+  if(!s || typeof s !== 'object') return 0;
+  if(s.dur !== undefined && s.dur !== null && s.dur !== '') return Math.max(0, safeNum(s.dur, 0));
+  const minutesFields = [s.minutes, s.minute, s.mins];
+  for(const val of minutesFields){
+    if(val !== undefined && val !== null && val !== '') return Math.max(0, safeNum(val, 0) * 60);
+  }
+  const hoursFields = [s.hours, s.hour, s.hrs];
+  for(const val of hoursFields){
+    if(val !== undefined && val !== null && val !== '') return Math.max(0, safeNum(val, 0) * 3600);
+  }
+  if(s.duration !== undefined && s.duration !== null && s.duration !== '') return Math.max(0, safeNum(s.duration, 0));
+  if(s.length !== undefined && s.length !== null && s.length !== '') return Math.max(0, safeNum(s.length, 0));
+  return 0;
+}
+function normalizeSession(s){
+  if(!s || typeof s !== 'object') return null;
+  const dur = durationFromSession(s);
+  const ts = parseTime(s.ts ?? s.timestamp ?? s.created_at ?? s.createdAt ?? s.time ?? s.date ?? s.updated_at);
+  const subj = String(s.subj ?? s.subject ?? s.topic ?? s.course ?? s.name ?? 'General').trim() || 'General';
+  const day = String(s.d ?? s.day ?? s.date ?? (ts ? new Date(ts).toISOString().split('T')[0] : '') || '');
+  const doneVal = s.done;
+  const done = typeof doneVal === 'boolean' ? doneVal : (typeof s.completed === 'boolean' ? s.completed : dur > 0);
+  const xp = safeNum(s.xp, Math.max(0, Math.floor(dur / 60)));
+  return {
+    id: s.id || s.session_id || `${subj}|${ts || day}|${dur}`,
+    subj,
+    dur,
+    d: day,
+    done,
+    ts,
+    xp
+  };
+}
+function extractSessions(state){
+  const sessionKeys = ['sess','sessions','history','records','logs','manualSessions','manual_sessions','sessionHistory','entries','activity'];
+  let merged = [];
+  sessionKeys.forEach((key) => {
+    const arr = state && Array.isArray(state[key]) ? state[key] : [];
+    if(arr.length) merged = merged.concat(arr);
+  });
+  return merged.map(normalizeSession).filter(Boolean).sort((a,b) => safeNum(b.ts,0) - safeNum(a.ts,0));
+}
+function summarizeSubjects(sessions){
+  const map = {};
+  sessions.forEach((s) => {
+    const key = s.subj || 'General';
+    map[key] = (map[key] || 0) + safeNum(s.dur, 0);
+  });
+  return Object.entries(map).sort((a,b) => b[1] - a[1]);
+}
+function toPreview(value, depth = 0){
+  if(value === null || value === undefined) return '—';
+  if(typeof value === 'string') return value || '—';
+  if(typeof value === 'number') return Number.isFinite(value) ? String(value) : '—';
+  if(typeof value === 'boolean') return value ? 'true' : 'false';
+  if(value instanceof Date) return fmtDate(value.getTime());
+  if(Array.isArray(value)) return `Array(${value.length})`;
+  if(typeof value === 'object'){
+    const keys = Object.keys(value);
+    if(depth >= 1){
+      try{ return JSON.stringify(value); }catch(e){ return '[object]'; }
+    }
+    return keys.length ? `Object(${keys.length})` : '{}';
+  }
+  return String(value);
+}
+function flattenObject(obj, prefix = '', depth = 0, out = [], seen = new WeakSet()){
+  if(obj === null || obj === undefined) return out;
+  if(typeof obj !== 'object'){
+    out.push([prefix || 'value', toPreview(obj)]);
+    return out;
+  }
+  if(seen.has(obj)){
+    out.push([prefix || 'value', '[Circular]']);
+    return out;
+  }
+  seen.add(obj);
+  if(Array.isArray(obj)){
+    out.push([prefix || 'array', `Array(${obj.length})`]);
+    return out;
+  }
+  const keys = Object.keys(obj);
+  if(!keys.length){
+    out.push([prefix || 'object', '{}']);
+    return out;
+  }
+  keys.forEach((key) => {
+    if(key === 'sess' || key === 'sessions' || key === 'history' || key === 'records' || key === 'logs' || key === 'manualSessions' || key === 'manual_sessions' || key === 'sessionHistory' || key === 'entries' || key === 'activity'){
+      const arr = Array.isArray(obj[key]) ? obj[key] : [];
+      out.push([prefix ? `${prefix}.${key}` : key, `Array(${arr.length})`]);
+      return;
+    }
+    const value = obj[key];
+    const path = prefix ? `${prefix}.${key}` : key;
+    if(value && typeof value === 'object' && depth < 2 && !Array.isArray(value)){
+      flattenObject(value, path, depth + 1, out, seen);
+    } else {
+      out.push([path, toPreview(value, depth)]);
+    }
+  });
+  return out;
+}
+function safeStringify(value){
+  const seen = new WeakSet();
+  return JSON.stringify(value, (key, val) => {
+    if(typeof val === 'object' && val !== null){
+      if(seen.has(val)) return '[Circular]';
+      seen.add(val);
+    }
+    return val;
+  }, 2);
+}
+function summarize(row){
+  const state = normalizeState(row?.state);
+  const sessions = extractSessions(state);
+  const totalSec = sessions.reduce((sum, s) => sum + safeNum(s.dur, 0), 0);
+  const latestTs = sessions.reduce((mx, s) => Math.max(mx, safeNum(s.ts, 0)), 0) || parseTime(row?.updated_at);
+  const topSubjects = summarizeSubjects(sessions).slice(0, 5);
+  const recent = sessions.slice(0, 8);
+  const streak = safeNum(state?.streak?.c, safeNum(state?.streak, 0));
+  const xp = safeNum(state?.xp, 0);
+  const studyDays = new Set(sessions.map((s) => s.d).filter(Boolean)).size;
+  const avgSec = sessions.length ? totalSec / sessions.length : 0;
+  const recencyDays = latestTs ? Math.max(0, Math.min(120, Math.round((Date.now() - latestTs) / 86400000))) : 120;
+  const name = getDisplayName(row, state);
+  const score = Math.max(0, Math.round(
+    (totalSec / 60) +
+    (sessions.length * 12) +
+    (streak * 25) +
+    (xp * 0.2) +
+    (studyDays * 8) -
+    (recencyDays * 2)
+  ));
+
+  return {
+    id: row?.user_id || row?.id || name,
+    row,
+    state,
+    name,
+    email: row?.email || '',
+    user_id: row?.user_id || row?.id || '',
+    totalSec,
+    sessions: sessions.length,
+    avgSec,
+    streak,
+    xp,
+    studyDays,
+    latestTs,
+    recent,
+    topSubjects,
+    score,
+    updatedAt: parseTime(row?.updated_at),
+    allFields: flattenObject(row),
+    stateFields: flattenObject(state, 'state')
+  };
+}
+function matchesSearch(item){
+  if(!SEARCH) return true;
+  const hay = [
+    item.name,
+    item.email,
+    item.id,
+    String(item.score),
+    String(item.sessions),
+    String(item.streak),
+    String(item.xp),
+    String(item.studyDays),
+    ...item.topSubjects.map(([name]) => name),
+    ...item.recent.map((s) => s.subj || ''),
+    ...item.allFields.slice(0, 35).map(([k,v]) => `${k} ${v}`)
+  ].join(' ').toLowerCase();
+  return hay.includes(SEARCH);
+}
+function currentItems(){
+  const items = PROFILES.filter(matchesSearch);
+  if(SORT_MODE === 'time'){
+    return items.sort((a,b) => b.totalSec - a.totalSec || b.sessions - a.sessions || b.latestTs - a.latestTs || b.score - a.score);
+  }
+  return items.sort((a,b) => b.score - a.score || b.totalSec - a.totalSec || b.sessions - a.sessions || b.latestTs - a.latestTs);
+}
+function updateStats(items){
+  const totalStudy = items.reduce((a,b) => a + safeNum(b.totalSec, 0), 0);
+  const totalSessions = items.reduce((a,b) => a + safeNum(b.sessions, 0), 0);
+  const avgScore = items.length ? Math.round(items.reduce((a,b) => a + safeNum(b.score, 0), 0) / items.length) : 0;
+  const active = items.length;
+  document.getElementById('stats').innerHTML = [
+    [active, 'Students'],
+    [fmtDuration(totalStudy), 'Total study'],
+    [totalSessions, 'Sessions'],
+    [avgScore, 'Avg score']
+  ].map(([v,l]) => `
+    <div class="stat"><div class="stat-v">${escapeHtml(v)}</div><div class="stat-l">${escapeHtml(l)}</div></div>
+  `).join('');
+  document.getElementById('live-count').textContent = String(active);
+}
+function clearDetail(){
+  const blank = document.getElementById('detail-blank');
+  const content = document.getElementById('detail-content');
+  if(blank) blank.style.display = 'flex';
+  if(content) content.style.display = 'none';
+  if(CHART){ CHART.destroy(); CHART = null; }
+}
+function renderChipList(entries, emptyText){
+  if(!entries || !entries.length) return `<div class="small">${escapeHtml(emptyText)}</div>`;
+  return `
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      ${entries.map(([k,v]) => `<span class="chip" title="${escapeHtml(k)}">${escapeHtml(k)}: ${escapeHtml(v)}</span>`).join('')}
+    </div>
+  `;
+}
+function renderChart(item){
+  const canvas = document.getElementById('subject-chart');
+  if(!canvas) return;
+  if(CHART){ CHART.destroy(); CHART = null; }
+  const labels = item.topSubjects.map(([n]) => n);
+  const data = item.topSubjects.map(([,v]) => Math.round(v / 60));
+  CHART = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: labels.length ? labels : ['No data'],
+      datasets: [{
+        label: 'Minutes',
+        data: data.length ? data : [0],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text2') }, grid: { display: false } },
+        y: { beginAtZero: true, ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text2') }, grid: { color: 'rgba(148,163,184,.18)' } }
+      }
+    }
+  });
+}
+function renderDetail(item){
+  const blank = document.getElementById('detail-blank');
+  const content = document.getElementById('detail-content');
+  if(!item){
+    clearDetail();
+    return;
+  }
+  blank.style.display = 'none';
+  content.style.display = 'block';
+
+  document.getElementById('detail-name').textContent = item.name;
+  document.getElementById('detail-sub').textContent = [
+    item.email || 'No email visible',
+    item.latestTs ? `Last activity ${fmtDate(item.latestTs)}` : 'No activity yet'
+  ].join(' • ');
+  document.getElementById('detail-score').textContent = item.score.toLocaleString();
+
+  const summary = [
+    [fmtDuration(item.totalSec), 'Total study'],
+    [String(item.sessions), 'Sessions'],
+    [String(item.streak), 'Streak'],
+    [String(item.xp), 'XP'],
+    [String(item.studyDays), 'Active days'],
+    [item.avgSec ? fmtDuration(item.avgSec) : '0m', 'Avg session'],
+    [fmtDate(item.latestTs), 'Latest activity'],
+    [item.user_id || '—', 'User ID']
+  ];
+  document.getElementById('detail-grid').innerHTML = summary.map(([v,k]) => `
+    <div class="kv">
+      <div class="kv-k">${escapeHtml(k)}</div>
+      <div class="kv-v">${escapeHtml(v)}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('detail-subject-note').textContent = item.topSubjects.length
+    ? 'Top subjects are calculated from all saved sessions and sorted by study time.'
+    : 'No subject data found in the synced profile.';
+  document.getElementById('detail-subjects').innerHTML = item.topSubjects.length
+    ? item.topSubjects.map(([name, sec]) => `
+        <div class="subjbar">
+          <label><span>${escapeHtml(name)}</span><span>${escapeHtml(fmtDuration(sec))}</span></label>
+          <div class="bar"><div class="fill" style="width:${Math.max(6, Math.min(100, item.totalSec ? Math.round((sec / item.totalSec) * 100) : 6))}%"></div></div>
+        </div>
+      `).join('')
+    : '<div class="small">No subject breakdown available yet.</div>';
+
+  document.getElementById('detail-sessions').innerHTML = item.recent.length
+    ? item.recent.map(s => `
+        <div class="session">
+          <div style="min-width:0;">
+            <b>${escapeHtml(s.subj || 'General')}</b><br>
+            <span>${escapeHtml(s.d || 'No date')} • ${escapeHtml(s.ts ? fmtDate(s.ts) : 'No timestamp')}</span>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <b>${escapeHtml(fmtDuration(s.dur || 0))}</b><br>
+            <span>${escapeHtml(String(Math.round((safeNum(s.dur, 0)) / 60)))} min</span>
+          </div>
+        </div>
+      `).join('')
+    : '<div class="small">No recent sessions found.</div>';
+
+  const coreFields = [
+    ['user_id', item.user_id || '—'],
+    ['email', item.email || '—'],
+    ['name', item.name || '—'],
+    ['score', String(item.score)],
+    ['xp', String(item.xp)],
+    ['streak', String(item.streak)],
+    ['total study', fmtDuration(item.totalSec)],
+    ['sessions', String(item.sessions)],
+    ['study days', String(item.studyDays)],
+    ['last updated', fmtDate(item.updatedAt || item.latestTs)]
+  ];
+  const rowFields = flattenObject(item.row || {}).slice(0, 40);
+  const stateFields = item.stateFields.slice(0, 40);
+  const rawJson = safeStringify({ row: item.row || {}, state: item.state || {} });
+
+  document.getElementById('detail-fields').innerHTML = `
+    <div class="small" style="margin-bottom:10px;">Core stored values</div>
+    ${renderChipList(coreFields, 'No core fields found.')} 
+    <div class="small" style="margin:14px 0 8px;">All row fields</div>
+    ${renderChipList(rowFields, 'No row fields found.')}
+    <div class="small" style="margin:14px 0 8px;">All state fields</div>
+    ${renderChipList(stateFields, 'No state fields found.')}
+    <div class="small" style="margin:14px 0 8px;">Raw data snapshot</div>
+    <pre style="margin:0;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px;max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word;font-size:11px;line-height:1.45;">${escapeHtml(rawJson)}</pre>
+  `;
+
+  renderChart(item);
+}
+function setConnStatus(text){
+  const el = document.getElementById('conn-status');
+  if(el) el.textContent = text;
+}
+async function loadProfiles(){
+  if(!SB || LOADING) return;
+  LOADING = true;
+  setConnStatus('Loading…');
+  const list = document.getElementById('student-list');
+  if(list) list.innerHTML = '<div class="error">Loading students…</div>';
+
+  try{
+    const { data, error } = await SB.from(TABLE).select('*').limit(1000);
+    if(error) throw error;
+    PROFILES = (data || []).map(summarize);
+    LAST_UPDATED = Date.now();
+
+    const id = new URL(window.location.href).searchParams.get('id');
+    if(id){
+      const found = PROFILES.find(x => String(x.id) === String(id) || String(x.user_id) === String(id));
+      if(found) SELECTED = found;
+    }
+    if(!SELECTED || !PROFILES.some(x => x.id === SELECTED.id)){
+      SELECTED = PROFILES[0] || null;
+    }
+
+    renderList();
+    setConnStatus('Live');
+  }catch(err){
+    console.error(err);
+    PROFILES = [];
+    if(list){
+      list.innerHTML = `<div class="error">
+        Could not load data. Make sure the <code>${TABLE}</code> table allows public <code>SELECT</code> access for anonymous users.
+        <br><br>
+        ${escapeHtml(err?.message || 'Unknown error')}
+      </div>`;
+    }
+    clearDetail();
+    setConnStatus('Offline');
+    document.getElementById('list-updated').textContent = 'Waiting for data…';
+    document.getElementById('auto-status').textContent = 'Auto refresh';
+  }finally{
+    LOADING = false;
+  }
+}
+function initRealtime(){
+  if(!SB || !SB.channel) return;
+  try{
+    CHANNEL = SB.channel('student-performance-live')
+      .on('postgres_changes', { event: '*', schema: 'public', table: TABLE }, () => loadProfiles())
+      .subscribe();
+  }catch(e){
+    console.warn('Realtime channel not available', e);
+  }
+}
+async function boot(){
+  if(!(window.supabase && window.supabase.createClient)){
+    setConnStatus('Supabase unavailable');
+    document.getElementById('student-list').innerHTML = '<div class="error">Supabase script did not load.</div>';
+    return;
+  }
+
+  SB = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+  });
+
+  document.getElementById('search').addEventListener('input', e => {
+    SEARCH = e.target.value.trim().toLowerCase();
+    renderList();
+  });
+  document.getElementById('toggle-sort').addEventListener('click', () => {
+    SORT_MODE = SORT_MODE === 'performance' ? 'time' : 'performance';
+    document.getElementById('toggle-sort').textContent = `Sort: ${SORT_MODE === 'performance' ? 'Performance' : 'Study time'}`;
+    renderList();
+  });
+  document.getElementById('refresh-btn').addEventListener('click', () => loadProfiles());
+
+  await loadProfiles();
+  initRealtime();
+  REFRESH_TIMER = setInterval(loadProfiles, 30000);
+}
+boot();
+</script>
+</body>
+</html>
