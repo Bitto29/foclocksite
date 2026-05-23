@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,29 +71,9 @@
   --glow2:0 0 20px rgba(0,184,175,.08);
 }
 
-@media (prefers-color-scheme:light){
-  #app[data-theme=device]{
-    --bg:#f0f2fa;--bg2:#ffffff;--bg3:#e8ecf8;--card:#ffffff;--card2:#f5f7ff;
-    --border:#dde2f0;--border2:#c8d0e7;--accent:#6c4ef4;--accent2:#7c5cfc;
-    --accent3:#00b8af;--accent4:#5440d6;--text:#0d0f1c;--text2:#4a526e;
-    --text3:#8892b0;--success:#009e82;--warn:#d4880f;--danger:#e03354;
-    --shadow:0 8px 32px rgba(108,78,244,.08);--shadow2:0 4px 16px rgba(0,0,0,.06);
-    --glow:0 0 24px rgba(108,78,244,.1);--glow2:0 0 20px rgba(0,184,175,.08);
-  }
-}
-@media (prefers-color-scheme:dark){
-  #app[data-theme=device]{
-    --bg:#0d0f1c;--bg2:#13162a;--bg3:#1c2040;--card:#181b30;--card2:#1e2238;
-    --border:#252847;--border2:#2e3258;--accent:#7c5cfc;--accent2:#9b7dff;
-    --accent3:#00d2c8;--accent4:#5b4de8;--text:#edf0fa;--text2:#8892b0;
-    --text3:#5e6a88;--success:#00c9a7;--warn:#f5a623;--danger:#ff4d6d;
-    --shadow:0 8px 32px rgba(0,0,0,.4);--shadow2:0 4px 16px rgba(0,0,0,.25);
-    --glow:0 0 24px rgba(124,92,252,.18);--glow2:0 0 20px rgba(0,210,200,.14);
-  }
-}
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;scroll-behavior:smooth;transition:background .25s ease,color .25s ease;}
 body{background:var(--bg);}
 #app{display:flex;flex-direction:column;height:100vh;height:100dvh;background:var(--bg);position:relative;overflow:hidden;}
 
@@ -134,7 +115,7 @@ body{background:var(--bg);}
   cursor:pointer;color:var(--text2);border:1px solid var(--border);
   transition:all .2s ease;
 }
-.ibtn:hover{background:var(--card2);border-color:var(--border2);color:var(--text);}
+.ibtn:hover{background:var(--card2);border-color:var(--border2);color:var(--text);transform:translateY(-1px);}
 .ibtn:active{transform:scale(.95);}
 
 /* CONTENT */
@@ -177,7 +158,7 @@ body{background:var(--bg);}
   box-shadow:var(--shadow2);
   transition:border-color .2s ease,box-shadow .2s ease;
 }
-.card:hover{border-color:var(--border2);}
+.card:hover{border-color:var(--border2);transform:translateY(-1px);}
 .card-accent{
   background:linear-gradient(135deg,rgba(124,92,252,.1) 0%,rgba(0,210,200,.08) 100%);
   border-color:rgba(124,92,252,.2);
@@ -315,7 +296,7 @@ body{background:var(--bg);}
   display:flex;align-items:center;gap:12px;cursor:pointer;
   transition:all .2s ease;
 }
-.mi:hover{border-color:var(--border2);transform:translateX(2px);}
+.mi:hover{border-color:var(--border2);transform:translateX(2px) scale(1.01);}
 .mi-icon{
   width:40px;height:40px;border-radius:var(--radius-xs);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
@@ -432,7 +413,7 @@ body{background:var(--bg);}
   background:var(--bg3);color:var(--text2);font-size:12px;font-weight:700;
   cursor:pointer;font-family:var(--font);transition:all .2s ease;
 }
-.small-btn:hover{border-color:var(--border2);color:var(--text);}
+.small-btn:hover{border-color:var(--border2);color:var(--text);transform:translateY(-1px);}
 .small-btn:active{transform:scale(.97);}
 
 /* SESSION OVERLAY */
@@ -464,7 +445,7 @@ body{background:var(--bg);}
 .session-xp-live{margin-top:12px;text-align:center;font-size:14px;font-weight:800;color:var(--accent3);}
 .session-xp-sub{margin-top:3px;text-align:center;font-size:11px;color:var(--text2);line-height:1.35;font-weight:500;}
 
-.sctrl{display:flex;gap:12px;margin-top:20px;}
+.sctrl{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;justify-content:center;}
 .sbtn{
   width:56px;height:56px;border:none;border-radius:var(--radius-sm);
   cursor:pointer;display:flex;align-items:center;justify-content:center;
@@ -477,8 +458,10 @@ body{background:var(--bg);}
 
 /* SESSION MUSIC BAR */
 .smusic{
-  width:100%;padding:12px 16px;background:var(--bg2);
-  border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px;
+  width:calc(100% - 32px);margin:0 16px 16px;padding:14px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:22px;box-shadow:var(--shadow2);
+  display:flex;flex-direction:column;gap:12px;
 }
 .smusic-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
 .smusic-name{font-size:13px;font-weight:800;line-height:1.2;}
@@ -496,8 +479,9 @@ body{background:var(--bg);}
   border-color:var(--accent);color:#fff;
 }
 .smctl-btn:disabled{opacity:.4;cursor:not-allowed;}
-.mcopts{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
+.mcopts{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
 .mchip{
+  position:relative;
   padding:6px 12px;background:var(--bg3);border:1px solid var(--border);
   border-radius:999px;font-size:12px;white-space:nowrap;cursor:pointer;
   flex-shrink:0;color:var(--text2);font-weight:600;transition:all .18s ease;
@@ -505,6 +489,7 @@ body{background:var(--bg);}
 .mchip:hover{border-color:var(--border2);color:var(--text);}
 .mchip.active{
   background:rgba(124,92,252,.12);border-color:var(--accent);color:var(--accent2);
+  box-shadow:var(--shadow2);
 }
 
 /* RETURN BANNER */
@@ -747,7 +732,7 @@ body{background:var(--bg);}
 </style>
 </head>
 <body>
-<div id="app" data-theme="device">
+<div id="app" data-theme="dark">
 
 <!-- HEADER -->
 <div id="hdr">
@@ -891,7 +876,7 @@ body{background:var(--bg);}
     <div class="stabs">
       <div class="stab active" onclick="setSTab('ambient',this)">Ambient</div>
       <div class="stab" onclick="setSTab('lofi',this)">Lo-Fi</div>
-      <div class="stab" onclick="setSTab('bengali',this)">Bengali</div>
+      <div class="stab" onclick="setSTab('bengali',this)">Songs</div>
     </div>
 
     <div class="spanel active" id="sp-ambient">
@@ -938,7 +923,7 @@ body{background:var(--bg);}
 
     <div class="spanel" id="sp-bengali">
       <div class="card">
-        <div class="ctitle">Bengali Online Radio</div>
+        <div class="ctitle">Songs Online Radio</div>
         <div id="beng-station-list"></div>
         <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin:14px 0;">
           <button class="ibtn" onclick="prevBengali()" title="Previous Station">
@@ -984,6 +969,27 @@ body{background:var(--bg);}
             <button class="small-btn" id="auth-card-name-btn" onclick="openNameEditor()" style="display:none;">Edit Name</button>
             <button class="btn btn-p" id="auth-card-btn" style="width:auto;min-width:100px;padding:11px 14px;" onclick="openAuth()">Sign In</button>
           </div>
+        </div>
+      </div>
+
+      <div class="sec-lbl">Preferences</div>
+      <div class="card">
+        <div style="font-size:14px;font-weight:800;margin-bottom:4px;">Daily Study Goal (minutes)</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:10px;font-weight:500;">Sets the target shown on the home progress bar.</div>
+        <input type="number" class="inp" id="goal-inp" min="10" max="600" value="120" oninput="saveGoal(this.value)">
+      </div>
+      <div class="card">
+        <div style="font-size:14px;font-weight:800;margin-bottom:4px;">Theme</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:12px;font-weight:500;">Choose how the app should look.</div>
+        <div class="theme-grid">
+          <button class="theme-opt" type="button" data-mode="dark" onclick="setThemeMode('dark')">
+            <div><div class="theme-opt-title">Dark Theme</div><div class="theme-opt-sub">Focus-friendly deep navy palette.</div></div>
+            <div class="theme-dot"></div>
+          </button>
+          <button class="theme-opt" type="button" data-mode="light" onclick="setThemeMode('light')">
+            <div><div class="theme-opt-title">Light Theme</div><div class="theme-opt-sub">Clean, bright, and easy on the eyes.</div></div>
+            <div class="theme-dot"></div>
+          </button>
         </div>
       </div>
 
@@ -1110,7 +1116,7 @@ body{background:var(--bg);}
       <div class="card"><div class="ctitle">Pausing a Session</div><div class="tip-txt">Tap the pause button. You must solve a simple math problem to pause — this prevents impulsive breaks. While paused, you'll get return notifications every 2 minutes.</div></div>
       <div class="card"><div class="ctitle">Earning XP &amp; Rewards</div><div class="tip-txt">You earn 1 XP per minute studied. Complete sessions to unlock achievements and level up. Check Rewards for your level, XP bar, and achievement badges.</div></div>
       <div class="card"><div class="ctitle">Setting Reminders</div><div class="tip-txt">Go to More → Reminders. Add a time and label. The app sends a browser notification at that time daily to remind you to start a session.</div></div>
-      <div class="card"><div class="ctitle">Session Music</div><div class="tip-txt">During a session, use the bottom music bar. Choose ambient sounds, Lo-Fi radio, or Bengali music radio. Music plays while the timer runs.</div></div>
+      <div class="card"><div class="ctitle">Session Music</div><div class="tip-txt">During a session, use the bottom music bar. Choose ambient sounds, Lo-Fi radio, or Songs radio. Music plays while the timer runs.</div></div>
       <div class="card"><div class="ctitle">Progress Tracking</div><div class="tip-txt">The Progress tab shows a bar chart of daily study time, a breakdown by subject, and your full session history.</div></div>
     </div>
 
@@ -1143,39 +1149,13 @@ body{background:var(--bg);}
       <button class="back-btn" onclick="gSub('more-main')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
       <div class="page-title">Settings</div>
       <div class="card">
-        <div style="font-size:14px;font-weight:800;margin-bottom:4px;">Theme</div>
-        <div style="font-size:11px;color:var(--text2);margin-bottom:12px;font-weight:500;">Choose how the app should look.</div>
-        <div class="theme-grid">
-          <button class="theme-opt" type="button" data-mode="device" onclick="setThemeMode('device')">
-            <div><div class="theme-opt-title">Device Theme</div><div class="theme-opt-sub">Follow system appearance automatically.</div></div>
-            <div class="theme-dot"></div>
-          </button>
-          <button class="theme-opt" type="button" data-mode="dark" onclick="setThemeMode('dark')">
-            <div><div class="theme-opt-title">Dark Theme</div><div class="theme-opt-sub">Focus-friendly deep navy palette.</div></div>
-            <div class="theme-dot"></div>
-          </button>
-          <button class="theme-opt" type="button" data-mode="light" onclick="setThemeMode('light')">
-            <div><div class="theme-opt-title">Light Theme</div><div class="theme-opt-sub">Clean, bright, and easy on the eyes.</div></div>
-            <div class="theme-dot"></div>
-          </button>
+        <div style="font-size:14px;font-weight:800;margin-bottom:4px;">Browser Notifications</div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:12px;font-weight:500;">Allow reminders, pause alerts, and session completion popups.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="small-btn" onclick="enableBrowserNotifications()">Enable Notifications</button>
+          <button class="small-btn" onclick="testBrowserNotification()">Test Notification</button>
         </div>
-        <div class="divider"></div>
-        <div style="margin-top:13px;">
-          <div style="font-size:14px;font-weight:800;margin-bottom:4px;">Daily Study Goal (minutes)</div>
-          <div style="font-size:11px;color:var(--text2);margin-bottom:10px;font-weight:500;">Sets the target shown on the home progress bar.</div>
-          <input type="number" class="inp" id="goal-inp" min="10" max="600" value="120" oninput="saveGoal(this.value)">
-        </div>
-        <div class="divider"></div>
-        <div style="margin-top:13px;">
-          <div style="font-size:14px;font-weight:800;margin-bottom:4px;">Browser Notifications</div>
-          <div style="font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:12px;font-weight:500;">Allow reminders, pause alerts, and session completion popups.</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="small-btn" onclick="enableBrowserNotifications()">Enable Notifications</button>
-            <button class="small-btn" onclick="testBrowserNotification()">Test Notification</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
+      </div>      <div class="card">
         <div class="danger-zone-label">Danger Zone</div>
         <div style="font-size:12px;color:var(--text2);margin-bottom:12px;font-weight:500;">This permanently deletes all your session data, XP, and achievements.</div>
         <button class="btn btn-danger" onclick="resetData()">Clear All Session Data</button>
@@ -1319,7 +1299,7 @@ body{background:var(--bg);}
   <div class="smusic">
     <div class="smusic-top">
       <div>
-        <div class="smusic-name">Session Music</div>
+        <div class="smusic-name">Music During Session</div>
         <div class="smusic-state" id="smusic-state">No music selected</div>
       </div>
       <div class="smctl">
@@ -1341,7 +1321,7 @@ body{background:var(--bg);}
       <div class="mchip" onclick="setSM('forest',this)">Forest</div>
       <div class="mchip" onclick="setSM('ocean',this)">Ocean</div>
       <div class="mchip" onclick="setSM('lofi',this)">Lo-Fi</div>
-      <div class="mchip" onclick="setSM('bengali',this)">Bengali</div>
+      <div class="mchip" onclick="setSM('bengali',this)">Songs</div>
     </div>
   </div>
 </div>
@@ -1434,7 +1414,7 @@ var D = {
   subj: JSON.parse(localStorage.getItem('fl_sj')||'["Mathematics","Physics","Chemistry","Biology","English","History"]'),
   rems: JSON.parse(localStorage.getItem('fl_r')||'[]'),
   goal: +localStorage.getItem('fl_g')||120,
-  theme: localStorage.getItem('fl_th')||'device',
+  theme: localStorage.getItem('fl_th')||'dark',
   name: localStorage.getItem('fl_nm')||'',
   streak: JSON.parse(localStorage.getItem('fl_st')||'{"c":0,"d":""}'),
   lock: localStorage.getItem('fl_lk') !== '0'
@@ -1513,9 +1493,11 @@ var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 var SB = null;
 var AUTH = { user: null, session: null, ready: false, mode: 'signin', syncing: false };
 var CLOUD_TIMER = null;
+var CLOUD_READY = false;
 
 function uid(){ if(window.crypto&&crypto.randomUUID) return crypto.randomUUID(); return 'id-'+Date.now()+'-'+Math.random().toString(16).slice(2); }
 function safeNum(v,fallback){ v=parseInt(v,10); return isNaN(v)?fallback:v; }
+
 function ensureDefaults(){
   if(!Array.isArray(D.sess)) D.sess=[];
   if(!Array.isArray(D.subj)||!D.subj.length) D.subj=['Mathematics','Physics','Chemistry','Biology','English','History'];
@@ -1523,13 +1505,47 @@ function ensureDefaults(){
   if(!D.ach||typeof D.ach!=='object') D.ach={};
   if(!D.streak||typeof D.streak!=='object') D.streak={c:0,d:''};
   if(!D.goal) D.goal=120;
-  if(!D.theme) D.theme='device';
+  if(D.theme!=='dark'&&D.theme!=='light') D.theme='dark';
   if(typeof D.lock!=='boolean') D.lock=true;
-  D.sess=D.sess.map(function(s){ return {id:s.id||uid(),subj:s.subj||'General',dur:safeNum(s.dur,0),d:s.d||today(),done:s.done!==false,ts:safeNum(s.ts,Date.now()),xp:safeNum(s.xp,Math.max(0,Math.floor(safeNum(s.dur,0)/60))),manual:!!s.manual}; });
-  D.rems=D.rems.map(function(r){ return {id:r.id||uid(),t:r.t||'08:00',l:r.l||'Study Time',on:r.on!==false}; });
+
+  D.sess=D.sess.map(function(s){
+    return {
+      id:s.id||uid(),
+      subj:s.subj||'General',
+      dur:safeNum(s.dur,0),
+      d:s.d||today(),
+      done:s.done!==false,
+      ts:safeNum(s.ts,Date.now()),
+      xp:safeNum(s.xp,Math.max(0,Math.floor(safeNum(s.dur,0)/60))),
+      manual:!!s.manual
+    };
+  }).sort(function(a,b){ return safeNum(a.ts,0)-safeNum(b.ts,0); });
+
+  D.rems=D.rems.map(function(r){
+    return {id:r.id||uid(),t:r.t||'08:00',l:r.l||'Study Time',on:r.on!==false,_lastHit:r._lastHit||''};
+  });
 }
+
 function calcXP(){ return D.sess.reduce(function(s,r){ return s+(typeof r.xp==='number'?r.xp:Math.max(0,Math.floor(safeNum(r.dur,0)/60))); },0); }
-function cloneState(){ return {sess:D.sess,xp:D.xp,ach:D.ach,subj:D.subj,rems:D.rems,goal:D.goal,theme:D.theme,name:D.name,streak:D.streak}; }
+
+function cloneCloudState(){
+  var state = {
+    sess:D.sess,
+    xp:D.xp,
+    ach:D.ach,
+    subj:D.subj,
+    rems:D.rems,
+    goal:D.goal,
+    theme:D.theme,
+    name:D.name,
+    streak:D.streak,
+    lock:D.lock
+  };
+  try{ return JSON.parse(JSON.stringify(state)); }
+  catch(e){ return state; }
+}
+function cloneState(){ return cloneCloudState(); }
+
 function persistLocal(){
   D.xp=calcXP();
   localStorage.setItem('fl_s',JSON.stringify(D.sess));
@@ -1544,6 +1560,7 @@ function persistLocal(){
   else localStorage.removeItem('fl_nm');
   localStorage.setItem('fl_st',JSON.stringify(D.streak));
 }
+
 function uniqueStrings(list){ var seen={}; return list.filter(function(v){ if(!v||seen[v]) return false; seen[v]=true; return true; }); }
 function mergeByKey(remoteArr,localArr,keyFn){ var seen={}; var out=[]; [remoteArr||[],localArr||[]].forEach(function(arr){ arr.forEach(function(item){ var key=keyFn(item); if(!seen[key]){ seen[key]=true; out.push(item); } }); }); return out; }
 function mergeStreak(a,b){ a=a&&typeof a==='object'?a:{c:0,d:''}; b=b&&typeof b==='object'?b:{c:0,d:''}; a.c=safeNum(a.c,0); b.c=safeNum(b.c,0); a.d=a.d||''; b.d=b.d||''; if(!a.d)return b; if(!b.d)return a; if(a.d>b.d)return a; if(b.d>a.d)return b; return a.c>=b.c?a:b; }
@@ -1551,7 +1568,16 @@ function pickScalar(rv,lv,def){ var lh=lv!==undefined&&lv!==null&&lv!==''; var r
 function getMetaName(user){ if(!user||!user.user_metadata)return''; return String(user.user_metadata.full_name||user.user_metadata.name||user.user_metadata.display_name||'').trim(); }
 function currentDisplayName(){ return String(D.name||getMetaName(AUTH.user)||'').trim(); }
 function syncNameFromAuth(){ var mn=getMetaName(AUTH.user); if(mn)D.name=mn; }
-function saveDisplayName(name){ name=String(name||'').trim(); D.name=name; persistLocal(); if(SB&&AUTH.user&&name){ SB.auth.updateUser({data:{full_name:name,name:name,display_name:name}}).catch(function(){}); } updateGreeting(); }
+function saveDisplayName(name){
+  name=String(name||'').trim();
+  D.name=name;
+  persistLocal();
+  if(SB&&AUTH.user&&name){
+    SB.auth.updateUser({data:{full_name:name,name:name,display_name:name}}).catch(function(){});
+  }
+  scheduleCloudSave();
+  updateGreeting();
+}
 function setBlurState(on){ ['hdr','content','nav'].forEach(function(id){ var el=document.getElementById(id); if(el)el.classList.toggle('blur-bg',!!on); }); }
 function greetingText(){ var h=new Date().getHours(); if(h<12)return'Good morning'; if(h<18)return'Good afternoon'; return'Good evening'; }
 function updateGreeting(){
@@ -1567,10 +1593,12 @@ function mergeStates(remote){
   D.subj=uniqueStrings([].concat(remote.subj||[],D.subj||[]));
   D.ach=Object.assign({},remote.ach||{},D.ach||{});
   D.goal=pickScalar(remote.goal,D.goal,120);
-  D.theme=pickScalar(remote.theme,D.theme,'device');
+  D.theme=pickScalar(remote.theme,D.theme,'dark');
   D.name=pickScalar(remote.name,D.name,'');
   D.streak=mergeStreak(remote.streak,D.streak);
-  D.xp=calcXP(); persistLocal();
+  if(typeof remote.lock==='boolean') D.lock=remote.lock;
+  D.xp=calcXP();
+  persistLocal();
 }
 function updateAuthUI(){
   var signed=!!AUTH.user;
@@ -1585,8 +1613,8 @@ function updateAuthUI(){
   var hdr=document.querySelector('#hdr .hdr-btns .ibtn');
   if(title)title.textContent=signed?(displayName||email):'Not signed in';
   if(nameBox)nameBox.textContent=signed?('Display name: '+(displayName||'Not set')):'No display name set';
-  if(sub)sub.textContent=signed?'Your study data syncs across devices.':'Sign in to sync your study data across devices. Local storage still works offline.';
-  if(chip)chip.textContent=signed?'Cloud sync on':'Local only';
+  if(sub)sub.textContent=signed?'Your study data syncs across devices. Changes upload automatically when you are signed in.':'Sign in to sync your study data across devices. Local storage still works offline.';
+  if(chip)chip.textContent=signed?(CLOUD_READY?'Cloud sync on':'Preparing cloud sync...'):'Local only';
   if(btn){ btn.textContent=signed?'Sign Out':'Sign In'; btn.onclick=signed?signOut:openAuth; }
   if(nameBtn)nameBtn.style.display=signed?'inline-flex':'none';
   if(hdr){ hdr.title=signed?('Account: '+email):'Account & sync'; hdr.style.color=signed?'var(--success)':''; }
@@ -1635,29 +1663,67 @@ function togglePasswordVisibility(id,btn){
   var show=inp.type==='password'; inp.type=show?'text':'password';
   if(btn){ btn.setAttribute('aria-label',show?'Hide password':'Show password'); btn.setAttribute('title',show?'Hide password':'Show password'); btn.innerHTML=show?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.97 10.97 0 0 1 12 20c-7 0-11-8-11-8a21.67 21.67 0 0 1 5.17-6.11M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a21.74 21.74 0 0 1-4.14 5.14M1 1l22 22"/></svg>':'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>'; }
 }
-function scheduleCloudSave(){ if(!SB||!AUTH.user||!AUTH.ready)return; clearTimeout(CLOUD_TIMER); CLOUD_TIMER=setTimeout(saveCloud,1200); }
-async function saveCloud(){
-  if(!SB||!AUTH.user||AUTH.syncing)return;
+function queueCloudSave(delay){ if(!AUTH.user||!AUTH.ready)return; clearTimeout(CLOUD_TIMER); CLOUD_TIMER=setTimeout(saveCloud, typeof delay==='number'?delay:900); }
+function scheduleCloudSave(){ queueCloudSave(900); }
+async function flushCloudSave(){
+  clearTimeout(CLOUD_TIMER);
+  await saveCloud(true);
+}
+async function saveCloud(force){
+  if(!SB||!AUTH.user||AUTH.syncing)return false;
+  if(!AUTH.ready&&!force)return false;
   AUTH.syncing=true;
   try{
-    var payload=cloneState();
-    var res=await SB.from('study_tracking_profiles').upsert({user_id:AUTH.user.id,email:AUTH.user.email,state:payload,updated_at:new Date().toISOString()},{onConflict:'user_id'});
-    if(res.error)throw res.error;
+    var payload=cloneCloudState();
+    var res=await SB.from('study_tracking_profiles').upsert({
+      user_id:AUTH.user.id,
+      email:AUTH.user.email,
+      state:payload,
+      updated_at:new Date().toISOString()
+    },{onConflict:'user_id'});
+    if(res&&res.error)throw res.error;
+    CLOUD_READY=true;
     updateCloudStatus('Synced to cloud');
-  }catch(e){ updateCloudStatus('Cloud sync failed'); }
-  finally{ AUTH.syncing=false; }
+    return true;
+  }catch(e){
+    CLOUD_READY=false;
+    updateCloudStatus('Cloud sync failed');
+    return false;
+  }finally{
+    AUTH.syncing=false;
+  }
+}
+function normalizeRemoteState(raw){
+  var remote = raw && raw.state ? raw.state : raw;
+  if(!remote || typeof remote !== 'object') return null;
+  return remote;
 }
 async function loadCloud(){
   if(!SB||!AUTH.user)return;
   updateCloudStatus('Loading cloud data...');
   try{
     var res=await SB.from('study_tracking_profiles').select('state,updated_at').eq('user_id',AUTH.user.id).maybeSingle();
-    if(res.error)throw res.error;
-    if(res.data&&res.data.state){ mergeStates(res.data.state); await saveCloud(); } else { persistLocal(); await saveCloud(); }
-    refreshDerivedAndUI(); updateCloudStatus('Synced');
-  }catch(e){ updateCloudStatus('Offline'); }
+    if(res&&res.error)throw res.error;
+    if(res&&res.data&&res.data.state){
+      mergeStates(normalizeRemoteState(res.data.state));
+    }else{
+      persistLocal();
+    }
+    await saveCloud(true);
+    refreshDerivedAndUI();
+    CLOUD_READY=true;
+    updateCloudStatus('Synced');
+  }catch(e){
+    CLOUD_READY=false;
+    updateCloudStatus('Offline');
+    refreshDerivedAndUI();
+  }
 }
-function updateCloudStatus(text){ var chip=document.getElementById('auth-card-chip'); if(!chip)return; chip.textContent=AUTH.user?(text||'Cloud sync on'):'Local only'; }
+function updateCloudStatus(text){
+  var chip=document.getElementById('auth-card-chip');
+  if(!chip)return;
+  chip.textContent=AUTH.user?(text||'Cloud sync on'):'Local only';
+}
 function refreshDerivedAndUI(){
   D.xp=calcXP(); persistLocal(); updateGreeting(); updHome(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); updXP();
   if(PCHART)updChart();
@@ -1667,14 +1733,57 @@ function refreshDerivedAndUI(){
   if(btn){ btn.textContent=AUTH.user?'Sign Out':'Sign In'; }
 }
 async function bootSupabase(){
-  if(!(window.supabase&&window.supabase.createClient)){ AUTH.ready=true; updateAuthUI(); return; }
-  SB=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
-  try{ var sess=await SB.auth.getSession(); AUTH.session=sess.data?sess.data.session:null; AUTH.user=AUTH.session?AUTH.session.user:null; syncNameFromAuth(); }catch(e){}
-  AUTH.ready=true; updateAuthUI();
-  if(AUTH.user)await loadCloud();
+  if(!(window.supabase&&window.supabase.createClient)){
+    AUTH.ready=true;
+    CLOUD_READY=false;
+    updateAuthUI();
+    return;
+  }
+  SB=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{
+    auth:{
+      persistSession:true,
+      autoRefreshToken:true,
+      detectSessionInUrl:false,
+      storage:window.localStorage,
+      storageKey:'foc-lock-auth'
+    }
+  });
+  try{
+    var sess=await SB.auth.getSession();
+    AUTH.session=sess&&sess.data?sess.data.session:null;
+    AUTH.user=AUTH.session?AUTH.session.user:null;
+    syncNameFromAuth();
+  }catch(e){}
+  AUTH.ready=true;
+  CLOUD_READY=!!AUTH.user;
+  updateAuthUI();
+
+  if(AUTH.user) await loadCloud();
+
   SB.auth.onAuthStateChange(async function(event,session){
-    AUTH.session=session; AUTH.user=session?session.user:null; syncNameFromAuth(); updateAuthUI();
-    if(AUTH.user){ await loadCloud(); toast('Signed in'); } else { updateCloudStatus('Local only'); toast('Signed out'); }
+    AUTH.session=session;
+    AUTH.user=session?session.user:null;
+    syncNameFromAuth();
+    CLOUD_READY=!!AUTH.user;
+    updateAuthUI();
+
+    if(AUTH.user){
+      if(event==='SIGNED_IN' || event==='INITIAL_SESSION' || event==='TOKEN_REFRESHED'){
+        await loadCloud();
+      }else{
+        updateCloudStatus('Cloud sync on');
+      }
+      toast(event==='INITIAL_SESSION'?'Session restored':'Signed in');
+    } else {
+      updateCloudStatus('Local only');
+      toast('Signed out');
+    }
+  });
+
+  window.addEventListener('beforeunload', function(){ if(AUTH.user) saveCloud(true); });
+  window.addEventListener('pagehide', function(){ if(AUTH.user) saveCloud(true); });
+  window.addEventListener('online', function(){
+    if(AUTH.user){ CLOUD_READY=true; updateAuthUI(); queueCloudSave(300); }
   });
 }
 async function submitAuth(){
@@ -1691,14 +1800,32 @@ async function submitAuth(){
     if(AUTH.mode==='signup'){
       var signUp=await SB.auth.signUp({email:email,password:password,options:{data:{full_name:displayName,name:displayName,display_name:displayName}}});
       if(signUp.error)throw signUp.error;
-      if(signUp.data&&signUp.data.session){ AUTH.user=signUp.data.session.user; AUTH.session=signUp.data.session; saveDisplayName(displayName); syncNameFromAuth(); await loadCloud(); toast('Account created'); closeAuth(); }
-      else toast('Check your email to finish sign up');
+      if(signUp.data&&signUp.data.session){
+        AUTH.user=signUp.data.session.user;
+        AUTH.session=signUp.data.session;
+        CLOUD_READY=true;
+        saveDisplayName(displayName);
+        syncNameFromAuth();
+        await loadCloud();
+        toast('Account created');
+        closeAuth();
+      } else {
+        toast('Check your email to finish sign up');
+      }
     } else {
       var signIn=await SB.auth.signInWithPassword({email:email,password:password});
       if(signIn.error)throw signIn.error;
-      AUTH.user=signIn.data.user; AUTH.session=signIn.data.session; syncNameFromAuth(); await loadCloud(); toast('Signed in'); closeAuth();
+      AUTH.user=signIn.data.user;
+      AUTH.session=signIn.data.session;
+      CLOUD_READY=true;
+      syncNameFromAuth();
+      await loadCloud();
+      toast('Signed in');
+      closeAuth();
     }
-  }catch(e){ showAuthError(e.message||'Authentication failed.'); }
+  }catch(e){
+    showAuthError(e.message||'Authentication failed.');
+  }
 }
 async function signOut(){ if(!SB)return; try{ await SB.auth.signOut(); }catch(e){} }
 
@@ -1719,21 +1846,42 @@ function init(){
 }
 
 // ===== THEME =====
-function getSystemTheme(){ return THEME_MQ.matches?'dark':'light'; }
-function resolvedTheme(mode){ return mode==='device'?getSystemTheme():mode; }
+// ===== INIT =====
+function init(){
+  ensureDefaults(); persistLocal(); applyTheme(D.theme);
+  document.getElementById('goal-inp').value=D.goal;
+  document.getElementById('date-disp').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  updHome(); updateGreeting(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); updXP();
+  initChart(); renderLofi(); renderBengaliStations(); updateSessionMusicUI();
+  document.getElementById('daily-tip').textContent=getTip();
+  document.getElementById('sug-routine').textContent=getRoutine();
+  checkRems(); setInterval(checkRems,60000);
+  document.addEventListener('visibilitychange',onVis);
+  restoreSessionState(); bootSupabase(); updateAuthUI();
+  if(THEME_MQ.addEventListener)THEME_MQ.addEventListener('change',onSystemThemeChange);
+  else if(THEME_MQ.addListener)THEME_MQ.addListener(onSystemThemeChange);
+}
+
+// ===== THEME =====
 function syncThemeUI(){
-  var mode=D.theme; var actual=resolvedTheme(mode);
+  var mode=D.theme==='light'?'light':'dark';
   var app=document.getElementById('app');
   if(app)app.setAttribute('data-theme',mode);
-  document.documentElement.style.colorScheme=actual;
+  document.documentElement.style.colorScheme=mode;
   document.querySelectorAll('.theme-opt').forEach(function(btn){ btn.classList.toggle('active',btn.dataset.mode===mode); });
 }
 function applyTheme(t){
-  if(t!=='dark'&&t!=='light'&&t!=='device')t='device';
-  D.theme=t; localStorage.setItem('fl_th',t); scheduleCloudSave(); syncThemeUI();
+  if(t!=='dark'&&t!=='light')t='dark';
+  D.theme=t;
+  localStorage.setItem('fl_th',t);
+  scheduleCloudSave();
+  syncThemeUI();
 }
-function setThemeMode(mode){ applyTheme(mode); toast(mode==='device'?'Using device theme':(mode==='dark'?'Dark theme enabled':'Light theme enabled')); }
-function onSystemThemeChange(){ if(D.theme==='device')syncThemeUI(); }
+function setThemeMode(mode){
+  applyTheme(mode);
+  toast(mode==='dark'?'Dark theme enabled':'Light theme enabled');
+}
+function onSystemThemeChange(){ }
 
 // ===== NAV =====
 function goScr(n,el){
@@ -1979,7 +2127,7 @@ function togAmb(type,btn){
 function setAmbVol(v){ if(CURNAMB&&ANODES[CURNAMB])ANODES[CURNAMB].gain.gain.value=v/100*0.28; }
 
 var BENGALI_STATIONS=[
-  {name:'Mellow Bangla',sub:'Modern Bengali hits',url:'https://radio.mellowbangla.com/stream'},
+  {name:'Mellow Bangla',sub:'Modern Bangla hits',url:'https://radio.mellowbangla.com/stream'},
   {name:'Radio Foorti 88.0',sub:'Bangla music & entertainment',url:'https://stream.zeno.fm/cwa3vg8s8druv'}
 ];
 var CUR_BENGALI_INDEX=0;
@@ -2073,7 +2221,7 @@ function updateSessionMusicUI(){
     playing=!!(lofiAudio&&!lofiAudio.paused&&CURLOFI);
   }else if(SAMAN==='bengali'){
     var bs=BENGALI_STATIONS[CUR_BENGALI_INDEX]||BENGALI_STATIONS[0];
-    label='Bengali • '+(bs?bs.name:'Radio')+(bengAudio&&!bengAudio.paused&&bengAudio.src?' • Playing':' • Paused');
+    label='Songs • '+(bs?bs.name:'Radio')+(bengAudio&&!bengAudio.paused&&bengAudio.src?' • Playing':' • Paused');
     playing=!!(bengAudio&&!bengAudio.paused&&bengAudio.src);
   }
   if(state)state.textContent=label;
@@ -2288,6 +2436,7 @@ function addRem(){
   D.rems.push({id:uid(),t:t,l:l,on:true});
   localStorage.setItem('fl_r',JSON.stringify(D.rems)); scheduleCloudSave();
   document.getElementById('rem-lbl').value='';
+  ensureBrowserNotifications();
   renderRems(); renderRemPreview(); toast('Reminder added!');
 }
 function addManualSession(){
@@ -2314,7 +2463,11 @@ function checkRems(){
   var n=new Date(); var cur=pad(n.getHours())+':'+pad(n.getMinutes());
   var stamp=today()+' '+cur;
   D.rems.forEach(function(r){
-    if(r.on&&r.t===cur&&r._lastHit!==stamp){ r._lastHit=stamp; localStorage.setItem('fl_r',JSON.stringify(D.rems)); notifyApp('Foc Lock – Study Time!',r.l,{tag:'reminder-'+r.t,requireInteraction:true}); }
+    if(r.on&&r.t===cur&&r._lastHit!==stamp){
+      r._lastHit=stamp;
+      localStorage.setItem('fl_r',JSON.stringify(D.rems));
+      notifyApp('Foc Lock – Study Reminder',r.l,{tag:'reminder-'+r.t,requireInteraction:true});
+    }
   });
 }
 
