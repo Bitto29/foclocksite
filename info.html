@@ -154,6 +154,34 @@
     .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
     .section{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px}
     .section h3{font-size:14px;font-weight:900;margin-bottom:10px}
+    .chart-wrap{position:relative;height:240px}
+
+.timeline-list{display:grid;gap:10px;max-height:320px;overflow:auto;padding-right:2px}
+.day-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px
+}
+.day-head{
+  display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;
+  margin-bottom:10px
+}
+.day-title{font-size:13px;font-weight:900}
+.day-meta{font-size:11px;color:var(--text2);margin-top:3px}
+.session-table{display:grid;gap:8px;max-height:420px;overflow:auto;padding-right:2px}
+.session-row{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px;
+  display:grid;grid-template-columns:120px 88px 1fr 88px;gap:10px;align-items:start
+}
+.session-row .k{font-size:10px;letter-spacing:.7px;text-transform:uppercase;color:var(--text2);margin-bottom:4px}
+.session-row .v{font-size:12px;font-weight:800;line-height:1.45;word-break:break-word}
+.session-extra{
+  margin-top:8px;font-size:11px;color:var(--text2);line-height:1.5;word-break:break-word
+}
+.session-empty{font-size:12px;color:var(--text2);line-height:1.5;padding:6px 0}
+.mini-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;
+  background:var(--bg3);border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text2)
+}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
     .small{font-size:12px;color:var(--text2);line-height:1.5}
     .session-list{display:grid;gap:8px;max-height:240px;overflow:auto;padding-right:2px}
     .session{
@@ -220,7 +248,7 @@
         </div>
       </div>
       <div class="hdr-actions">
-        <a class="btn2" href="./Foc Lock dev.html">Open Foc Lock</a>
+        <a class="btn2" href="https://foclock.vercel.app/live.html">Open Foc Lock</a>
         <button class="btn" id="refresh-btn">Refresh now</button>
       </div>
     </header>
@@ -304,7 +332,21 @@
 
               <div class="section">
                 <h3>Activity by subject</h3>
-                <canvas id="subject-chart" height="240"></canvas>
+                <div class="chart-wrap"><canvas id="subject-chart"></canvas></div>
+              </div>
+            </div>
+
+            <div class="two-col">
+              <div class="section">
+                <h3>Study timeline by day</h3>
+                <div class="small">Each day is grouped with the exact time, subject, and duration for every session.</div>
+                <div class="timeline-list" id="detail-timeline"></div>
+              </div>
+
+              <div class="section">
+                <h3>All study session data</h3>
+                <div class="small">Every session loaded from the synced profile, shown newest first with full details.</div>
+                <div class="session-table" id="detail-all-sessions"></div>
               </div>
             </div>
           </div>
@@ -344,6 +386,84 @@ function safeNum(v, fallback = 0){
   const n = Number(v);
   return Number.isFinite(n) ? n : fallback;
 }
+function normalizeDuration(raw){
+  const n = safeNum(raw, 0);
+  if(n <= 0) return 0;
+  if(n > 100000) return n / 1000;   // milliseconds
+  if(n > 0 && n < 15) return n * 60; // minute-style values
+  return n; // seconds
+}
+
+function getSessionTimestamp(s){
+  const direct = safeNum(s?.ts ?? s?.timestamp ?? s?.timeStamp, 0);
+  if(direct) return direct;
+  const rawDate = s?.d ?? s?.date ?? s?.day ?? '';
+  if(!rawDate) return 0;
+  const parsed = Date.parse(rawDate);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+function formatClock(ts){
+  if(!ts) return '—';
+  try{
+    return new Intl.DateTimeFormat(undefined, {
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(new Date(ts));
+  }catch(e){
+    return '—';
+  }
+}
+function formatDateOnly(ts){
+  if(!ts) return 'Unknown day';
+  try{
+    return new Intl.DateTimeFormat(undefined, {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    }).format(new Date(ts));
+  }catch(e){
+    return 'Unknown day';
+  }
+}
+function getSessionLabel(s){
+  return String(s?.subj ?? s?.subject ?? s?.topic ?? s?.name ?? s?.label ?? 'General').trim() || 'General';
+}
+function getSessionNote(s){
+  const extras = Object.entries(s || {})
+    .filter(([k]) => !['subj','subject','topic','name','label','dur','duration','minutes','time','ts','timestamp','timeStamp','d','date','day'].includes(k))
+    .slice(0, 6);
+  return extras.length
+    ? extras.map(([k,v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : String(v)}`).join(' • ')
+    : '';
+}
+function sortSessionsNewestFirst(sess){
+  return [...sess].sort((a,b) => getSessionTimestamp(b) - getSessionTimestamp(a));
+}
+function groupSessionsByDay(sess){
+  const groups = new Map();
+  sortSessionsNewestFirst(sess).forEach(s => {
+    const ts = getSessionTimestamp(s);
+    const key = ts ? new Date(ts).toISOString().slice(0,10) : String(s?.d || 'unknown');
+    if(!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(s);
+  });
+  return [...groups.entries()].map(([key, items]) => {
+    const total = items.reduce((sum, s) => sum + normalizeDuration(s?.dur ?? s?.duration ?? s?.minutes ?? s?.time), 0);
+    return { key, items, total };
+  });
+}
+function getSessionsArray(state){
+  if(!state || typeof state !== 'object') return [];
+  const candidates = [state.sess, state.sessions, state.session, state.history, state.logs];
+  for(const c of candidates){
+    if(Array.isArray(c)) return c;
+  }
+  return [];
+}
+function getSubjectLabel(s){
+  return String(s?.subj || s?.subject || s?.topic || s?.name || s?.label || 'General').trim() || 'General';
+}
 function escapeHtml(str){
   return String(str ?? '')
     .replaceAll('&', '&amp;')
@@ -377,44 +497,43 @@ function getDisplayName(row){
 }
 function summarize(row){
   const state = row?.state && typeof row.state === 'object' ? row.state : {};
-  const sess = Array.isArray(state.sess) ? state.sess : [];
+  const sess = getSessionsArray(state);
   const subjMap = {};
   let totalSec = 0;
   let latestTs = 0;
   let daySet = new Set();
 
   sess.forEach(s => {
-    const dur = safeNum(s?.dur, 0);
+    const dur = normalizeDuration(s?.dur ?? s?.duration ?? s?.minutes ?? s?.time);
     totalSec += dur;
-    if(s?.subj){
-      subjMap[s.subj] = (subjMap[s.subj] || 0) + dur;
-    }
-    const ts = safeNum(s?.ts, 0);
+    const subj = getSessionLabel(s);
+    subjMap[subj] = (subjMap[subj] || 0) + dur;
+    const ts = getSessionTimestamp(s);
     latestTs = Math.max(latestTs, ts);
-    if(s?.d) daySet.add(String(s.d));
+    if(ts) daySet.add(new Date(ts).toDateString());
+    else if(s?.d) daySet.add(String(s.d));
   });
 
   const topSubjects = Object.entries(subjMap)
+    .filter(([,sec]) => sec > 0)
     .sort((a,b) => b[1] - a[1])
     .slice(0, 5);
 
-  const recent = [...sess]
-    .sort((a,b) => safeNum(b?.ts, 0) - safeNum(a?.ts, 0))
-    .slice(0, 8);
+  const recent = sortSessionsNewestFirst(sess).slice(0, 8);
 
   const xp = safeNum(state.xp, 0);
-  const streak = safeNum(state?.streak?.c, 0);
+  const streak = safeNum(state?.streak?.c ?? state?.streak, 0);
   const sessions = sess.length;
   const avgSec = sessions ? totalSec / sessions : 0;
   const studyDays = daySet.size;
-  const recencyBonus = latestTs ? Math.max(0, Math.min(120, Math.round((Date.now() - latestTs) / 86400000))) : 120;
+  const recencyDays = latestTs ? Math.max(0, Math.min(120, Math.round((Date.now() - latestTs) / 86400000))) : 120;
   const score =
     Math.round(totalSec / 60) +
     sessions * 12 +
     streak * 25 +
     xp * 0.2 +
     studyDays * 8 -
-    recencyBonus * 2;
+    recencyDays * 2;
 
   return {
     id: row?.user_id || getDisplayName(row),
@@ -435,6 +554,7 @@ function summarize(row){
     updatedAt: row?.updated_at ? new Date(row.updated_at).getTime() : 0
   };
 }
+
 function matchesSearch(item){
   if(!SEARCH) return true;
   const hay = [
@@ -446,7 +566,7 @@ function matchesSearch(item){
     String(item.streak),
     String(item.xp),
     ...item.topSubjects.map(([name]) => name),
-    ...item.recent.map(s => s.subj || '')
+    ...item.recent.map(s => getSessionLabel(s) || '')
   ].join(' ').toLowerCase();
   return hay.includes(SEARCH);
 }
@@ -554,6 +674,11 @@ function renderDetail(item){
   document.getElementById('detail-blank').style.display = 'none';
   document.getElementById('detail-content').style.display = 'block';
 
+  const state = item.state || {};
+  const sessions = getSessionsArray(state);
+  const sortedSessions = sortSessionsNewestFirst(sessions);
+  const groupedDays = groupSessionsByDay(sessions);
+
   document.getElementById('detail-name').textContent = item.name;
   document.getElementById('detail-sub').textContent = [
     item.email || 'No email visible',
@@ -586,27 +711,29 @@ function renderDetail(item){
     ? topSubjects.map(([name, sec]) => `
         <div class="subjbar">
           <label><span>${escapeHtml(name)}</span><span>${escapeHtml(fmtDuration(sec))}</span></label>
-          <div class="bar"><div class="fill" style="width:${Math.max(6, Math.min(100, Math.round((sec / item.totalSec) * 100)))}%"></div></div>
+          <div class="bar"><div class="fill" style="width:${item.totalSec > 0 ? Math.max(6, Math.min(100, Math.round((sec / item.totalSec) * 100))) : 0}%"></div></div>
         </div>
       `).join('')
     : '<div class="small">No subject breakdown available yet.</div>';
 
   document.getElementById('detail-sessions').innerHTML = item.recent.length
-    ? item.recent.map(s => `
+    ? item.recent.map(s => {
+        const ts = getSessionTimestamp(s);
+        const dur = normalizeDuration(s?.dur ?? s?.duration ?? s?.minutes ?? s?.time);
+        return `
         <div class="session">
           <div style="min-width:0;">
-            <b>${escapeHtml(s.subj || 'General')}</b><br>
-            <span>${escapeHtml(s.d || 'No date')} • ${escapeHtml(s.ts ? fmtDate(s.ts) : 'No timestamp')}</span>
+            <b>${escapeHtml(getSessionLabel(s))}</b><br>
+            <span>${escapeHtml(s.d || (ts ? formatDateOnly(ts) : 'No date'))} • ${escapeHtml(ts ? formatClock(ts) : 'No timestamp')}</span>
           </div>
           <div style="text-align:right;flex-shrink:0;">
-            <b>${escapeHtml(fmtDuration(s.dur || 0))}</b><br>
-            <span>${escapeHtml(String(Math.round((safeNum(s.dur,0))/60)))} min</span>
+            <b>${escapeHtml(fmtDuration(dur))}</b><br>
+            <span>${escapeHtml(String(Math.round(dur / 60)))} min</span>
           </div>
         </div>
-      `).join('')
+      `}).join('')
     : '<div class="small">No recent sessions found.</div>';
 
-  const state = item.state || {};
   const fields = [
     ['user_id', item.user_id || '—'],
     ['email', item.email || '—'],
@@ -628,42 +755,115 @@ function renderDetail(item){
       <div class="subjrow">${extraKeys.map(k => `<span class="chip">${escapeHtml(k)}</span>`).join('')}</div>` : ''}
   `;
 
+  const timelineEl = document.getElementById('detail-timeline');
+  if(timelineEl){
+    timelineEl.innerHTML = groupedDays.length ? groupedDays.map(group => {
+      const firstTs = group.items.find(s => getSessionTimestamp(s)) ? getSessionTimestamp(group.items.find(s => getSessionTimestamp(s))) : 0;
+      const dayLabel = firstTs ? formatDateOnly(firstTs) : String(group.key);
+      const totalLabel = fmtDuration(group.total);
+      return `
+        <div class="day-card">
+          <div class="day-head">
+            <div>
+              <div class="day-title">${escapeHtml(dayLabel)}</div>
+              <div class="day-meta">${escapeHtml(String(group.items.length))} sessions • ${escapeHtml(totalLabel)} total</div>
+            </div>
+            <span class="mini-badge">Day total: ${escapeHtml(totalLabel)}</span>
+          </div>
+          <div class="subjrow">
+            ${[...new Set(group.items.map(s => getSessionLabel(s)))].slice(0, 6).map(sub => `<span class="chip">${escapeHtml(sub)}</span>`).join('')}
+          </div>
+          <div class="small" style="margin-top:10px;line-height:1.6;">
+            ${group.items.map(s => {
+              const ts = getSessionTimestamp(s);
+              const dur = normalizeDuration(s?.dur ?? s?.duration ?? s?.minutes ?? s?.time);
+              const note = getSessionNote(s);
+              return `${escapeHtml(ts ? formatClock(ts) : '—')} • <b>${escapeHtml(getSessionLabel(s))}</b> • ${escapeHtml(fmtDuration(dur))}${note ? ` <span class="mono">(${escapeHtml(note)})</span>` : ''}`;
+            }).join('<br>')}
+          </div>
+        </div>
+      `;
+    }).join('') : '<div class="session-empty">No grouped day data found.</div>';
+  }
+
+  const allSessionsEl = document.getElementById('detail-all-sessions');
+  if(allSessionsEl){
+    allSessionsEl.innerHTML = sortedSessions.length ? sortedSessions.map((s, idx) => {
+      const ts = getSessionTimestamp(s);
+      const dur = normalizeDuration(s?.dur ?? s?.duration ?? s?.minutes ?? s?.time);
+      const subject = getSessionLabel(s);
+      const note = getSessionNote(s);
+      const day = ts ? formatDateOnly(ts) : (s?.d || 'Unknown day');
+      return `
+        <div class="session-row">
+          <div>
+            <div class="k">#${idx + 1}</div>
+            <div class="v">${escapeHtml(day)}</div>
+          </div>
+          <div>
+            <div class="k">Time</div>
+            <div class="v">${escapeHtml(ts ? formatClock(ts) : '—')}</div>
+          </div>
+          <div>
+            <div class="k">Subject</div>
+            <div class="v">${escapeHtml(subject)}</div>
+            ${note ? `<div class="session-extra"><span class="mono">${escapeHtml(note)}</span></div>` : ''}
+          </div>
+          <div>
+            <div class="k">Duration</div>
+            <div class="v">${escapeHtml(fmtDuration(dur))}</div>
+            <div class="session-extra">${escapeHtml(String(Math.round(dur / 60)))} min</div>
+          </div>
+        </div>
+      `;
+    }).join('') : '<div class="session-empty">No detailed session records found.</div>';
+  }
+
   renderChart(item);
 }
 function renderChart(item){
   const canvas = document.getElementById('subject-chart');
   if(!canvas) return;
   if(CHART){ CHART.destroy(); CHART = null; }
-  const labels = item.topSubjects.map(([n]) => n);
-  const data = item.topSubjects.map(([,v]) => Math.round(v / 60));
+
+  const entries = Array.isArray(item.topSubjects) ? item.topSubjects : [];
+  const labels = entries.map(([n]) => n);
+  const data = entries.map(([,v]) => Number((v / 60).toFixed(1)));
+  const displayLabels = labels.length ? labels : ['No data'];
+  const displayData = data.length ? data : [0];
+
   CHART = new Chart(canvas, {
     type: 'bar',
     data: {
-      labels: labels.length ? labels : ['No data'],
+      labels: displayLabels,
       datasets: [{
         label: 'Minutes',
-        data: data.length ? data : [0],
-        borderWidth: 0
+        data: displayData,
+        borderWidth: 0,
+        borderRadius: 8,
+        maxBarThickness: 42
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      animation: { duration: 250 },
       plugins: {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (ctx) => `${ctx.raw} min`
+            label: (ctx) => `${ctx.parsed.y} min`
           }
         }
       },
       scales: {
-        x: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text2') }, grid: { display: false } },
-        y: { beginAtZero: true, ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text2') }, grid: { color: 'rgba(148,163,184,.18)' } }
+        x: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text2').trim() }, grid: { display: false } },
+        y: { beginAtZero: true, ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text2').trim() }, grid: { color: 'rgba(148,163,184,.18)' } }
       }
     }
   });
 }
+
 function setConnStatus(text, tone=''){
   const el = document.getElementById('conn-status');
   if(el) el.textContent = text;
