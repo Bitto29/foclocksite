@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -446,15 +445,19 @@ body{background:var(--bg);}
 .session-xp-sub{margin-top:3px;text-align:center;font-size:11px;color:var(--text2);line-height:1.35;font-weight:500;}
 
 .sctrl{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;justify-content:center;}
-.sbtn{
-  width:56px;height:56px;border:none;border-radius:var(--radius-sm);
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:all .2s ease;
+.sess-action-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:13px 22px;border:none;border-radius:var(--radius-sm);
+  cursor:pointer;font-size:14px;font-weight:800;font-family:var(--font);
+  transition:all .2s ease;letter-spacing:.1px;
 }
-.sbtn:active{transform:scale(.94);}
-.sbtn-pause{background:var(--warn);}
-.sbtn-end{background:var(--danger);}
-.sbtn-resume{background:var(--success);}
+.sess-action-btn:active{transform:scale(.96);}
+.sess-pause-btn{background:var(--warn);color:#fff;}
+.sess-pause-btn:hover{filter:brightness(1.1);}
+.sess-end-btn{background:var(--danger);color:#fff;}
+.sess-end-btn:hover{filter:brightness(1.1);}
+.sess-resume-btn{background:var(--success);color:#fff;}
+.sess-resume-btn:hover{filter:brightness(1.1);}
 
 /* SESSION MUSIC BAR */
 .smusic{
@@ -729,10 +732,109 @@ body{background:var(--bg);}
 #session-calc-modal{z-index:1001;}
 .calc-top-actions{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
 .calc-note{font-size:12px;color:var(--text2);font-weight:500;}
+
+/* HOME GOAL TWO-PANEL */
+.goal-home-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;
+}
+.goal-home-panel{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;box-shadow:var(--shadow2);
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.goal-home-label{
+  font-size:10px;font-weight:800;color:var(--text3);
+  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px;align-self:flex-start;
+}
+.goal-home-ring-wrap{position:relative;width:80px;height:80px;margin-bottom:8px;}
+.goal-ring-svg{transform:rotate(-90deg);width:80px;height:80px;}
+.goal-ring-bg{fill:none;stroke:var(--bg3);stroke-width:7;}
+.goal-ring-fill{
+  fill:none;stroke:url(#dailyGrad);stroke-width:7;stroke-linecap:round;
+  transition:stroke-dashoffset .7s cubic-bezier(.34,1.2,.64,1);
+}
+.goal-ring-center{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+}
+.goal-ring-pct{font-size:14px;font-weight:900;color:var(--text);letter-spacing:-.5px;}
+.goal-home-nums{display:flex;align-items:baseline;gap:4px;}
+.goal-log-icon{
+  width:56px;height:56px;border-radius:14px;
+  background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.15);
+  display:flex;align-items:center;justify-content:center;margin-bottom:0;
+}
+.goal-log-btn{
+  padding:10px 14px;font-size:12px;display:flex;align-items:center;
+  justify-content:center;gap:6px;width:100%;margin-top:auto;
+}
+
+/* SESSION MODAL REDESIGN */
+.sm-step{margin-bottom:4px;}
+.sm-step-label{
+  display:flex;align-items:center;gap:9px;
+  font-size:13px;font-weight:800;color:var(--text);
+  margin-bottom:13px;letter-spacing:-.1px;
+}
+.sm-step-num{
+  width:22px;height:22px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent4),var(--accent));
+  color:#fff;font-size:11px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+}
+.sm-divider{height:1px;background:var(--border);margin:18px 0;}
+.sm-dur-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+  margin-bottom:12px;
+}
+.sm-dur-opt{
+  background:var(--bg3);border:2px solid var(--border);
+  border-radius:var(--radius-sm);padding:14px 6px;
+  text-align:center;cursor:pointer;transition:all .18s ease;
+  font-family:var(--font);
+}
+.sm-dur-opt:hover{border-color:var(--border2);}
+.sm-dur-opt.sel{
+  background:rgba(124,92,252,.1);
+  border-color:var(--accent);
+}
+.sm-dur-val{font-size:22px;font-weight:900;letter-spacing:-.5px;color:var(--text);line-height:1;}
+.sm-dur-unit{font-size:11px;font-weight:700;color:var(--text2);margin-top:3px;}
+.sm-dur-opt.sel .sm-dur-val{color:var(--accent2);}
+.sm-dur-opt.sel .sm-dur-unit{color:var(--accent2);opacity:.8;}
+.sm-dur-opt.sel svg{stroke:var(--accent2);}
+.sm-dur-custom-opt{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text2);}
+.sm-dur-custom-opt.sel{color:var(--accent2);}
+.sm-notimer-row{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 14px;background:var(--bg3);
+  border:2px solid var(--border);border-radius:var(--radius-sm);
+  cursor:pointer;transition:all .18s ease;margin-top:4px;
+}
+.sm-notimer-row:hover{border-color:var(--border2);}
+.sm-notimer-row.sel{
+  border-color:rgba(0,210,200,.5);background:rgba(0,210,200,.06);
+}
+.sm-notimer-row.sel .sm-notimer-icon{background:rgba(0,210,200,.12);border-color:rgba(0,210,200,.25);}
+.sm-notimer-row.sel div[style]{color:var(--accent3) !important;}
+.sm-notimer-icon{
+  width:38px;height:38px;border-radius:var(--radius-xs);
+  background:var(--bg2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:var(--text2);transition:all .18s ease;
+}
+.sm-notimer-row.sel .sm-notimer-icon svg{stroke:var(--accent3);}
 </style>
 </head>
 <body>
 <div id="app" data-theme="dark">
+<svg width="0" height="0" style="position:absolute;pointer-events:none;">
+  <defs>
+    <linearGradient id="dailyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7c5cfc"/>
+      <stop offset="100%" style="stop-color:#00d2c8"/>
+    </linearGradient>
+  </defs>
+</svg>
 
 <!-- HEADER -->
 <div id="hdr">
@@ -796,20 +898,42 @@ body{background:var(--bg);}
       Start Focus Session
     </button>
 
-    <!-- Daily Goal + Manual in one row -->
-    <div class="card">
-      <div class="ctitle">Daily Goal Progress</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-        <span id="daily-done" style="font-size:14px;font-weight:800;">0 min</span>
-        <span id="daily-goal-lbl" style="font-size:12px;color:var(--text2);font-weight:600;">Goal: 120 min</span>
+    <!-- Daily Goal + Manual — two-panel card -->
+    <div class="goal-home-wrap">
+      <!-- Left: progress panel -->
+      <div class="goal-home-panel goal-home-progress">
+        <div class="goal-home-label">Daily Goal</div>
+        <div class="goal-home-ring-wrap">
+          <svg class="goal-ring-svg" viewBox="0 0 80 80">
+            <circle class="goal-ring-bg" cx="40" cy="40" r="34"/>
+            <circle class="goal-ring-fill" id="daily-ring" cx="40" cy="40" r="34"
+              stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+          </svg>
+          <div class="goal-ring-center">
+            <div class="goal-ring-pct" id="daily-pct">0%</div>
+          </div>
+        </div>
+        <div class="goal-home-nums">
+          <span id="daily-done" style="font-size:15px;font-weight:900;">0 min</span>
+          <span style="font-size:11px;color:var(--text3);font-weight:600;">done</span>
+        </div>
+        <div id="daily-goal-lbl" style="font-size:11px;color:var(--text2);font-weight:600;margin-top:2px;">Goal: 120 min</div>
+        <div class="goal-home-bar-wrap">
+          <div class="xb-wrap" style="margin:8px 0 0;"><div class="xb-fill" id="daily-bar" style="width:0%"></div></div>
+        </div>
       </div>
-      <div class="xb-wrap"><div class="xb-fill" id="daily-bar" style="width:0%"></div></div>
-      <button class="btn btn-s" style="margin-top:12px;padding:11px;" onclick="openManualSessionHome()">
-        <span style="display:flex;align-items:center;justify-content:center;gap:7px;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
-          Log Manual Session
-        </span>
-      </button>
+      <!-- Right: log panel -->
+      <div class="goal-home-panel goal-home-log">
+        <div class="goal-home-label">Manual Log</div>
+        <div class="goal-log-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="12" y1="12" x2="12" y2="18"/></svg>
+        </div>
+        <div style="font-size:12px;color:var(--text2);font-weight:500;line-height:1.45;margin:8px 0 14px;">Studied without the timer? Log it here.</div>
+        <button class="btn btn-s goal-log-btn" onclick="openManualSessionHome()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          Log Session
+        </button>
+      </div>
     </div>
 
     <div class="tip-card">
@@ -1191,30 +1315,87 @@ body{background:var(--bg);}
 
 <!-- START MODAL -->
 <div class="mov" id="sm">
-  <div class="modal">
-    <div class="mhandle"></div>
-    <button class="mclose" onclick="closeSM()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    <div class="mtitle">New Focus Session</div>
-    <div style="font-size:10px;font-weight:800;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Select Subject</div>
-    <div class="chips" id="modal-chips"></div>
-    <input type="text" class="inp" id="cust-subj" placeholder="Or type a custom subject...">
-    <div style="font-size:10px;font-weight:800;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Timer Mode</div>
-    <div class="topts">
-      <div class="topt sel" onclick="selT(15,this)">15 min</div>
-      <div class="topt" onclick="selT(20,this)">20 min</div>
-      <div class="topt" onclick="selT(25,this)">25 min</div>
-      <div class="topt" onclick="selT(0,this)">No Timer</div>
+  <div class="modal" style="padding:0;overflow:hidden;border-radius:22px 22px 0 0;">
+    <div class="mhandle" style="margin:14px auto 0;"></div>
+
+    <div style="padding:16px 20px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+      <div>
+        <div style="font-size:18px;font-weight:900;letter-spacing:-.3px;">New Focus Session</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px;font-weight:500;">Choose your subject and how long to study</div>
+      </div>
+      <button class="mclose" style="position:static;flex-shrink:0;margin-top:2px;" onclick="closeSM()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
-    <div id="cust-t-wrap" style="display:none;margin-bottom:11px;">
-      <input type="number" class="inp" id="cust-t" placeholder="Custom minutes (e.g. 45)" min="1" max="300" style="margin-bottom:0;">
+
+    <div style="padding:16px 20px 24px;overflow-y:auto;max-height:80vh;">
+
+      <!-- Step 1: Subject -->
+      <div class="sm-step">
+        <div class="sm-step-label">
+          <div class="sm-step-num">1</div>
+          <span>What are you studying?</span>
+        </div>
+        <div class="chips" id="modal-chips" style="margin-bottom:10px;"></div>
+        <div style="position:relative;">
+          <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <input type="text" class="inp" id="cust-subj" placeholder="Type a custom subject…" style="padding-left:34px;margin-bottom:0;">
+        </div>
+      </div>
+
+      <div class="sm-divider"></div>
+
+      <!-- Step 2: Duration -->
+      <div class="sm-step">
+        <div class="sm-step-label">
+          <div class="sm-step-num">2</div>
+          <span>How long will you study?</span>
+        </div>
+
+        <!-- Timed options -->
+        <div style="font-size:10px;font-weight:800;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Timed session</div>
+        <div class="sm-dur-grid">
+          <div class="sm-dur-opt sel" onclick="selT(30,this)" data-mins="30">
+            <div class="sm-dur-val">30</div>
+            <div class="sm-dur-unit">min</div>
+          </div>
+          <div class="sm-dur-opt" onclick="selT(45,this)" data-mins="45">
+            <div class="sm-dur-val">45</div>
+            <div class="sm-dur-unit">min</div>
+          </div>
+          <div class="sm-dur-opt" onclick="selT(60,this)" data-mins="60">
+            <div class="sm-dur-val">60</div>
+            <div class="sm-dur-unit">min</div>
+          </div>
+          <div class="sm-dur-opt sm-dur-custom-opt" onclick="selT(-1,this)" id="sm-cust-pill" data-mins="-1">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <div class="sm-dur-unit" style="margin-top:4px;">Custom</div>
+          </div>
+        </div>
+
+        <div id="cust-t-wrap" style="display:none;margin-bottom:4px;">
+          <input type="number" class="inp" id="cust-t" placeholder="Enter minutes (e.g. 90)" min="1" max="300" style="margin-bottom:0;">
+        </div>
+
+        <!-- No timer option - separate, with explanation -->
+        <div class="sm-notimer-row" onclick="selT(0,this)" id="sm-notimer-opt">
+          <div class="sm-notimer-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:800;">Open session — a study stopwatch</div>
+            <div style="font-size:11px;color:var(--text2);font-weight:500;margin-top:2px;">Session runs freely. You decide when to end it.</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-p" onclick="startSess()" style="margin-top:20px;border-radius:var(--radius-sm);padding:16px;font-size:15px;">
+        <span style="display:flex;align-items:center;justify-content:center;gap:9px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Start Session
+        </span>
+      </button>
     </div>
-    <div style="margin-bottom:13px;"><div class="topt" id="cust-t-btn" onclick="selT(-1,this)" style="width:100%;text-align:center;">Custom Duration</div></div>
-    <button class="btn btn-p" onclick="startSess()">
-      <span style="display:flex;align-items:center;justify-content:center;gap:8px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Start Session
-      </span>
-    </button>
   </div>
 </div>
 
@@ -1223,7 +1404,7 @@ body{background:var(--bg);}
   <div class="modal">
     <div class="mhandle"></div>
     <button class="mclose" onclick="closeManualModal()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    <div class="mtitle">Log Manual Session</div>
+    <div class="mtitle">Add Session</div>
     <div style="font-size:13px;color:var(--text2);font-weight:500;margin-bottom:14px;line-height:1.5;">Add a study session when you studied without using the app timer.</div>
     <input type="text" class="inp" id="man-subj" placeholder="Subject (e.g. Mathematics)">
     <div class="manual-grid" style="margin-bottom:11px;">
@@ -1279,14 +1460,17 @@ body{background:var(--bg);}
     <div class="session-xp-sub" id="session-xp-sub">Total XP if ended now: 0 XP</div>
 
     <div class="sctrl">
-      <button class="sbtn sbtn-pause" onclick="reqPause()" id="btn-pause" title="Pause">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      <button class="sess-action-btn sess-pause-btn" onclick="reqPause()" id="btn-pause">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        Pause
       </button>
-      <button class="sbtn sbtn-resume" onclick="resumeSess()" id="btn-resume" style="display:none;" title="Resume">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      <button class="sess-action-btn sess-resume-btn" onclick="resumeSess()" id="btn-resume" style="display:none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Resume
       </button>
-      <button class="sbtn sbtn-end" onclick="endSess(false)" title="End session">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><rect x="4" y="4" width="16" height="16"/></svg>
+      <button class="sess-action-btn sess-end-btn" onclick="endSess(false)" id="btn-end" style="display:none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><rect x="4" y="4" width="16" height="16"/></svg>
+        Exit
       </button>
     </div>
 
@@ -1424,7 +1608,7 @@ var CUR = null;
 var STMR = null, PNTMR = null, REMTMR = null, WL = null;
 var ACTX = null, ANODES = {}, CURNAMB = null, CURLOFI = null, CUR_LOFI_INDEX = 0;
 var PCHART = null, PERIOD = 'week';
-var MANS = 0, SELSUBJ = '', SELT = 15;
+var MANS = 0, SELSUBJ = '', SELT = 30;
 var THEME_MQ = window.matchMedia('(prefers-color-scheme: dark)');
 
 function getSessionElapsed(now){
@@ -1454,7 +1638,7 @@ function syncReminderLoop(){
   clearInterval(REMTMR); clearInterval(PNTMR);
   if(!CUR) return;
   if(CUR.paused){
-    PNTMR = setInterval(function(){ notifyApp('Foc Lock','Session paused. Get back to studying!',{tag:'paused-reminder',requireInteraction:true}); }, 120000);
+    PNTMR = setInterval(function(){ notifyApp('Foc Lock','Session paused. Get back to studying!',{tag:'paused-reminder',requireInteraction:true}); }, 300000);
     return;
   }
   REMTMR = setInterval(function(){
@@ -1479,6 +1663,7 @@ function restoreSessionState(){
     document.getElementById('s-status').textContent = CUR.paused ? 'Paused' : 'In Progress';
     document.getElementById('btn-pause').style.display = CUR.paused ? 'none' : 'flex';
     document.getElementById('btn-resume').style.display = CUR.paused ? 'flex' : 'none';
+    document.getElementById('btn-end').style.display = CUR.paused ? 'flex' : 'none';
     if(CUR.lock) enterFullscreenMode();
     syncReminderLoop(); updTDisp(); updateSessionXPDisplay(); setSessionFullscreenUI(); updateSessionMusicUI();
     if(CUR.timed && getSessionElapsed() >= CUR.total){ CUR.el = getSessionElapsed(); endSess(true); return; }
@@ -1841,6 +2026,9 @@ function init(){
   checkRems(); setInterval(checkRems,60000);
   document.addEventListener('visibilitychange',onVis);
   restoreSessionState(); bootSupabase(); updateAuthUI();
+  if('Notification' in window && Notification.permission==='default'){
+    setTimeout(function(){ ensureBrowserNotifications(); },1500);
+  }
   if(THEME_MQ.addEventListener)THEME_MQ.addEventListener('change',onSystemThemeChange);
   else if(THEME_MQ.addListener)THEME_MQ.addListener(onSystemThemeChange);
 }
@@ -1925,16 +2113,21 @@ function updHome(){
   document.getElementById('s-xp').textContent=D.xp;
   var p=Math.min(100,Math.round(tm/D.goal*100));
   document.getElementById('daily-bar').style.width=p+'%';
-  document.getElementById('daily-done').textContent=tm+' min done';
+  document.getElementById('daily-done').textContent=tm+' min';
   document.getElementById('daily-goal-lbl').textContent='Goal: '+D.goal+' min';
+  var pctEl=document.getElementById('daily-pct'); if(pctEl)pctEl.textContent=p+'%';
+  var ring=document.getElementById('daily-ring');
+  if(ring)ring.style.strokeDashoffset=213.6*(1-p/100);
   renderRemPreview();
 }
 
 // ===== START MODAL =====
 function openSM(){
-  SELSUBJ=''; SELT=15; renderChips();
-  document.querySelectorAll('.topt').forEach(function(o){o.classList.remove('sel');});
-  document.querySelectorAll('.topt')[0].classList.add('sel');
+  SELSUBJ=''; SELT=30; renderChips();
+  document.querySelectorAll('.sm-dur-opt').forEach(function(o){o.classList.remove('sel');});
+  var nto=document.getElementById('sm-notimer-opt'); if(nto)nto.classList.remove('sel');
+  var first=document.querySelector('.sm-dur-opt[data-mins="30"]');
+  if(first)first.classList.add('sel');
   document.getElementById('cust-t-wrap').style.display='none';
   document.getElementById('cust-subj').value='';
   setBlurState(true); document.getElementById('sm').classList.add('open');
@@ -1951,7 +2144,9 @@ function renderChips(){
 }
 function selT(v,el){
   SELT=v;
-  document.querySelectorAll('.topt').forEach(function(o){o.classList.remove('sel');}); el.classList.add('sel');
+  document.querySelectorAll('.sm-dur-opt').forEach(function(o){o.classList.remove('sel');});
+  var nto=document.getElementById('sm-notimer-opt'); if(nto)nto.classList.remove('sel');
+  if(el)el.classList.add('sel');
   document.getElementById('cust-t-wrap').style.display=v===-1?'block':'none';
 }
 function setSessionFullscreenUI(){ var btn=document.getElementById('fs-toggle-btn'); if(!btn)return; btn.textContent=(CUR&&CUR.lock)?'Exit Fullscreen':'Fullscreen'; }
@@ -1973,6 +2168,7 @@ function startSess(){
   document.getElementById('sess').classList.add('active');
   document.getElementById('btn-pause').style.display='flex';
   document.getElementById('btn-resume').style.display='none';
+  document.getElementById('btn-end').style.display='none';
   document.getElementById('s-status').textContent='In Progress';
   updateSessionXPDisplay(); syncReminderLoop(); saveSessionState(); updTDisp(); setSessionFullscreenUI();
   clearInterval(STMR); STMR=setInterval(tick,1000);
@@ -2061,10 +2257,12 @@ function chkMath(){ if(parseInt(document.getElementById('m-ans').value)===MANS){
 function closeMG(){ document.getElementById('mgate').classList.remove('open'); }
 function pauseSess(){
   if(!CUR)return;
-  CUR.el=getSessionElapsed(); CUR.paused=true; CUR.savedAt=Date.now();
+  var el=getSessionElapsed();
+  CUR.elapsed=el; CUR.el=el; CUR.paused=true; CUR.savedAt=Date.now();
   document.getElementById('s-status').textContent='Paused';
   document.getElementById('btn-pause').style.display='none';
   document.getElementById('btn-resume').style.display='flex';
+  document.getElementById('btn-end').style.display='flex';
   relWL(); syncReminderLoop(); saveSessionState(); updTDisp();
   notifyApp('Foc Lock','Session paused. Get back to studying!',{tag:'session-paused',requireInteraction:true});
 }
@@ -2074,6 +2272,7 @@ function resumeSess(){
   document.getElementById('s-status').textContent='In Progress';
   document.getElementById('btn-pause').style.display='flex';
   document.getElementById('btn-resume').style.display='none';
+  document.getElementById('btn-end').style.display='none';
   if(CUR.lock)acqWL(); syncReminderLoop(); saveSessionState(); updTDisp();
   notifyApp('Foc Lock','Session resumed.',{tag:'session-resumed',requireInteraction:false});
 }
@@ -2365,15 +2564,22 @@ function renderGoals(){
   }).join('');
 }
 var BDGS=[
-  {id:'f1',n:'First Step',d:'Complete 1st session',chk:function(){return D.sess.length>=1;}},
-  {id:'m30',n:'30 Min Day',d:'Study 30 min in a day',chk:function(){return D.sess.filter(function(s){return s.d===today();}).reduce(function(a,s){return a+s.dur;},0)>=1800;}},
-  {id:'m60',n:'1 Hour Hero',d:'Study 1 hour in a day',chk:function(){return D.sess.filter(function(s){return s.d===today();}).reduce(function(a,s){return a+s.dur;},0)>=3600;}},
-  {id:'s3',n:'3-Day Streak',d:'3 days in a row',chk:function(){return D.streak.c>=3;}},
-  {id:'s7',n:'Week Warrior',d:'7 days in a row',chk:function(){return D.streak.c>=7;}},
-  {id:'ss5',n:'Session Pro',d:'Complete 5 sessions',chk:function(){return D.sess.length>=5;}},
-  {id:'ss20',n:'Dedicated',d:'Complete 20 sessions',chk:function(){return D.sess.length>=20;}},
-  {id:'x1',n:'XP Hunter',d:'Earn 100 XP',chk:function(){return D.xp>=100;}},
-  {id:'x5',n:'XP Master',d:'Earn 500 XP',chk:function(){return D.xp>=500;}}
+  {id:'f1',n:'First Step',d:'Complete your 1st session',icon:'play',chk:function(){return D.sess.length>=1;}},
+  {id:'m30',n:'30 Min Day',d:'Study 30 min in a day',icon:'clock',chk:function(){return D.sess.filter(function(s){return s.d===today();}).reduce(function(a,s){return a+s.dur;},0)>=1800;}},
+  {id:'m60',n:'1 Hour Hero',d:'Study 1 hour in a day',icon:'zap',chk:function(){return D.sess.filter(function(s){return s.d===today();}).reduce(function(a,s){return a+s.dur;},0)>=3600;}},
+  {id:'m180',n:'3 Hour Beast',d:'Study 3 hours in a day',icon:'flame',chk:function(){return D.sess.filter(function(s){return s.d===today();}).reduce(function(a,s){return a+s.dur;},0)>=10800;}},
+  {id:'s3',n:'3-Day Streak',d:'Study 3 days in a row',icon:'calendar',chk:function(){return D.streak.c>=3;}},
+  {id:'s7',n:'Week Warrior',d:'Study 7 days in a row',icon:'star',chk:function(){return D.streak.c>=7;}},
+  {id:'s30',n:'Iron Discipline',d:'Study 30 days in a row',icon:'shield',chk:function(){return D.streak.c>=30;}},
+  {id:'ss5',n:'Session Pro',d:'Complete 5 sessions',icon:'check',chk:function(){return D.sess.length>=5;}},
+  {id:'ss20',n:'Dedicated',d:'Complete 20 sessions',icon:'award',chk:function(){return D.sess.length>=20;}},
+  {id:'ss50',n:'Half Century',d:'Complete 50 sessions',icon:'target',chk:function(){return D.sess.length>=50;}},
+  {id:'ss100',n:'Centurion',d:'Complete 100 sessions',icon:'crown',chk:function(){return D.sess.length>=100;}},
+  {id:'x1',n:'XP Hunter',d:'Earn 100 XP',icon:'bolt',chk:function(){return D.xp>=100;}},
+  {id:'x5',n:'XP Master',d:'Earn 500 XP',icon:'bolt',chk:function(){return D.xp>=500;}},
+  {id:'x10',n:'XP Legend',d:'Earn 2,500 XP',icon:'bolt',chk:function(){return D.xp>=2500;}},
+  {id:'subj5',n:'Explorer',d:'Study 5 different subjects',icon:'book',chk:function(){return uniqueStrings(D.sess.map(function(s){return s.subj;})).length>=5;}},
+  {id:'subj10',n:'Polymath',d:'Study 10 different subjects',icon:'book',chk:function(){return uniqueStrings(D.sess.map(function(s){return s.subj;})).length>=10;}}
 ];
 function chkAch(){
   BDGS.forEach(function(b){
@@ -2381,10 +2587,29 @@ function chkAch(){
   });
 }
 function renderBadges(){
+  var ICONS={
+    play:'<polygon points="5 3 19 12 5 21 5 3"/>',
+    clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    zap:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+    flame:'<path d="M12 2c0 5-4 7-4 12a4 4 0 0 0 8 0c0-5-4-7-4-12z"/><path d="M12 10c0 3-2 4-2 7a2 2 0 0 0 4 0c0-3-2-4-2-7z"/>',
+    calendar:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+    star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    check:'<polyline points="20 6 9 17 4 12"/>',
+    award:'<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>',
+    target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    crown:'<path d="M2 20h20M5 20V10l7-7 7 7v10"/>',
+    bolt:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+    book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'
+  };
   document.getElementById('badges-grid').innerHTML=BDGS.map(function(b){
     var e=D.ach[b.id]||b.chk();
-    return '<div class="badge'+(e?' earned':'')+'"><div style="width:40px;height:40px;margin:0 auto;background:'+(e?'linear-gradient(135deg,rgba(124,92,252,.2),rgba(0,210,200,.15))':'var(--bg2)')+';border-radius:10px;display:flex;align-items:center;justify-content:center;border:1px solid '+(e?'rgba(124,92,252,.3)':'var(--border)')+';">'
-      +'<svg viewBox="0 0 24 24" width="20" height="20" fill="'+(e?'var(--accent2)':'var(--text3)')+'"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>'
+    var ic=ICONS[b.icon||'star']||ICONS.star;
+    var bg=e?'linear-gradient(135deg,rgba(124,92,252,.2),rgba(0,210,200,.15))':'var(--bg2)';
+    var bc=e?'rgba(124,92,252,.3)':'var(--border)';
+    var ic_col=e?'var(--accent2)':'var(--text3)';
+    return '<div class="badge'+(e?' earned':'')+'"><div style="width:40px;height:40px;margin:0 auto;background:'+bg+';border-radius:10px;display:flex;align-items:center;justify-content:center;border:1px solid '+bc+';">'
+      +'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="'+ic_col+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div>'
       +'<div class="badge-nm" style="color:'+(e?'var(--accent2)':'var(--text2)')+'">'+b.n+'</div><div class="badge-ds">'+b.d+'</div></div>';
   }).join('');
 }
