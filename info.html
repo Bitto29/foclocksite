@@ -3,940 +3,848 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Foc Lock — Student Performance</title>
+  <title>FocLock — Student Performance</title>
   <link rel="icon" type="image/png" href="https://i.postimg.cc/NG2mdRdd/18933-removebg-preview-edit-651200758610660.png" />
-  <link rel="apple-touch-icon" href="https://i.postimg.cc/NG2mdRdd/18933-removebg-preview-edit-651200758610660.png" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    :root{
-      --bg:#0f1220;
-      --bg2:#171b2d;
-      --bg3:#202642;
-      --card:#1b2037;
-      --border:#2a3150;
-      --accent:#7c3aed;
-      --accent2:#a855f7;
-      --accent3:#06b6d4;
-      --text:#e5ebf5;
-      --text2:#99a3b8;
-      --success:#10b981;
-      --warn:#f59e0b;
-      --danger:#ef4444;
-      --shadow:0 12px 28px rgba(0,0,0,.18);
+    :root {
+      --bg:#0f1220; --bg2:#171b2d; --bg3:#202642;
+      --card:#1b2037; --border:#2a3150;
+      --accent:#7c3aed; --accent2:#a855f7; --accent3:#06b6d4;
+      --text:#e5ebf5; --text2:#99a3b8;
+      --success:#10b981; --warn:#f59e0b; --danger:#ef4444;
+      --shadow:0 8px 24px rgba(0,0,0,.22);
+      --radius:14px;
     }
-    @media (prefers-color-scheme: light){
+    @media(prefers-color-scheme:light){
       :root{
-        --bg:#f4f7fb;
-        --bg2:#ffffff;
-        --bg3:#edf2f8;
-        --card:#ffffff;
-        --border:#d8e0eb;
-        --accent:#6d28d9;
-        --accent2:#7c3aed;
-        --accent3:#0891b2;
-        --text:#0f172a;
-        --text2:#64748b;
-        --success:#059669;
-        --warn:#d97706;
-        --danger:#dc2626;
-        --shadow:0 12px 28px rgba(15,23,42,.06);
+        --bg:#f0f4fb; --bg2:#ffffff; --bg3:#e8eef8;
+        --card:#ffffff; --border:#d4dcea;
+        --accent:#6d28d9; --accent2:#7c3aed; --accent3:#0891b2;
+        --text:#0f172a; --text2:#64748b;
+        --success:#059669; --warn:#d97706; --danger:#dc2626;
+        --shadow:0 4px 16px rgba(15,23,42,.08);
       }
     }
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-    html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:Segoe UI,system-ui,sans-serif}
+    html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;font-size:14px}
     body{overflow-x:hidden}
     a{color:inherit;text-decoration:none}
-    .app{min-height:100vh;display:flex;flex-direction:column}
+    ::-webkit-scrollbar{width:5px;height:5px}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+
+    /* ── HEADER ── */
     .hdr{
-      position:sticky;top:0;z-index:10;
+      position:sticky;top:0;z-index:100;
       background:var(--bg2);border-bottom:1px solid var(--border);
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:14px 16px;box-shadow:var(--shadow)
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:12px 16px;box-shadow:var(--shadow)
     }
     .brand{display:flex;align-items:center;gap:10px;min-width:0}
     .logo{
-      width:40px;height:40px;border-radius:12px;
+      width:36px;height:36px;border-radius:10px;flex-shrink:0;
       background:linear-gradient(135deg,var(--accent),var(--accent2));
-      display:flex;align-items:center;justify-content:center;flex-shrink:0
+      display:flex;align-items:center;justify-content:center
     }
-    .brand h1{font-size:18px;line-height:1.1;font-weight:900}
-    .brand p{font-size:12px;color:var(--text2);margin-top:3px}
-    .hdr-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-    .btn,.btn2,.chipbtn{
-      border:none;border-radius:12px;cursor:pointer;font-weight:800;
-      box-shadow:var(--shadow);transition:transform .15s ease,opacity .15s ease
-    }
-    .btn:active,.btn2:active,.chipbtn:active{transform:translateY(1px)}
-    .btn{
-      padding:12px 14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff
-    }
-    .btn2{
-      padding:12px 14px;background:var(--bg3);color:var(--text);border:1px solid var(--border)
-    }
-    .shell{width:min(1400px,100%);margin:0 auto;padding:16px}
-    .hero{
-      display:grid;grid-template-columns:1.2fr .8fr;gap:12px;align-items:stretch;
-      margin-bottom:12px
-    }
-    .card{
-      background:var(--card);border:1px solid var(--border);border-radius:18px;
-      padding:16px;box-shadow:var(--shadow)
-    }
-    .hero-title{font-size:26px;font-weight:900;line-height:1.1}
-    .hero-sub{font-size:13px;color:var(--text2);margin-top:8px;line-height:1.55}
-    .status-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-    .pill{
-      display:inline-flex;align-items:center;gap:7px;
-      padding:8px 11px;border-radius:999px;background:var(--bg3);
-      border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text2)
-    }
-    .pill strong{color:var(--text)}
-    .grid{
-      display:grid;grid-template-columns:390px 1fr;gap:12px;align-items:start
-    }
-    .stats{
-      display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px
-    }
-    .stat{
-      background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;
-      box-shadow:var(--shadow)
-    }
-    .stat-v{font-size:22px;font-weight:900;color:var(--accent2);line-height:1}
-    .stat-l{font-size:11px;color:var(--text2);margin-top:6px;text-transform:uppercase;letter-spacing:.8px}
-    .panel-title{font-size:12px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;color:var(--text2);margin-bottom:10px}
-    .tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .brand h1{font-size:16px;font-weight:800;line-height:1.1}
+    .brand p{font-size:11px;color:var(--text2);margin-top:2px}
+    .hdr-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .btn{padding:9px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700;font-size:13px;
+         transition:opacity .15s,transform .1s}
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 2px 8px rgba(124,58,237,.35)}
+    .btn-ghost{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
+    .live-dot{width:8px;height:8px;border-radius:50%;background:var(--success);
+              box-shadow:0 0 0 2px rgba(16,185,129,.25);animation:blink 2s infinite;flex-shrink:0}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    .conn-pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)}
+
+    /* ── SHELL ── */
+    .shell{width:min(1440px,100%);margin:0 auto;padding:14px 16px}
+
+    /* ── STAT TILES ── */
+    .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
+    .stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:13px 14px;box-shadow:var(--shadow)}
+    .stat-v{font-size:20px;font-weight:900;color:var(--accent2);line-height:1;word-break:break-word}
+    .stat-l{font-size:10px;color:var(--text2);margin-top:5px;text-transform:uppercase;letter-spacing:.7px}
+    .stat-today .stat-v{font-size:13px;font-weight:800;color:var(--accent3)}
+
+    /* ── TWO-PANE LAYOUT ── */
+    .layout{display:grid;grid-template-columns:360px 1fr;gap:12px;align-items:start}
+
+    /* ── LEFT PANEL ── */
+    .left-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+                box-shadow:var(--shadow);display:flex;flex-direction:column;gap:0;overflow:hidden}
+    .left-top{padding:12px 14px;border-bottom:1px solid var(--border)}
+    .panel-title{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text2);margin-bottom:8px}
+    .sort-row{display:flex;gap:6px;flex-wrap:wrap}
+    .sort-btn{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);
+              color:var(--text2);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
+    .sort-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+    .search-wrap{position:relative;padding:10px 14px;border-bottom:1px solid var(--border)}
     .search{
-      width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--border);
-      background:var(--bg2);color:var(--text);outline:none;font-size:14px
+      width:100%;padding:10px 12px 10px 34px;border-radius:10px;
+      border:1px solid var(--border);background:var(--bg2);color:var(--text);
+      font-size:13px;outline:none;transition:border-color .2s
     }
     .search:focus{border-color:var(--accent)}
-    .list{
-      display:grid;gap:10px;max-height:calc(100vh - 285px);overflow:auto;padding-right:2px
-    }
-    .student{
-      background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;
-      cursor:pointer;box-shadow:var(--shadow)
-    }
-    .student.active{border-color:rgba(168,85,247,.55);background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(6,182,212,.06))}
-    .topline{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-    .leftbit{display:flex;gap:12px;min-width:0}
-    .rank{
-      width:40px;height:40px;border-radius:12px;background:var(--bg3);
-      display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--accent2);flex-shrink:0
-    }
-    .name{font-size:15px;font-weight:900;line-height:1.2;word-break:break-word}
-    .email{font-size:11px;color:var(--text2);margin-top:4px;word-break:break-word}
-    .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px;color:var(--text2)}
-    .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-    .chip{
-      padding:5px 9px;border-radius:999px;background:var(--bg3);border:1px solid var(--border);
-      font-size:11px;color:var(--text)
-    }
-    .detail{
-      min-height:650px
-    }
-    .detail-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-    .detail-name{font-size:26px;font-weight:950;line-height:1.1}
-    .detail-sub{font-size:13px;color:var(--text2);margin-top:5px;line-height:1.5}
-    .scorebox{
-      background:linear-gradient(135deg,rgba(124,58,237,.16),rgba(6,182,212,.09));
-      border:1px solid rgba(124,58,237,.28);border-radius:16px;padding:14px;min-width:220px
-    }
-    .score-v{font-size:28px;font-weight:950;color:var(--accent2);line-height:1}
-    .score-l{font-size:11px;color:var(--text2);margin-top:6px;text-transform:uppercase;letter-spacing:.8px}
-    .detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-    .kv{
-      background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px
-    }
-    .kv-k{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--text2)}
-    .kv-v{font-size:18px;font-weight:900;margin-top:6px;word-break:break-word}
-    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-    .section{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px}
-    .section h3{font-size:14px;font-weight:900;margin-bottom:10px}
-    .chart-wrap{position:relative;height:240px}
+    .search-icon{position:absolute;left:24px;top:50%;transform:translateY(-50%);color:var(--text2);pointer-events:none}
+    .list-meta{padding:6px 14px;font-size:11px;color:var(--text2);border-bottom:1px solid var(--border)}
 
-.timeline-list{display:grid;gap:10px;max-height:320px;overflow:auto;padding-right:2px}
-.day-card{
-  background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px
-}
-.day-head{
-  display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;
-  margin-bottom:10px
-}
-.day-title{font-size:13px;font-weight:900}
-.day-meta{font-size:11px;color:var(--text2);margin-top:3px}
-.session-table{display:grid;gap:8px;max-height:420px;overflow:auto;padding-right:2px}
-.session-row{
-  background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px;
-  display:grid;grid-template-columns:120px 88px 1fr 88px;gap:10px;align-items:start
-}
-.session-row .k{font-size:10px;letter-spacing:.7px;text-transform:uppercase;color:var(--text2);margin-bottom:4px}
-.session-row .v{font-size:12px;font-weight:800;line-height:1.45;word-break:break-word}
-.session-extra{
-  margin-top:8px;font-size:11px;color:var(--text2);line-height:1.5;word-break:break-word
-}
-.session-empty{font-size:12px;color:var(--text2);line-height:1.5;padding:6px 0}
-.mini-badge{
-  display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;
-  background:var(--bg3);border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text2)
-}
-.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
-    .small{font-size:12px;color:var(--text2);line-height:1.5}
-    .session-list{display:grid;gap:8px;max-height:240px;overflow:auto;padding-right:2px}
-    .session{
-      display:flex;justify-content:space-between;gap:10px;align-items:flex-start;
-      background:var(--card);border:1px solid var(--border);border-radius:12px;padding:11px
+    /* ── STUDENT LIST ITEMS ── */
+    .student-list{overflow-y:auto;max-height:calc(100vh - 300px)}
+    .s-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;display:flex;gap:10px;align-items:flex-start}
+    .s-item:last-child{border-bottom:none}
+    .s-item:hover{background:rgba(124,58,237,.06)}
+    .s-item.active{background:linear-gradient(135deg,rgba(168,85,247,.1),rgba(6,182,212,.04));border-left:3px solid var(--accent2)}
+    .s-item.active .s-rank{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+    .s-rank{width:34px;height:34px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);
+            display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;
+            color:var(--accent2);flex-shrink:0;line-height:1}
+    .s-rank.gold{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.3);color:var(--warn)}
+    .s-rank.silver{background:rgba(148,163,184,.12);border-color:rgba(148,163,184,.25);color:#94a3b8}
+    .s-rank.bronze{background:rgba(194,113,59,.12);border-color:rgba(194,113,59,.3);color:#c2713b}
+    .s-body{flex:1;min-width:0}
+    .s-name{font-size:14px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .s-email{font-size:11px;color:var(--text2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .s-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+    .chip{padding:3px 8px;border-radius:99px;background:var(--bg3);border:1px solid var(--border);font-size:10px;color:var(--text2)}
+    .chip.hi{color:var(--accent3);border-color:rgba(6,182,212,.3);background:rgba(6,182,212,.06)}
+    .chip.streak{color:var(--warn);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+    .s-stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+    .s-stat{font-size:11px;color:var(--text2)}
+    .s-stat b{color:var(--text);font-weight:700}
+    .s-score{flex-shrink:0;text-align:right}
+    .s-score-v{font-size:17px;font-weight:900;color:var(--accent2);line-height:1}
+    .s-score-l{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+
+    /* ── RIGHT DETAIL PANEL ── */
+    .detail-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+                  box-shadow:var(--shadow);min-height:600px}
+    .detail-blank{display:flex;align-items:center;justify-content:center;
+                  min-height:500px;color:var(--text2);font-size:13px;text-align:center;padding:24px}
+
+    /* profile header */
+    .profile-hdr{padding:18px 20px 0;display:flex;justify-content:space-between;align-items:flex-start;
+                 gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:16px}
+    .profile-left{display:flex;gap:14px;align-items:flex-start;min-width:0}
+    .avatar{width:52px;height:52px;border-radius:14px;flex-shrink:0;
+            background:linear-gradient(135deg,var(--accent),var(--accent2));
+            display:flex;align-items:center;justify-content:center;
+            font-size:20px;font-weight:900;color:#fff}
+    .profile-name{font-size:22px;font-weight:900;line-height:1.1;word-break:break-word}
+    .profile-email{font-size:12px;color:var(--text2);margin-top:4px}
+    .profile-last{font-size:11px;color:var(--text2);margin-top:2px}
+    .score-box{background:linear-gradient(135deg,rgba(124,58,237,.16),rgba(6,182,212,.09));
+               border:1px solid rgba(124,58,237,.28);border-radius:12px;padding:12px 16px;
+               text-align:right;flex-shrink:0;min-width:150px}
+    .score-v{font-size:28px;font-weight:950;color:var(--accent2);line-height:1}
+    .score-l{font-size:10px;color:var(--text2);margin-top:4px;text-transform:uppercase;letter-spacing:.7px}
+    .score-daily{font-size:11px;color:var(--accent3);margin-top:4px;font-weight:700}
+
+    /* kv row */
+    .kv-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:12px 20px;border-bottom:1px solid var(--border)}
+    .kv{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+    .kv-k{font-size:9px;letter-spacing:.7px;text-transform:uppercase;color:var(--text2);margin-bottom:5px}
+    .kv-v{font-size:16px;font-weight:900;word-break:break-all;line-height:1.2}
+    .kv-v.small-v{font-size:12px;font-weight:700}
+
+    /* tabs */
+    .tabs{display:flex;gap:2px;padding:10px 20px 0;border-bottom:1px solid var(--border);overflow-x:auto}
+    .tab{padding:9px 14px;border-radius:10px 10px 0 0;font-size:12px;font-weight:700;
+         cursor:pointer;color:var(--text2);border:none;background:none;transition:all .15s;white-space:nowrap}
+    .tab:hover{color:var(--text);background:var(--bg3)}
+    .tab.active{background:var(--bg2);color:var(--accent2);border:1px solid var(--border);border-bottom:1px solid var(--bg2);position:relative;bottom:-1px}
+    .tab-body{padding:16px 20px;display:none}
+    .tab-body.active{display:block}
+
+    /* section inside tabs */
+    .sec{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
+    .sec:last-child{margin-bottom:0}
+    .sec-title{font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;
+               color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+    /* subject bars */
+    .subjbar{margin-bottom:9px}
+    .subjbar:last-child{margin-bottom:0}
+    .subjbar-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+    .subjbar-name{font-weight:700}
+    .subjbar-dur{color:var(--text2)}
+    .bar{height:7px;background:var(--bg3);border-radius:99px;overflow:hidden}
+    .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+
+    /* session items */
+    .sess-list{display:grid;gap:7px;max-height:280px;overflow-y:auto;padding-right:2px}
+    .sess{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;
+          background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+    .sess-subj{font-size:13px;font-weight:700}
+    .sess-meta{font-size:11px;color:var(--text2);margin-top:3px}
+    .sess-right{text-align:right;flex-shrink:0}
+    .sess-dur{font-size:13px;font-weight:800;color:var(--accent2)}
+    .sess-min{font-size:10px;color:var(--text2);margin-top:2px}
+    .chart-wrap{position:relative;height:220px}
+    .empty{font-size:12px;color:var(--text2);padding:10px 0;text-align:center}
+
+    /* timeline */
+    .timeline{display:grid;gap:8px;max-height:400px;overflow-y:auto;padding-right:2px}
+    .day-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px}
+    .day-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+    .day-date{font-size:13px;font-weight:800}
+    .day-meta{font-size:11px;color:var(--text2);margin-top:2px}
+    .day-badge{padding:3px 9px;border-radius:99px;background:var(--bg3);border:1px solid var(--border);
+               font-size:11px;font-weight:700;color:var(--text2);white-space:nowrap}
+    .day-sess-row{font-size:11px;color:var(--text2);line-height:1.7}
+    .day-subj-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
+
+    /* all-sessions table */
+    .all-sess{display:grid;gap:6px;max-height:420px;overflow-y:auto;padding-right:2px}
+    .all-sess-row{
+      background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;
+      display:grid;grid-template-columns:28px 1fr 70px 70px;gap:10px;align-items:center
     }
-    .session b{font-size:13px}
-    .session span{font-size:11px;color:var(--text2)}
-    .subjrow{display:flex;flex-wrap:wrap;gap:8px}
-    .subjbar{margin-top:10px}
-    .subjbar label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:5px}
-    .bar{height:8px;background:var(--bg3);border-radius:999px;overflow:hidden}
-    .fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
-    .detail-blank{
-      display:flex;align-items:center;justify-content:center;min-height:420px;text-align:center;color:var(--text2);
-      padding:24px
+    .all-sess-num{font-size:11px;font-weight:700;color:var(--text2);text-align:center}
+    .all-sess-subj{font-size:12px;font-weight:700}
+    .all-sess-date{font-size:10px;color:var(--text2);margin-top:2px}
+    .all-sess-time{font-size:11px;color:var(--text2);text-align:right}
+    .all-sess-dur{font-size:13px;font-weight:800;color:var(--accent2);text-align:right}
+    .all-sess-note{font-size:10px;color:var(--text2);margin-top:2px;font-family:ui-monospace,monospace;
+                   word-break:break-all;grid-column:1/-1;padding-top:4px;border-top:1px solid var(--border)}
+
+    /* daily rank */
+    .daily-row{display:flex;align-items:center;gap:10px;padding:9px 12px;
+               background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:7px}
+    .daily-row:last-child{margin-bottom:0}
+    .daily-row.me{border-color:rgba(168,85,247,.5);background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(6,182,212,.04))}
+    .daily-medal{font-size:16px;flex-shrink:0;width:24px;text-align:center}
+    .daily-name{flex:1;font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+    .daily-time{font-size:14px;font-weight:900;color:var(--accent2);flex-shrink:0}
+    .daily-sub{font-size:10px;color:var(--text2);margin-top:1px}
+
+    /* fields */
+    .fields-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+    .field-tile{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+    .field-key{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text2);margin-bottom:4px}
+    .field-val{font-size:13px;font-weight:700;word-break:break-all}
+
+    /* error */
+    .err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--danger);
+         padding:12px 14px;border-radius:10px;font-size:12px;line-height:1.5}
+
+    .footer{margin-top:12px;padding-bottom:12px;font-size:11px;color:var(--text2);line-height:1.5}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1100px){
+      .stats{grid-template-columns:repeat(3,1fr)}
+      .layout{grid-template-columns:1fr}
+      .student-list{max-height:none}
+      .kv-row{grid-template-columns:repeat(4,1fr)}
     }
-    .topbar{
-      display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px
+    @media(max-width:768px){
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .stat-today{display:none} /* hide on very small, shown in detail */
+      .layout{grid-template-columns:1fr}
+      .kv-row{grid-template-columns:repeat(2,1fr)}
+      .two-col,.three-col{grid-template-columns:1fr}
+      .profile-hdr{flex-direction:column}
+      .score-box{min-width:0;width:100%;text-align:left;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+      .shell{padding:10px 12px}
+      .hdr{padding:10px 12px}
+      .brand p{display:none}
+      .all-sess-row{grid-template-columns:24px 1fr 64px}
+      .all-sess-time{display:none}
+      .tabs{padding:8px 12px 0}
+      .tab-body{padding:12px}
+      .profile-hdr{padding:14px 14px 12px}
     }
-    .updated{font-size:12px;color:var(--text2)}
-    .error{
-      background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:var(--danger);
-      padding:12px 14px;border-radius:14px;font-size:13px;line-height:1.5
+    @media(max-width:480px){
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .kv-row{grid-template-columns:repeat(2,1fr)}
+      .sort-row{gap:4px}
+      .sort-btn{font-size:10px;padding:5px 8px}
     }
-    .footer{
-      margin-top:12px;font-size:12px;color:var(--text2);line-height:1.5
-    }
-    .hide-mobile{display:block}
-    @media (max-width: 1100px){
-      .hero,.grid,.two-col,.detail-grid,.stats{grid-template-columns:1fr 1fr}
-      .grid{grid-template-columns:1fr}
-      .list{max-height:none}
-    }
-    @media (max-width: 760px){
-      .shell{padding:12px}
-      .hero,.detail-grid,.stats,.two-col{grid-template-columns:1fr}
-      .hdr{padding:12px}
-      .brand h1{font-size:16px}
-      .hero-title{font-size:22px}
-      .detail-name{font-size:22px}
-      .scorebox{width:100%;min-width:0}
-      .detail{min-height:auto}
-      .session{flex-direction:column}
-      .hide-mobile{display:none}
-    }
-    ::-webkit-scrollbar{width:6px;height:6px}
-    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:999px}
   </style>
 </head>
 <body>
-  <div class="app">
-    <header class="hdr">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-            <rect x="3" y="11" width="18" height="11" rx="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+  <header class="hdr">
+    <div class="brand">
+      <div class="logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <div>
+        <h1>FocLock</h1>
+        <p>Student Performance Dashboard</p>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="conn-pill">
+        <div class="live-dot"></div>
+        <span id="conn-status">Connecting</span>
+      </div>
+      <a class="btn btn-ghost" href="https://foclock.vercel.app/live.html" target="_blank">Open App</a>
+      <button class="btn btn-primary" id="refresh-btn">↻ Refresh</button>
+    </div>
+  </header>
+
+  <main class="shell" style="flex:1">
+
+    <div class="stats" id="stats">
+      <div class="stat"><div class="stat-v">—</div><div class="stat-l">Students</div></div>
+      <div class="stat"><div class="stat-v">—</div><div class="stat-l">Total Study</div></div>
+      <div class="stat"><div class="stat-v">—</div><div class="stat-l">Sessions</div></div>
+      <div class="stat"><div class="stat-v">—</div><div class="stat-l">Avg Score</div></div>
+      <div class="stat stat-today"><div class="stat-v">—</div><div class="stat-l">Today's Leader</div></div>
+    </div>
+
+    <div class="layout">
+
+      <!-- LEFT: student list -->
+      <div class="left-panel">
+        <div class="left-top">
+          <div class="panel-title">Leaderboard</div>
+          <div class="sort-row">
+            <button class="sort-btn active" data-sort="performance">⭐ Performance</button>
+            <button class="sort-btn" data-sort="time">⏱ Study Time</button>
+            <button class="sort-btn" data-sort="daily">📅 Daily Best</button>
+          </div>
+        </div>
+        <div class="search-wrap">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
+          <input class="search" id="search" type="text" placeholder="Search name, email, subject…" />
         </div>
-        <div>
-          <h1>Student Performance</h1>
-          <p>Live class leaderboard with full student details</p>
+        <div class="list-meta" id="list-meta">Waiting for data…</div>
+        <div class="student-list" id="student-list">
+          <div style="padding:20px;color:var(--text2);font-size:13px;text-align:center">Loading…</div>
         </div>
       </div>
-      <div class="hdr-actions">
-        <a class="btn2" href="https://foclock.vercel.app/live.html">Open Foc Lock</a>
-        <button class="btn" id="refresh-btn">Refresh now</button>
-      </div>
-    </header>
 
-    <main class="shell">
-      <section class="hero">
-        <div class="card">
-          <div class="hero-title">See every student’s performance in one live dashboard.</div>
-          <div class="hero-sub">
-            The list is ranked by a combined performance score using study time, consistency, streak, sessions, and recency.
-            Click any student to open a full profile with subject breakdowns and recent sessions.
-          </div>
-          <div class="status-row">
-            <div class="pill"><strong id="conn-status">Connecting</strong></div>
-            <div class="pill"><strong id="live-count">0</strong> students</div>
-            <div class="pill"><strong id="auto-status">Auto refresh</strong></div>
-          </div>
+      <!-- RIGHT: detail panel -->
+      <div class="detail-panel" id="detail-panel">
+        <div class="detail-blank" id="detail-blank">
+          Select a student from the list to view their full performance details.
         </div>
-        <div class="card">
-          <div class="panel-title">What the page shows</div>
-          <div class="small">
-            Rank, score, total study time, number of sessions, streak, last activity, top subjects, full session history, and all saved profile fields that exist in the synced row.
-          </div>
-          <div class="footer">
-            This page is public. For it to work without login, your Supabase table needs a public read policy on <code>study_tracking_profiles</code>.
-          </div>
-        </div>
-      </section>
 
-      <section class="stats" id="stats"></section>
+        <div id="detail-content" style="display:none">
 
-      <section class="grid">
-        <aside class="card">
-          <div class="topbar">
-            <div>
-              <div class="panel-title">Student list</div>
-              <div class="updated" id="list-updated">Waiting for data…</div>
-            </div>
-            <button class="chipbtn btn2" id="toggle-sort" style="padding:10px 12px;">Sort: Performance</button>
-          </div>
-          <input class="search" id="search" type="text" placeholder="Search by name, email, subject, or rank…" />
-          <div class="list" id="student-list"></div>
-        </aside>
-
-        <article class="card detail" id="detail-panel">
-          <div class="detail-blank" id="detail-blank">
-            Select a student from the list to view full performance details.
-          </div>
-          <div id="detail-content" style="display:none;">
-            <div class="detail-head">
+          <!-- Profile header -->
+          <div class="profile-hdr">
+            <div class="profile-left">
+              <div class="avatar" id="detail-avatar">?</div>
               <div>
-                <div class="detail-name" id="detail-name">—</div>
-                <div class="detail-sub" id="detail-sub">—</div>
-              </div>
-              <div class="scorebox">
-                <div class="score-v" id="detail-score">0</div>
-                <div class="score-l">Performance score</div>
+                <div class="profile-name" id="detail-name">—</div>
+                <div class="profile-email" id="detail-email">—</div>
+                <div class="profile-last" id="detail-last">—</div>
               </div>
             </div>
-
-            <div class="detail-grid" id="detail-grid"></div>
-
-            <div class="two-col">
-              <div class="section">
-                <h3>Subject breakdown</h3>
-                <div class="small" id="detail-subject-note">No subject data yet.</div>
-                <div id="detail-subjects" style="margin-top:10px;"></div>
-              </div>
-
-              <div class="section">
-                <h3>Recent sessions</h3>
-                <div class="session-list" id="detail-sessions"></div>
-              </div>
+            <div class="score-box">
+              <div class="score-v" id="detail-score">0</div>
+              <div class="score-l">Performance Score</div>
+              <div class="score-daily" id="detail-today-label"></div>
             </div>
+          </div>
 
-            <div class="two-col">
-              <div class="section">
-                <h3>All available profile fields</h3>
-                <div class="small" id="detail-fields"></div>
+          <!-- KV stats row -->
+          <div class="kv-row" id="detail-kv"></div>
+
+          <!-- Tabs -->
+          <div class="tabs" id="detail-tabs">
+            <button class="tab active" data-tab="overview">Overview</button>
+            <button class="tab" data-tab="sessions">Sessions</button>
+            <button class="tab" data-tab="timeline">Timeline</button>
+            <button class="tab" data-tab="daily">Daily Rank</button>
+            <button class="tab" data-tab="fields">Profile Data</button>
+          </div>
+
+          <!-- TAB: Overview -->
+          <div class="tab-body active" id="tab-overview">
+            <div class="three-col">
+              <div class="sec" style="grid-column:span 2">
+                <div class="sec-title">Subject Breakdown</div>
+                <div id="detail-subjects"><div class="empty">No subject data</div></div>
               </div>
-
-              <div class="section">
-                <h3>Activity by subject</h3>
+              <div class="sec">
+                <div class="sec-title">Activity Chart</div>
                 <div class="chart-wrap"><canvas id="subject-chart"></canvas></div>
               </div>
             </div>
+          </div>
 
-            <div class="two-col">
-              <div class="section">
-                <h3>Study timeline by day</h3>
-                <div class="small">Each day is grouped with the exact time, subject, and duration for every session.</div>
-                <div class="timeline-list" id="detail-timeline"></div>
-              </div>
-
-              <div class="section">
-                <h3>All study session data</h3>
-                <div class="small">Every session loaded from the synced profile, shown newest first with full details.</div>
-                <div class="session-table" id="detail-all-sessions"></div>
-              </div>
+          <!-- TAB: Sessions -->
+          <div class="tab-body" id="tab-sessions">
+            <div class="sec">
+              <div class="sec-title">All Study Sessions <span style="font-size:10px;font-weight:600;color:var(--text2);text-transform:none;letter-spacing:0">(newest first)</span></div>
+              <div class="all-sess" id="detail-all-sessions"></div>
             </div>
           </div>
-        </article>
-      </section>
 
-      <div class="footer">
-        Live updates happen every 30 seconds and also whenever the table changes, if Supabase realtime is enabled.
+          <!-- TAB: Timeline -->
+          <div class="tab-body" id="tab-timeline">
+            <div class="sec">
+              <div class="sec-title">Day-by-Day Timeline</div>
+              <div class="timeline" id="detail-timeline"></div>
+            </div>
+          </div>
+
+          <!-- TAB: Daily Rank -->
+          <div class="tab-body" id="tab-daily">
+            <div class="sec">
+              <div class="sec-title">Today's Class Ranking</div>
+              <div id="detail-daily-rank"><div class="empty">No sessions today yet</div></div>
+            </div>
+          </div>
+
+          <!-- TAB: Profile Data -->
+          <div class="tab-body" id="tab-fields">
+            <div class="sec">
+              <div class="sec-title">Core Profile Fields</div>
+              <div class="fields-grid" id="detail-fields-core"></div>
+            </div>
+            <div class="sec" id="detail-fields-extra-sec" style="display:none">
+              <div class="sec-title">Extra State Keys</div>
+              <div class="fields-grid" id="detail-fields-extra"></div>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </main>
-  </div>
+
+    </div>
+
+    <div class="footer">Live updates every 30 s · Realtime enabled when available · Data from Supabase</div>
+  </main>
+</div>
 
 <script>
 const SUPABASE_URL = 'https://qwmontyymrygxwanmxcy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3bW9udHl5bXJ5Z3h3YW5teGN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4OTgxODAsImV4cCI6MjA5NDQ3NDE4MH0.vh8n6V8uPSqahOFALElbzM24D6fR2bfAaP-PZqKrxiE';
 const TABLE = 'study_tracking_profiles';
 
-let SB = null;
-let CHANNEL = null;
-let PROFILES = [];
-let SELECTED = null;
-let SEARCH = '';
-let SORT_MODE = 'performance'; // performance | time
-let REFRESH_TIMER = null;
-let CHART = null;
-let LAST_UPDATED = null;
-let LOADING = false;
+let SB=null, CHANNEL=null, PROFILES=[], SELECTED=null;
+let SEARCH='', SORT_MODE='performance', CHART=null, LAST_UPDATED=null, LOADING=false;
 
-const fmt = new Intl.DateTimeFormat(undefined, {
-  month: 'short',
-  day: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-});
+const fmt = new Intl.DateTimeFormat(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
 
-function safeNum(v, fallback = 0){
-  const n = Number(v);
-  return Number.isFinite(n) ? n : fallback;
+/* ── utils ── */
+function safeNum(v,fb=0){const n=Number(v);return Number.isFinite(n)?n:fb}
+function normDur(raw){
+  const n=safeNum(raw,0);
+  if(n<=0)return 0;
+  if(n>100000)return n/1000;
+  if(n>0&&n<15)return n*60;
+  return n;
 }
-function normalizeDuration(raw){
-  const n = safeNum(raw, 0);
-  if(n <= 0) return 0;
-  if(n > 100000) return n / 1000;   // milliseconds
-  if(n > 0 && n < 15) return n * 60; // minute-style values
-  return n; // seconds
+function fmtDur(sec){
+  sec=safeNum(sec,0);const m=Math.round(sec/60);
+  if(m<60)return m+'m';
+  const h=Math.floor(m/60),r=m%60;
+  return h+'h'+(r?' '+r+'m':'');
 }
-
-function getSessionTimestamp(s){
-  const direct = safeNum(s?.ts ?? s?.timestamp ?? s?.timeStamp, 0);
-  if(direct) return direct;
-  const rawDate = s?.d ?? s?.date ?? s?.day ?? '';
-  if(!rawDate) return 0;
-  const parsed = Date.parse(rawDate);
-  return Number.isFinite(parsed) ? parsed : 0;
+function fmtDate(ts){if(!ts)return 'No activity';try{return fmt.format(new Date(ts))}catch{return 'No activity'}}
+function fmtDateOnly(ts){
+  if(!ts)return 'Unknown';
+  try{return new Intl.DateTimeFormat(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'}).format(new Date(ts))}catch{return 'Unknown'}
 }
-function formatClock(ts){
-  if(!ts) return '—';
-  try{
-    return new Intl.DateTimeFormat(undefined, {
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(new Date(ts));
-  }catch(e){
-    return '—';
-  }
+function fmtClock(ts){
+  if(!ts)return '—';
+  try{return new Intl.DateTimeFormat(undefined,{hour:'2-digit',minute:'2-digit'}).format(new Date(ts))}catch{return '—'}
 }
-function formatDateOnly(ts){
-  if(!ts) return 'Unknown day';
-  try{
-    return new Intl.DateTimeFormat(undefined, {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    }).format(new Date(ts));
-  }catch(e){
-    return 'Unknown day';
-  }
+function esc(s){return String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
+function initials(name){
+  const p=String(name||'?').trim().split(/\s+/);
+  return(p.length>=2?p[0][0]+p[1][0]:String(name)[0]).toUpperCase();
 }
-function getSessionLabel(s){
-  return String(s?.subj ?? s?.subject ?? s?.topic ?? s?.name ?? s?.label ?? 'General').trim() || 'General';
+function getSessTs(s){
+  const d=safeNum(s?.ts??s?.timestamp??s?.timeStamp,0);
+  if(d)return d;
+  const raw=s?.d??s?.date??s?.day??'';
+  if(!raw)return 0;
+  const p=Date.parse(raw);
+  return Number.isFinite(p)?p:0;
 }
-function getSessionNote(s){
-  const extras = Object.entries(s || {})
-    .filter(([k]) => !['subj','subject','topic','name','label','dur','duration','minutes','time','ts','timestamp','timeStamp','d','date','day'].includes(k))
-    .slice(0, 6);
-  return extras.length
-    ? extras.map(([k,v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : String(v)}`).join(' • ')
-    : '';
+function getSessLabel(s){return String(s?.subj??s?.subject??s?.topic??s?.name??s?.label??'General').trim()||'General'}
+function getSessNote(s){
+  const skip=['subj','subject','topic','name','label','dur','duration','minutes','time','ts','timestamp','timeStamp','d','date','day'];
+  return Object.entries(s||{}).filter(([k])=>!skip.includes(k)).slice(0,5)
+    .map(([k,v])=>`${k}: ${typeof v==='object'?JSON.stringify(v):v}`).join(' · ');
 }
-function sortSessionsNewestFirst(sess){
-  return [...sess].sort((a,b) => getSessionTimestamp(b) - getSessionTimestamp(a));
-}
-function groupSessionsByDay(sess){
-  const groups = new Map();
-  sortSessionsNewestFirst(sess).forEach(s => {
-    const ts = getSessionTimestamp(s);
-    const key = ts ? new Date(ts).toISOString().slice(0,10) : String(s?.d || 'unknown');
-    if(!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(s);
+function sortDesc(arr){return [...arr].sort((a,b)=>getSessTs(b)-getSessTs(a))}
+function groupByDay(arr){
+  const map=new Map();
+  sortDesc(arr).forEach(s=>{
+    const ts=getSessTs(s);
+    const key=ts?new Date(ts).toISOString().slice(0,10):String(s?.d||'unknown');
+    if(!map.has(key))map.set(key,[]);
+    map.get(key).push(s);
   });
-  return [...groups.entries()].map(([key, items]) => {
-    const total = items.reduce((sum, s) => sum + normalizeDuration(s?.dur ?? s?.duration ?? s?.minutes ?? s?.time), 0);
-    return { key, items, total };
-  });
+  return [...map.entries()].map(([key,items])=>({
+    key,items,
+    total:items.reduce((sum,s)=>sum+normDur(s?.dur??s?.duration??s?.minutes??s?.time),0)
+  }));
 }
-function getSessionsArray(state){
-  if(!state || typeof state !== 'object') return [];
-  const candidates = [state.sess, state.sessions, state.session, state.history, state.logs];
-  for(const c of candidates){
-    if(Array.isArray(c)) return c;
-  }
-  return [];
-}
-function getSubjectLabel(s){
-  return String(s?.subj || s?.subject || s?.topic || s?.name || s?.label || 'General').trim() || 'General';
-}
-function escapeHtml(str){
-  return String(str ?? '')
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
-}
-function fmtDuration(sec){
-  sec = safeNum(sec, 0);
-  const m = Math.round(sec / 60);
-  if(m < 60) return `${m}m`;
-  const h = Math.floor(m / 60);
-  const r = m % 60;
-  return `${h}h${r ? ` ${r}m` : ''}`;
-}
-function fmtDate(ts){
-  if(!ts) return 'No activity yet';
-  try{
-    return fmt.format(new Date(ts));
-  }catch(e){
-    return 'No activity yet';
-  }
+function getSessArr(state){
+  if(!state||typeof state!=='object')return[];
+  for(const c of[state.sess,state.sessions,state.session,state.history,state.logs])
+    if(Array.isArray(c))return c;
+  return[];
 }
 function getDisplayName(row){
-  const state = row?.state && typeof row.state === 'object' ? row.state : {};
-  const name = (state.name || state.full_name || state.display_name || state.user_name || '').toString().trim();
-  if(name) return name;
-  if(row?.email) return String(row.email).split('@')[0];
+  const st=row?.state&&typeof row.state==='object'?row.state:{};
+  const n=(st.name||st.full_name||st.display_name||st.user_name||'').toString().trim();
+  if(n)return n;
+  if(row?.email)return String(row.email).split('@')[0];
   return 'Student';
 }
+
+/* ── summarize ── */
 function summarize(row){
-  const state = row?.state && typeof row.state === 'object' ? row.state : {};
-  const sess = getSessionsArray(state);
-  const subjMap = {};
-  let totalSec = 0;
-  let latestTs = 0;
-  let daySet = new Set();
-
-  sess.forEach(s => {
-    const dur = normalizeDuration(s?.dur ?? s?.duration ?? s?.minutes ?? s?.time);
-    totalSec += dur;
-    const subj = getSessionLabel(s);
-    subjMap[subj] = (subjMap[subj] || 0) + dur;
-    const ts = getSessionTimestamp(s);
-    latestTs = Math.max(latestTs, ts);
-    if(ts) daySet.add(new Date(ts).toDateString());
-    else if(s?.d) daySet.add(String(s.d));
+  const state=row?.state&&typeof row.state==='object'?row.state:{};
+  const sess=getSessArr(state);
+  const subjMap={};let totalSec=0,latestTs=0;const daySet=new Set();
+  sess.forEach(s=>{
+    const dur=normDur(s?.dur??s?.duration??s?.minutes??s?.time);
+    totalSec+=dur;
+    const subj=getSessLabel(s);
+    subjMap[subj]=(subjMap[subj]||0)+dur;
+    const ts=getSessTs(s);latestTs=Math.max(latestTs,ts);
+    if(ts)daySet.add(new Date(ts).toDateString());
+    else if(s?.d)daySet.add(String(s.d));
   });
-
-  const topSubjects = Object.entries(subjMap)
-    .filter(([,sec]) => sec > 0)
-    .sort((a,b) => b[1] - a[1])
-    .slice(0, 5);
-
-  const recent = sortSessionsNewestFirst(sess).slice(0, 8);
-
-  const xp = safeNum(state.xp, 0);
-  const streak = safeNum(state?.streak?.c ?? state?.streak, 0);
-  const sessions = sess.length;
-  const avgSec = sessions ? totalSec / sessions : 0;
-  const studyDays = daySet.size;
-  const recencyDays = latestTs ? Math.max(0, Math.min(120, Math.round((Date.now() - latestTs) / 86400000))) : 120;
-  const score =
-    Math.round(totalSec / 60) +
-    sessions * 12 +
-    streak * 25 +
-    xp * 0.2 +
-    studyDays * 8 -
-    recencyDays * 2;
-
-  return {
-    id: row?.user_id || getDisplayName(row),
-    user_id: row?.user_id || '',
-    name: getDisplayName(row),
-    email: row?.email || '',
-    state,
-    totalSec,
-    sessions,
-    avgSec,
-    streak,
-    xp,
-    latestTs,
-    studyDays,
-    topSubjects,
-    recent,
-    score,
-    updatedAt: row?.updated_at ? new Date(row.updated_at).getTime() : 0
+  const topSubjects=Object.entries(subjMap).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const recent=sortDesc(sess).slice(0,8);
+  const xp=safeNum(state.xp,0);
+  const streak=safeNum(state?.streak?.c??state?.streak,0);
+  const sessions=sess.length;
+  const avgSec=sessions?totalSec/sessions:0;
+  const studyDays=daySet.size;
+  const recDays=latestTs?Math.max(0,Math.min(120,Math.round((Date.now()-latestTs)/86400000))):120;
+  const score=Math.round(totalSec/60)+sessions*12+streak*25+xp*0.2+studyDays*8-recDays*2;
+  const todayStr=new Date().toISOString().slice(0,10);
+  const todaySec=sess.reduce((sum,s)=>{
+    const ts=getSessTs(s);if(!ts)return sum;
+    if(new Date(ts).toISOString().slice(0,10)!==todayStr)return sum;
+    return sum+normDur(s?.dur??s?.duration??s?.minutes??s?.time);
+  },0);
+  return{
+    id:row?.user_id||getDisplayName(row),user_id:row?.user_id||'',
+    name:getDisplayName(row),email:row?.email||'',
+    state,totalSec,sessions,avgSec,streak,xp,latestTs,studyDays,
+    topSubjects,recent,score,todaySec,allSess:sess,
+    updatedAt:row?.updated_at?new Date(row.updated_at).getTime():0
   };
 }
 
-function matchesSearch(item){
-  if(!SEARCH) return true;
-  const hay = [
-    item.name,
-    item.email,
-    item.id,
-    String(item.score),
-    String(item.sessions),
-    String(item.streak),
-    String(item.xp),
-    ...item.topSubjects.map(([name]) => name),
-    ...item.recent.map(s => getSessionLabel(s) || '')
-  ].join(' ').toLowerCase();
+/* ── filtering / sorting ── */
+function matchSearch(item){
+  if(!SEARCH)return true;
+  const hay=[item.name,item.email,item.id,String(item.score),String(item.sessions),
+    ...item.topSubjects.map(([n])=>n),...item.recent.map(s=>getSessLabel(s))].join(' ').toLowerCase();
   return hay.includes(SEARCH);
 }
 function currentItems(){
-  const items = PROFILES.filter(matchesSearch);
-  if(SORT_MODE === 'time'){
-    return items.sort((a,b) => b.totalSec - a.totalSec || b.sessions - a.sessions || b.latestTs - a.latestTs);
-  }
-  return items.sort((a,b) => b.score - a.score || b.totalSec - a.totalSec || b.sessions - a.sessions || b.latestTs - a.latestTs);
+  const items=PROFILES.filter(matchSearch);
+  if(SORT_MODE==='time')return items.sort((a,b)=>b.totalSec-a.totalSec||b.sessions-a.sessions||b.latestTs-a.latestTs);
+  if(SORT_MODE==='daily')return items.sort((a,b)=>b.todaySec-a.todaySec||b.score-a.score);
+  return items.sort((a,b)=>b.score-a.score||b.totalSec-a.totalSec||b.sessions-a.sessions||b.latestTs-a.latestTs);
 }
-function updateStats(items){
-  const totalStudy = items.reduce((a,b) => a + b.totalSec, 0);
-  const totalSessions = items.reduce((a,b) => a + b.sessions, 0);
-  const avgScore = items.length ? Math.round(items.reduce((a,b) => a + b.score, 0) / items.length) : 0;
-  const active = items.length;
-  const stats = [
-    [active, 'Students'],
-    [fmtDuration(totalStudy), 'Total study'],
-    [totalSessions, 'Sessions'],
-    [avgScore, 'Avg score']
-  ];
-  document.getElementById('stats').innerHTML = stats.map(([v,l]) => `
-    <div class="stat"><div class="stat-v">${escapeHtml(v)}</div><div class="stat-l">${escapeHtml(l)}</div></div>
-  `).join('');
-  document.getElementById('live-count').textContent = String(active);
+
+/* ── render stats bar ── */
+function renderStats(items){
+  const totalStudy=items.reduce((a,b)=>a+b.totalSec,0);
+  const totalSess=items.reduce((a,b)=>a+b.sessions,0);
+  const avgScore=items.length?Math.round(items.reduce((a,b)=>a+b.score,0)/items.length):0;
+  const leader=[...items].sort((a,b)=>b.todaySec-a.todaySec)[0];
+  const leaderTxt=leader&&leader.todaySec>0?`${leader.name} · ${fmtDur(leader.todaySec)}`:'No sessions today';
+  document.getElementById('stats').innerHTML=`
+    <div class="stat"><div class="stat-v">${esc(String(items.length))}</div><div class="stat-l">Students</div></div>
+    <div class="stat"><div class="stat-v">${esc(fmtDur(totalStudy))}</div><div class="stat-l">Total Study</div></div>
+    <div class="stat"><div class="stat-v">${esc(String(totalSess))}</div><div class="stat-l">Sessions</div></div>
+    <div class="stat"><div class="stat-v">${esc(String(avgScore))}</div><div class="stat-l">Avg Score</div></div>
+    <div class="stat stat-today"><div class="stat-v">${esc(leaderTxt)}</div><div class="stat-l">Today's Leader</div></div>`;
+  document.getElementById('list-meta').textContent=`${items.length} student${items.length!==1?'s':''} · ${LAST_UPDATED?'Updated '+fmtDate(LAST_UPDATED):'waiting…'}`;
 }
+
+/* ── render list ── */
 function renderList(){
-  const list = document.getElementById('student-list');
-  const items = currentItems();
-  updateStats(items);
-
+  const items=currentItems();
+  renderStats(items);
+  const el=document.getElementById('student-list');
   if(!items.length){
-    list.innerHTML = `<div class="error">${LOADING ? 'Loading students…' : (SEARCH ? 'No students match your search.' : 'No leaderboard data found yet.')}</div>`;
-    document.getElementById('list-updated').textContent = LAST_UPDATED ? `Last updated ${fmtDate(LAST_UPDATED)}` : 'Waiting for data…';
-    if(!SELECTED || !items.some(x => x.id === SELECTED.id)){
-      clearDetail();
-    }
-    return;
+    el.innerHTML=`<div style="padding:20px;text-align:center;color:var(--text2);font-size:13px">${LOADING?'Loading…':SEARCH?'No students match.':'No data found.'}</div>`;
+    if(!SELECTED)clearDetail();return;
   }
+  if(!SELECTED||!items.some(x=>x.id===SELECTED.id))SELECTED=items[0];
+  else SELECTED=items.find(x=>x.id===SELECTED.id)||items[0];
 
-  if(!SELECTED || !items.some(x => x.id === SELECTED.id)){
-    SELECTED = items[0];
-  } else {
-    SELECTED = items.find(x => x.id === SELECTED.id) || items[0];
-  }
+  const dailySorted=[...items].sort((a,b)=>b.todaySec-a.todaySec);
+  const dailyLeaderId=dailySorted[0]?.todaySec>0?dailySorted[0].id:null;
 
-  list.innerHTML = items.map((item, idx) => {
-    const active = SELECTED && SELECTED.id === item.id;
-    const subs = item.topSubjects.length
-      ? item.topSubjects.slice(0,3).map(([n]) => `<span class="chip">${escapeHtml(n)}</span>`).join('')
-      : '<span class="chip">No subjects yet</span>';
-    return `
-      <div class="student ${active ? 'active' : ''}" data-id="${escapeHtml(item.id)}">
-        <div class="topline">
-          <div class="leftbit">
-            <div class="rank">${idx + 1}</div>
-            <div style="min-width:0;">
-              <div class="name">${escapeHtml(item.name)}</div>
-              <div class="email">${escapeHtml(item.email || 'No email visible')}</div>
-              <div class="meta">
-                <span>${escapeHtml(String(item.score))} score</span>
-                <span>${escapeHtml(fmtDuration(item.totalSec))}</span>
-                <span>${escapeHtml(String(item.sessions))} sessions</span>
-              </div>
-            </div>
-          </div>
-          <div style="font-size:11px;color:var(--text2);white-space:nowrap;">${escapeHtml(fmtDate(item.latestTs))}</div>
+  el.innerHTML=items.map((item,idx)=>{
+    const active=SELECTED?.id===item.id;
+    const rankCls=idx===0?'gold':idx===1?'silver':idx===2?'bronze':'';
+    const subChips=item.topSubjects.slice(0,3).map(([n])=>`<span class="chip">${esc(n)}</span>`).join('');
+    const isLeader=item.id===dailyLeaderId;
+    return`<div class="s-item${active?' active':''}" data-id="${esc(item.id)}">
+      <div class="s-rank ${rankCls}">${idx+1}</div>
+      <div class="s-body">
+        <div class="s-name">${esc(item.name)}${isLeader?' 🏆':''}</div>
+        <div class="s-email">${esc(item.email||'No email')}</div>
+        <div class="s-stats">
+          <span class="s-stat"><b>${esc(fmtDur(item.totalSec))}</b></span>
+          <span class="s-stat"><b>${esc(String(item.sessions))}</b> sess</span>
+          ${item.studyDays>0?`<span class="s-stat"><b>${esc(String(item.studyDays))}</b> days</span>`:''}
+          ${item.streak>0?`<span class="s-stat" style="color:var(--warn)">🔥${esc(String(item.streak))}</span>`:''}
+          ${item.todaySec>0?`<span class="s-stat" style="color:var(--accent3)">📅${esc(fmtDur(item.todaySec))}</span>`:''}
         </div>
-        <div class="chips">${subs}</div>
+        <div class="s-chips">${subChips||'<span class="chip">No subjects</span>'}</div>
       </div>
-    `;
+      <div class="s-score"><div class="s-score-v">${esc(String(item.score))}</div><div class="s-score-l">score</div></div>
+    </div>`;
   }).join('');
 
-  list.querySelectorAll('.student').forEach(el => {
-    el.addEventListener('click', () => {
-      const item = items.find(x => x.id === el.dataset.id);
-      if(item) selectStudent(item, true);
+  el.querySelectorAll('.s-item').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const item=items.find(x=>x.id===el.dataset.id);
+      if(item){SELECTED=item;renderList();}
     });
   });
-
-  document.getElementById('list-updated').textContent = LAST_UPDATED ? `Last updated ${fmtDate(LAST_UPDATED)}` : 'Updated just now';
-  document.getElementById('conn-status').textContent = 'Live';
-  document.getElementById('auto-status').textContent = 'Auto refresh on';
-  renderDetail(SELECTED);
+  renderDetail(SELECTED,items);
 }
+
+/* ── clear detail ── */
 function clearDetail(){
-  document.getElementById('detail-blank').style.display = 'flex';
-  document.getElementById('detail-content').style.display = 'none';
-  if(CHART){ CHART.destroy(); CHART = null; }
+  document.getElementById('detail-blank').style.display='flex';
+  document.getElementById('detail-content').style.display='none';
+  if(CHART){CHART.destroy();CHART=null;}
 }
-function selectStudent(item, pushUrl){
-  SELECTED = item;
-  renderList();
-  if(pushUrl){
-    const url = new URL(window.location.href);
-    url.searchParams.set('id', item.id);
-    history.replaceState({}, '', url);
-  }
-}
-function renderDetail(item){
-  if(!item){
-    clearDetail();
-    return;
-  }
-  document.getElementById('detail-blank').style.display = 'none';
-  document.getElementById('detail-content').style.display = 'block';
 
-  const state = item.state || {};
-  const sessions = getSessionsArray(state);
-  const sortedSessions = sortSessionsNewestFirst(sessions);
-  const groupedDays = groupSessionsByDay(sessions);
+/* ── render detail ── */
+function renderDetail(item,allItems){
+  if(!item){clearDetail();return;}
+  document.getElementById('detail-blank').style.display='none';
+  document.getElementById('detail-content').style.display='block';
 
-  document.getElementById('detail-name').textContent = item.name;
-  document.getElementById('detail-sub').textContent = [
-    item.email || 'No email visible',
-    item.latestTs ? `Last activity ${fmtDate(item.latestTs)}` : 'No activity yet'
-  ].join(' • ');
-  document.getElementById('detail-score').textContent = item.score.toLocaleString();
+  const state=item.state||{};
+  const sorted=sortDesc(item.allSess||[]);
+  const grouped=groupByDay(item.allSess||[]);
 
-  const summary = [
-    [fmtDuration(item.totalSec), 'Total study'],
-    [String(item.sessions), 'Sessions'],
-    [String(item.streak), 'Streak'],
-    [String(item.xp), 'XP'],
-    [String(item.studyDays), 'Active days'],
-    [item.avgSec ? fmtDuration(item.avgSec) : '0m', 'Avg session'],
-    [fmtDate(item.latestTs), 'Latest activity'],
-    [item.user_id || '—', 'User ID']
+  // avatar
+  const av=document.getElementById('detail-avatar');
+  av.textContent=initials(item.name);
+
+  // header
+  document.getElementById('detail-name').textContent=item.name;
+  document.getElementById('detail-email').textContent=item.email||'No email visible';
+  document.getElementById('detail-last').textContent=item.latestTs?'Last active '+fmtDate(item.latestTs):'No activity yet';
+  document.getElementById('detail-score').textContent=item.score.toLocaleString();
+  const todayLbl=document.getElementById('detail-today-label');
+  todayLbl.textContent=item.todaySec>0?'📅 '+fmtDur(item.todaySec)+' today':'';
+
+  // kv row
+  const kvData=[
+    ['Total Study',fmtDur(item.totalSec)],
+    ['Sessions',String(item.sessions)],
+    ['Streak',item.streak>0?'🔥 '+item.streak:'0'],
+    ['XP',item.xp.toLocaleString()],
+    ['Active Days',String(item.studyDays)],
+    ['Avg Session',item.avgSec?fmtDur(item.avgSec):'0m'],
+    ['Today',item.todaySec>0?fmtDur(item.todaySec):'—'],
+    ['Last Active',item.latestTs?fmtDate(item.latestTs):'—'],
+    ['User ID',item.user_id||'—'],
+    ['Updated',item.updatedAt?fmtDate(item.updatedAt):'—'],
   ];
-  document.getElementById('detail-grid').innerHTML = summary.map(([v,k]) => `
-    <div class="kv">
-      <div class="kv-k">${escapeHtml(k)}</div>
-      <div class="kv-v">${escapeHtml(v)}</div>
-    </div>
-  `).join('');
+  document.getElementById('detail-kv').innerHTML=kvData.map(([k,v])=>`
+    <div class="kv"><div class="kv-k">${esc(k)}</div>
+    <div class="kv-v${k==='User ID'||k==='Updated'?' small-v':''}">${esc(v)}</div></div>`).join('');
 
-  const topSubjects = item.topSubjects;
-  document.getElementById('detail-subject-note').textContent = topSubjects.length
-    ? `Top subjects are based on total study time in synced sessions.`
-    : 'No subject data found in the synced profile.';
-  document.getElementById('detail-subjects').innerHTML = topSubjects.length
-    ? topSubjects.map(([name, sec]) => `
-        <div class="subjbar">
-          <label><span>${escapeHtml(name)}</span><span>${escapeHtml(fmtDuration(sec))}</span></label>
-          <div class="bar"><div class="fill" style="width:${item.totalSec > 0 ? Math.max(6, Math.min(100, Math.round((sec / item.totalSec) * 100))) : 0}%"></div></div>
-        </div>
-      `).join('')
-    : '<div class="small">No subject breakdown available yet.</div>';
-
-  document.getElementById('detail-sessions').innerHTML = item.recent.length
-    ? item.recent.map(s => {
-        const ts = getSessionTimestamp(s);
-        const dur = normalizeDuration(s?.dur ?? s?.duration ?? s?.minutes ?? s?.time);
-        return `
-        <div class="session">
-          <div style="min-width:0;">
-            <b>${escapeHtml(getSessionLabel(s))}</b><br>
-            <span>${escapeHtml(s.d || (ts ? formatDateOnly(ts) : 'No date'))} • ${escapeHtml(ts ? formatClock(ts) : 'No timestamp')}</span>
-          </div>
-          <div style="text-align:right;flex-shrink:0;">
-            <b>${escapeHtml(fmtDuration(dur))}</b><br>
-            <span>${escapeHtml(String(Math.round(dur / 60)))} min</span>
-          </div>
-        </div>
-      `}).join('')
-    : '<div class="small">No recent sessions found.</div>';
-
-  const fields = [
-    ['user_id', item.user_id || '—'],
-    ['email', item.email || '—'],
-    ['name', item.name || '—'],
-    ['xp', String(item.xp)],
-    ['streak', String(item.streak)],
-    ['total study', fmtDuration(item.totalSec)],
-    ['sessions', String(item.sessions)],
-    ['study days', String(item.studyDays)],
-    ['last updated', fmtDate(item.updatedAt || item.latestTs)]
-  ];
-  const extraKeys = Object.keys(state).filter(k => !['sess','streak','xp','name','full_name','display_name','user_name'].includes(k));
-  document.getElementById('detail-fields').innerHTML = `
-    <div class="small" style="margin-bottom:10px;">Core stored values</div>
-    <div class="subjrow">
-      ${fields.map(([k,v]) => `<span class="chip">${escapeHtml(k)}: ${escapeHtml(v)}</span>`).join('')}
-    </div>
-    ${extraKeys.length ? `<div class="small" style="margin:14px 0 8px;">Extra keys inside <code>state</code></div>
-      <div class="subjrow">${extraKeys.map(k => `<span class="chip">${escapeHtml(k)}</span>`).join('')}</div>` : ''}
-  `;
-
-  const timelineEl = document.getElementById('detail-timeline');
-  if(timelineEl){
-    timelineEl.innerHTML = groupedDays.length ? groupedDays.map(group => {
-      const firstTs = group.items.find(s => getSessionTimestamp(s)) ? getSessionTimestamp(group.items.find(s => getSessionTimestamp(s))) : 0;
-      const dayLabel = firstTs ? formatDateOnly(firstTs) : String(group.key);
-      const totalLabel = fmtDuration(group.total);
-      return `
-        <div class="day-card">
-          <div class="day-head">
-            <div>
-              <div class="day-title">${escapeHtml(dayLabel)}</div>
-              <div class="day-meta">${escapeHtml(String(group.items.length))} sessions • ${escapeHtml(totalLabel)} total</div>
-            </div>
-            <span class="mini-badge">Day total: ${escapeHtml(totalLabel)}</span>
-          </div>
-          <div class="subjrow">
-            ${[...new Set(group.items.map(s => getSessionLabel(s)))].slice(0, 6).map(sub => `<span class="chip">${escapeHtml(sub)}</span>`).join('')}
-          </div>
-          <div class="small" style="margin-top:10px;line-height:1.6;">
-            ${group.items.map(s => {
-              const ts = getSessionTimestamp(s);
-              const dur = normalizeDuration(s?.dur ?? s?.duration ?? s?.minutes ?? s?.time);
-              const note = getSessionNote(s);
-              return `${escapeHtml(ts ? formatClock(ts) : '—')} • <b>${escapeHtml(getSessionLabel(s))}</b> • ${escapeHtml(fmtDuration(dur))}${note ? ` <span class="mono">(${escapeHtml(note)})</span>` : ''}`;
-            }).join('<br>')}
-          </div>
-        </div>
-      `;
-    }).join('') : '<div class="session-empty">No grouped day data found.</div>';
-  }
-
-  const allSessionsEl = document.getElementById('detail-all-sessions');
-  if(allSessionsEl){
-    allSessionsEl.innerHTML = sortedSessions.length ? sortedSessions.map((s, idx) => {
-      const ts = getSessionTimestamp(s);
-      const dur = normalizeDuration(s?.dur ?? s?.duration ?? s?.minutes ?? s?.time);
-      const subject = getSessionLabel(s);
-      const note = getSessionNote(s);
-      const day = ts ? formatDateOnly(ts) : (s?.d || 'Unknown day');
-      return `
-        <div class="session-row">
-          <div>
-            <div class="k">#${idx + 1}</div>
-            <div class="v">${escapeHtml(day)}</div>
-          </div>
-          <div>
-            <div class="k">Time</div>
-            <div class="v">${escapeHtml(ts ? formatClock(ts) : '—')}</div>
-          </div>
-          <div>
-            <div class="k">Subject</div>
-            <div class="v">${escapeHtml(subject)}</div>
-            ${note ? `<div class="session-extra"><span class="mono">${escapeHtml(note)}</span></div>` : ''}
-          </div>
-          <div>
-            <div class="k">Duration</div>
-            <div class="v">${escapeHtml(fmtDuration(dur))}</div>
-            <div class="session-extra">${escapeHtml(String(Math.round(dur / 60)))} min</div>
-          </div>
-        </div>
-      `;
-    }).join('') : '<div class="session-empty">No detailed session records found.</div>';
-  }
-
+  // ── TAB: Overview ──
+  // subjects
+  const subjEl=document.getElementById('detail-subjects');
+  subjEl.innerHTML=item.topSubjects.length
+    ?item.topSubjects.map(([n,sec])=>`
+      <div class="subjbar">
+        <div class="subjbar-top"><span class="subjbar-name">${esc(n)}</span><span class="subjbar-dur">${esc(fmtDur(sec))}</span></div>
+        <div class="bar"><div class="fill" style="width:${item.totalSec>0?Math.max(4,Math.round((sec/item.totalSec)*100)):0}%"></div></div>
+      </div>`).join('')
+    :'<div class="empty">No subject data</div>';
   renderChart(item);
+
+  // ── TAB: Sessions ──
+  document.getElementById('detail-all-sessions').innerHTML=sorted.length
+    ?sorted.map((s,i)=>{
+      const ts=getSessTs(s),dur=normDur(s?.dur??s?.duration??s?.minutes??s?.time);
+      const note=getSessNote(s);
+      return`<div class="all-sess-row">
+        <div class="all-sess-num">${i+1}</div>
+        <div><div class="all-sess-subj">${esc(getSessLabel(s))}</div><div class="all-sess-date">${esc(ts?fmtDateOnly(ts):s?.d||'—')}</div></div>
+        <div class="all-sess-time">${esc(fmtClock(ts))}</div>
+        <div class="all-sess-dur">${esc(fmtDur(dur))}</div>
+        ${note?`<div class="all-sess-note mono">${esc(note)}</div>`:''}
+      </div>`;
+    }).join('')
+    :'<div class="empty">No sessions found</div>';
+
+  // ── TAB: Timeline ──
+  document.getElementById('detail-timeline').innerHTML=grouped.length
+    ?grouped.map(g=>{
+      const firstTs=getSessTs(g.items.find(s=>getSessTs(s))||{});
+      const dayLabel=firstTs?fmtDateOnly(firstTs):String(g.key);
+      const uniqSubj=[...new Set(g.items.map(s=>getSessLabel(s)))].slice(0,6);
+      return`<div class="day-card">
+        <div class="day-head">
+          <div><div class="day-date">${esc(dayLabel)}</div><div class="day-meta">${g.items.length} sessions</div></div>
+          <span class="day-badge">${esc(fmtDur(g.total))}</span>
+        </div>
+        <div class="day-subj-chips">${uniqSubj.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</div>
+        <div class="day-sess-row">${g.items.map(s=>{
+          const ts=getSessTs(s),dur=normDur(s?.dur??s?.duration??s?.minutes??s?.time);
+          return`${esc(fmtClock(ts)||'—')} · <b>${esc(getSessLabel(s))}</b> · ${esc(fmtDur(dur))}`;
+        }).join('<br>')}</div>
+      </div>`;
+    }).join('')
+    :'<div class="empty">No timeline data</div>';
+
+  // ── TAB: Daily Rank ──
+  const withToday=allItems?[...allItems].filter(x=>x.todaySec>0).sort((a,b)=>b.todaySec-a.todaySec):[];
+  document.getElementById('detail-daily-rank').innerHTML=withToday.length
+    ?withToday.slice(0,15).map((s,i)=>{
+      const isMe=s.id===item.id;
+      const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
+      return`<div class="daily-row${isMe?' me':''}">
+        <div class="daily-medal">${medal}</div>
+        <div style="min-width:0">
+          <div class="daily-name">${esc(s.name)}</div>
+          <div class="daily-sub">${esc(String(s.sessions))} sessions · ${esc(String(s.studyDays))} days active</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div class="daily-time">${esc(fmtDur(s.todaySec))}</div>
+          <div class="daily-sub">today</div>
+        </div>
+      </div>`;
+    }).join('')
+    :'<div class="empty">No sessions recorded today yet</div>';
+
+  // ── TAB: Profile Data ──
+  const coreFields=[
+    ['User ID',item.user_id||'—'],['Email',item.email||'—'],['Name',item.name||'—'],
+    ['XP',String(item.xp)],['Streak',String(item.streak)],['Sessions',String(item.sessions)],
+    ['Study Days',String(item.studyDays)],['Total Study',fmtDur(item.totalSec)],
+    ['Avg Session',fmtDur(item.avgSec)],['Score',String(item.score)],
+    ['Today',item.todaySec>0?fmtDur(item.todaySec):'—'],
+    ['Last Activity',fmtDate(item.latestTs)],['Last Updated',fmtDate(item.updatedAt||item.latestTs)],
+  ];
+  document.getElementById('detail-fields-core').innerHTML=coreFields.map(([k,v])=>
+    `<div class="field-tile"><div class="field-key">${esc(k)}</div><div class="field-val">${esc(v)}</div></div>`).join('');
+  const skip=['sess','sessions','session','history','logs','streak','xp','name','full_name','display_name','user_name'];
+  const extraKeys=Object.keys(state).filter(k=>!skip.includes(k));
+  const extraSec=document.getElementById('detail-fields-extra-sec');
+  if(extraKeys.length){
+    extraSec.style.display='block';
+    document.getElementById('detail-fields-extra').innerHTML=extraKeys.map(k=>{
+      const v=state[k];
+      const display=typeof v==='object'?JSON.stringify(v).slice(0,60):String(v);
+      return`<div class="field-tile"><div class="field-key">${esc(k)}</div><div class="field-val" style="font-size:12px">${esc(display)}</div></div>`;
+    }).join('');
+  }else{extraSec.style.display='none';}
 }
+
+/* ── chart ── */
 function renderChart(item){
-  const canvas = document.getElementById('subject-chart');
-  if(!canvas) return;
-  if(CHART){ CHART.destroy(); CHART = null; }
-
-  const entries = Array.isArray(item.topSubjects) ? item.topSubjects : [];
-  const labels = entries.map(([n]) => n);
-  const data = entries.map(([,v]) => Number((v / 60).toFixed(1)));
-  const displayLabels = labels.length ? labels : ['No data'];
-  const displayData = data.length ? data : [0];
-
-  CHART = new Chart(canvas, {
-    type: 'bar',
-    data: {
-      labels: displayLabels,
-      datasets: [{
-        label: 'Minutes',
-        data: displayData,
-        borderWidth: 0,
-        borderRadius: 8,
-        maxBarThickness: 42
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 250 },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => `${ctx.parsed.y} min`
-          }
-        }
-      },
-      scales: {
-        x: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text2').trim() }, grid: { display: false } },
-        y: { beginAtZero: true, ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text2').trim() }, grid: { color: 'rgba(148,163,184,.18)' } }
+  const canvas=document.getElementById('subject-chart');
+  if(!canvas)return;
+  if(CHART){CHART.destroy();CHART=null;}
+  const entries=Array.isArray(item.topSubjects)?item.topSubjects:[];
+  const labels=entries.length?entries.map(([n])=>n):['No data'];
+  const data=entries.length?entries.map(([,v])=>Number((v/60).toFixed(1))):[0];
+  const c2=getComputedStyle(document.documentElement).getPropertyValue('--text2').trim();
+  const colors=['rgba(168,85,247,.75)','rgba(99,102,241,.75)','rgba(6,182,212,.75)','rgba(16,185,129,.75)','rgba(245,158,11,.75)','rgba(239,68,68,.75)'];
+  CHART=new Chart(canvas,{
+    type:'bar',
+    data:{labels,datasets:[{data,borderWidth:0,borderRadius:6,maxBarThickness:40,
+      backgroundColor:labels.map((_,i)=>colors[i%colors.length])}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:300},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y} min`}}},
+      scales:{
+        x:{ticks:{color:c2,font:{size:11}},grid:{display:false},border:{display:false}},
+        y:{beginAtZero:true,ticks:{color:c2,font:{size:11}},grid:{color:'rgba(148,163,184,.1)'},border:{display:false}}
       }
     }
   });
 }
 
-function setConnStatus(text, tone=''){
-  const el = document.getElementById('conn-status');
-  if(el) el.textContent = text;
-}
-async function loadProfiles(){
-  if(!SB) return;
-  if(LOADING) return;
-  LOADING = true;
-  setConnStatus('Loading…');
-  try{
-    const { data, error } = await SB.from(TABLE).select('user_id,email,state,updated_at').limit(1000);
-    if(error) throw error;
-    PROFILES = (data || []).map(summarize).filter(x => x.sessions > 0 || x.totalSec > 0);
-    LAST_UPDATED = Date.now();
-    setConnStatus('Live');
-    renderList();
+/* ── tab switching ── */
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-body').forEach(b=>b.classList.remove('active'));
+    tab.classList.add('active');
+    const id='tab-'+tab.dataset.tab;
+    const body=document.getElementById(id);
+    if(body)body.classList.add('active');
+  });
+});
 
-    const id = new URL(location.href).searchParams.get('id');
-    if(id){
-      const item = PROFILES.find(x => String(x.id) === id || String(x.user_id) === id);
-      if(item) SELECTED = item;
-    }
-    if(SELECTED && !PROFILES.some(x => x.id === SELECTED.id)) SELECTED = PROFILES[0] || null;
+/* ── data loading ── */
+function setStatus(text){document.getElementById('conn-status').textContent=text;}
+
+async function loadProfiles(){
+  if(!SB||LOADING)return;
+  LOADING=true;setStatus('Loading…');
+  try{
+    const{data,error}=await SB.from(TABLE).select('user_id,email,state,updated_at').limit(1000);
+    if(error)throw error;
+    PROFILES=(data||[]).map(summarize).filter(x=>x.sessions>0||x.totalSec>0);
+    LAST_UPDATED=Date.now();setStatus('Live');
+    const id=new URL(location.href).searchParams.get('id');
+    if(id){const it=PROFILES.find(x=>String(x.id)===id||String(x.user_id)===id);if(it)SELECTED=it;}
+    if(SELECTED&&!PROFILES.some(x=>x.id===SELECTED.id))SELECTED=PROFILES[0]||null;
     renderList();
   }catch(err){
-    console.error(err);
-    PROFILES = [];
-    setConnStatus('Offline');
-    document.getElementById('student-list').innerHTML = `<div class="error">
-      Could not load data. Make sure the <code>${TABLE}</code> table allows public <code>SELECT</code> access for anonymous users.
-      <br><br>
-      ${escapeHtml(err?.message || 'Unknown error')}
-    </div>`;
+    console.error(err);PROFILES=[];setStatus('Offline');
+    document.getElementById('student-list').innerHTML=`<div class="err" style="margin:12px">Could not load data.<br><br>${esc(err?.message||'Unknown error')}</div>`;
     clearDetail();
-  }finally{
-    LOADING = false;
-  }
+  }finally{LOADING=false;}
 }
+
 function initRealtime(){
-  if(!SB || !SB.channel) return;
+  if(!SB?.channel)return;
   try{
-    CHANNEL = SB.channel('student-performance-live')
-      .on('postgres_changes', { event: '*', schema: 'public', table: TABLE }, () => loadProfiles())
+    CHANNEL=SB.channel('foclock-perf')
+      .on('postgres_changes',{event:'*',schema:'public',table:TABLE},()=>loadProfiles())
       .subscribe();
-  }catch(e){
-    console.warn('Realtime channel not available', e);
-  }
+  }catch(e){console.warn('Realtime unavailable',e);}
 }
+
 async function boot(){
-  if(!(window.supabase && window.supabase.createClient)){
-    setConnStatus('Supabase unavailable');
-    document.getElementById('student-list').innerHTML = `<div class="error">Supabase script did not load.</div>`;
+  if(!(window.supabase?.createClient)){
+    setStatus('Unavailable');
+    document.getElementById('student-list').innerHTML='<div class="err" style="margin:12px">Supabase failed to load.</div>';
     return;
   }
-  SB = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+  SB=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{
+    auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}
   });
-
-  document.getElementById('search').addEventListener('input', e => {
-    SEARCH = e.target.value.trim().toLowerCase();
-    renderList();
+  document.getElementById('search').addEventListener('input',e=>{SEARCH=e.target.value.trim().toLowerCase();renderList();});
+  document.querySelectorAll('[data-sort]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      SORT_MODE=btn.dataset.sort;
+      document.querySelectorAll('[data-sort]').forEach(b=>b.classList.toggle('active',b.dataset.sort===SORT_MODE));
+      renderList();
+    });
   });
-  document.getElementById('toggle-sort').addEventListener('click', () => {
-    SORT_MODE = SORT_MODE === 'performance' ? 'time' : 'performance';
-    document.getElementById('toggle-sort').textContent = `Sort: ${SORT_MODE === 'performance' ? 'Performance' : 'Study time'}`;
-    renderList();
-  });
-  document.getElementById('refresh-btn').addEventListener('click', () => loadProfiles());
-
+  document.getElementById('refresh-btn').addEventListener('click',loadProfiles);
   await loadProfiles();
   initRealtime();
-
-  REFRESH_TIMER = setInterval(loadProfiles, 30000);
+  setInterval(loadProfiles,30000);
 }
 boot();
 </script>
