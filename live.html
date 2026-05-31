@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Foc Lock</title>
 <link rel="icon" type="image/png" href="https://foclock.vercel.app/clogo.png" />
-<link rel="apple-touch-icon" href="https://i.postimg.cc/g0LW01fr/18936-removebg-preview.png" />
+<link rel="apple-touch-icon" href="https://foclock.vercel.app/clogo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -100,12 +100,14 @@ body{background:var(--bg);}
   position:relative;z-index:10;
   backdrop-filter:blur(12px);
 }
-.hdr-logo{display:flex;align-items:center;gap:10px;}
-.hdr-logo-img{width:34px;height:34px;object-fit:contain;border-radius:10px;}
+.hdr-logo{display:flex;align-items:center;gap:10px; margin-left:5px;}
+.hdr-logo-img{width:35px;height:35px;object-fit:contain;border-radius:10px;}
 .hdr-title{
   font-size:18px;font-weight:900;letter-spacing:-.3px;
   /*background:linear-gradient(135deg,var(--accent2) 0%,var(--accent3) 100%);*/
   background: linear-gradient(169deg, #fff 0%, #bcd9ff 55%, #2a8aff 100%);
+  margin-left:-5px;
+  margin-top: 2px;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .hdr-btns{display:flex;gap:8px;}
