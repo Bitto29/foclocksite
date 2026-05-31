@@ -754,7 +754,7 @@ body{background:var(--bg);}
 .goal-ring-svg{transform:rotate(-90deg);width:80px;height:80px;}
 .goal-ring-bg{fill:none;stroke:var(--bg3);stroke-width:7;}
 .goal-ring-fill{
-  fill:none;stroke:url(#dailyGrad);stroke-width:7;stroke-linecap:round;
+  fill:none;stroke: url(#ring-gradient);stroke-width:7;stroke-linecap:round;
   transition:stroke-dashoffset .7s cubic-bezier(.34,1.2,.64,1);
 }
 .goal-ring-center{
@@ -909,6 +909,13 @@ body{background:var(--bg);}
         <div class="goal-home-label">Daily Goal</div>
         <div class="goal-home-ring-wrap">
           <svg class="goal-ring-svg" viewBox="0 0 80 80">
+            <defs>
+              <linearGradient id="ring-gradient" x1="1" y1="0.2" x2="0" y2="0">
+                <stop offset="0%" stop-color="#93c5fd" />
+                <stop offset="45%" stop-color="#60a5fa" />
+                <stop offset="100%" stop-color="#1d4ed8" />
+              </linearGradient>
+            </defs>
             <circle class="goal-ring-bg" cx="40" cy="40" r="34"/>
             <circle class="goal-ring-fill" id="daily-ring" cx="40" cy="40" r="34"
               stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
@@ -1436,13 +1443,15 @@ body{background:var(--bg);}
     <div class="tring">
       <svg width="210" height="210" viewBox="0 0 210 210">
         <defs>
-          <linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#7c5cfc"/>
-            <stop offset="100%" style="stop-color:#00d2c8"/>
+          <linearGradient id="tg" x1="1" y1="0.2" x2="0" y2="0">
+            <stop offset="0%" stop-color="#93c5fd" />
+            <stop offset="45%" stop-color="#60a5fa" />
+            <stop offset="100%" stop-color="#1d4ed8" />
           </linearGradient>
         </defs>
         <circle class="trb" cx="105" cy="105" r="96"/>
-        <circle class="trf" id="t-ring" cx="105" cy="105" r="96" stroke-dasharray="603" stroke-dashoffset="0"/>
+        <circle class="trf" id="t-ring" cx="105" cy="105" r="96"
+          stroke-dasharray="603" stroke-dashoffset="0"/>
       </svg>
       <div class="ttxt">
         <div class="ttime" id="t-disp">00:00</div>
