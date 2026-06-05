@@ -2158,14 +2158,14 @@ function updHome(){
   var td=D.sess.filter(function(s){return s.d===t;});
   var tm=Math.round(td.reduce(function(a,s){return a+s.dur;},0)/60);
   updateGreeting();
-  document.getElementById('s-today').textContent=tm+'m';
+  document.getElementById('s-today').textContent=fmtDur(tm);
   document.getElementById('s-streak').textContent=D.streak.c;
   document.getElementById('s-sess').textContent=D.sess.length;
   document.getElementById('s-xp').textContent=D.xp;
   var p=Math.min(100,Math.round(tm/D.goal*100));
   document.getElementById('daily-bar').style.width=p+'%';
-  document.getElementById('daily-done').textContent=tm+' min';
-  document.getElementById('daily-goal-lbl').textContent='Goal: '+D.goal+' min';
+  document.getElementById('daily-done').textContent=fmtDur(tm);
+  document.getElementById('daily-goal-lbl').textContent='Goal: '+fmtDur(D.goal);
   var pctEl=document.getElementById('daily-pct'); if(pctEl)pctEl.textContent=p+'%';
   var ring=document.getElementById('daily-ring');
   if(ring)ring.style.strokeDashoffset=213.6*(1-p/100);
@@ -2254,6 +2254,11 @@ function updTDisp(){
   updateSessionXPDisplay();
 }
 function pad(n){return String(n).padStart(2,'0');}
+function fmtDur(mins){
+  if(mins<60)return mins+'m';
+  var h=Math.floor(mins/60),m=mins%60;
+  return m===0?(h+'h'):(h+'h '+m+'m');
+}
 function endSess(done){
   if(!CUR)return;
   clearInterval(STMR);clearInterval(PNTMR);clearInterval(REMTMR);
@@ -2538,9 +2543,9 @@ function initChart(){
     data:getChartData(),
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ctx.parsed.y+'m';}}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return fmtDur(ctx.parsed.y);}}}},
       scales:{
-        y:{ticks:{color:'#8892b0',callback:function(v){return v+'m';},font:{family:'Plus Jakarta Sans',weight:'600'}},grid:{color:'rgba(255,255,255,.05)'},border:{display:false}},
+        y:{ticks:{color:'#8892b0',callback:function(v){return fmtDur(v);},font:{family:'Plus Jakarta Sans',weight:'600'}},grid:{color:'rgba(255,255,255,.05)'},border:{display:false}},
         x:{ticks:{color:'#8892b0',font:{family:'Plus Jakarta Sans',weight:'700'}},grid:{display:false},border:{display:false}}
       }
     }
@@ -2567,7 +2572,7 @@ function updSBars(){
   var mx=Math.max.apply(null,Object.values(tot));
   c.innerHTML=keys.map(function(k){
     var m=Math.round(tot[k]/60),p=Math.round(tot[k]/mx*100);
-    return '<div class="sbrow"><div class="sbname">'+k+'</div><div class="sbbar"><div class="sbfill" style="width:'+p+'%"></div></div><div class="sbtime">'+m+'m</div></div>';
+    return '<div class="sbrow"><div class="sbname">'+k+'</div><div class="sbbar"><div class="sbfill" style="width:'+p+'%"></div></div><div class="sbtime">'+fmtDur(m)+'</div></div>';
   }).join('');
 }
 var HIST_SHOW=10;
@@ -2581,7 +2586,7 @@ function updHist(){
     var tm=new Date(s.ts).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
     return '<div class="hist-item">'
       +'<div style="flex:1;min-width:0;"><div class="hist-subj">'+s.subj+(s.manual?' <span style="font-size:10px;color:var(--text3);font-weight:600;">[manual]</span>':'')+'</div><div class="hist-meta">'+s.d+' at '+tm+'</div></div>'
-      +'<div style="text-align:right;flex-shrink:0;"><div class="hist-dur">'+m+'m</div>'
+      +'<div style="text-align:right;flex-shrink:0;"><div class="hist-dur">'+fmtDur(m)+'</div>'
       +'<div class="hist-status" style="color:'+(s.manual?'var(--accent3)':s.open?(s.done?'var(--accent2)':'var(--warn)'):(s.done?'var(--success)':'var(--warn)'))+';\">'
       +(s.manual?'Manually Logged':s.open?(s.done?'Open Session':'Ended Early'):(s.done?'Completed':'Ended Early'))
       +'</div></div>'
@@ -2608,7 +2613,7 @@ function deleteSession(id){
   var idx=D.sess.findIndex(function(s){return s.id===id;});
   if(idx===-1)return;
   var s=D.sess[idx];
-  if(!confirm('Delete this session?\n'+s.subj+' \u2022 '+Math.round(s.dur/60)+'m on '+s.d))return;
+  if(!confirm('Delete this session?\n'+s.subj+' \u2022 '+fmtDur(Math.round(s.dur/60))+' on '+s.d))return;
   D.sess.splice(idx,1);
   D.xp=calcXP();
   localStorage.setItem('fl_s',JSON.stringify(D.sess)); localStorage.setItem('fl_xp',D.xp);
