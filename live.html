@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,31 +18,31 @@
 :root{
   /* Foc Lock — Dark Mode */
   /* Backgrounds: near-black charcoal, NOT pure black or pure navy */
-  --bg:#0e1117;          /* base: dark charcoal with a very slight blue cast */
-  --bg2:#161b25;         /* header/nav: one step lighter */
-  --bg3:#1c2333;         /* inputs, chips, inactive tabs */
-  --card:#1a2030;        /* card surface */
-  --card2:#202840;       /* elevated/hover card */
-  --border:#28334a;      /* default border — subtle */
-  --border2:#364460;     /* hover/active border */
+  --bg:#0b0d12;           /* page background — true neutral near-black */
+  --bg2:#101319;          /* header/nav */
+  --bg3:#171a22;          /* inputs, chips, inactive tabs */
+  --card:#13161d;         /* card surface */
+  --card2:#1a1e27;        /* elevated/hover card */
+  --border:#222631;       /* default border — quiet */
+  --border2:#323847;      /* hover/active border */
 
   /* Accent: a single confident blue — not dreamy, not washed */
-  --accent:#3d8fe0;      /* primary blue CTA */
-  --accent2:#5aaaf5;     /* lighter blue, active states, highlighted text */
-  --accent3:#2271c4;     /* darker blue, gradient base */
-  --accent4:#1a5faa;     /* deepest blue, gradient tail */
+  --accent:#3b82f6;       /* primary blue — CTAs, active states, links */
+  --accent2:#60a5fa;      /* lighter, for highlighted text/icons on dark */
+  --accent3:#2563eb;      /* darker, for gradient depth */
+  --accent4:#1d4ed8;      /* deepest, gradient tail */
 
   /* Text: white → steel → slate. Blue only in accent2, not text */
-  --text:#e8edf4;        /* primary: clean near-white, no blue tint */
-  --text2:#8a96a8;       /* secondary: neutral grey-blue */
-  --text3:#454f61;       /* placeholder / faint labels */
+  --text:#e5e7eb;         /* primary */
+  --text2:#9398a3;        /* secondary */
+  --text3:#5b6070;        /* placeholder / faint labels */
 
   /* Status colors: vibrant, distinct from blue */
-  --success:#22c77a;     /* clear green */
-  --warn:#f5a623;        /* amber */
-  --danger:#f04060;      /* strong red */
+  --success:#22c55e;
+  --warn:#f59e0b;
+  --danger:#ef4444;
 
-  --shadow:0 8px 32px rgba(0,0,0,.55);
+  --shadow:0 8px 32px rgba(0,0,0,.5);
   --shadow2:0 4px 16px rgba(0,0,0,.3);
   --nh:62px;
   --hh:58px;
@@ -50,17 +51,17 @@
   --radius-sm:10px;
   --radius-xs:8px;
   --font:'Plus Jakarta Sans',system-ui,sans-serif;
-  --glow:0 0 24px rgba(61,143,224,.3);
-  --glow2:0 0 18px rgba(61,143,224,.18);
+  --glow:0 0 20px rgba(59,130,246,.25);
+  --glow2:0 0 16px rgba(59,130,246,.15);
 }
 
 #app[data-theme=light]{
   /* Foc Lock — Light Mode */
   /* Backgrounds: clean white-grey system, like a real productivity app */
-  --bg:#f2f4f7;          /* outer page: off-white grey */
-  --bg2:#ffffff;         /* header/nav: pure white */
-  --bg3:#e4e8f0;         /* inputs, chips: visible grey, not white */
-  --card:#ffffff;        /* cards: white */
+  --bg:#e1eaf7;          /* outer page: off-white grey */
+  --bg2:#ebedf0;         /* header/nav: pure white */
+  --bg3:#ced4e0;         /* inputs, chips: visible grey, not white */
+  --card:#e8f1ff;        /* cards: white */
   --card2:#f7f8fc;       /* elevated card: slight grey */
   --border:#d0d6e2;      /* borders: clear, not invisible */
   --border2:#a8b4cc;     /* hover borders: more visible */
@@ -122,7 +123,7 @@ body{background:var(--bg);}
 .hdr-title{
   font-size:18px;font-weight:900;letter-spacing:-.3px;
   /*background:linear-gradient(135deg,var(--accent2) 0%,var(--accent3) 100%);*/
-  background: linear-gradient(135deg, #ffffff 0%, #90c4f8 60%, #3d8fe0 100%);
+  background: linear-gradient(135deg, #4263eb 0%, #22b8cf 100%);
   margin-left:-5px;
   margin-top: 2px;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
@@ -920,9 +921,9 @@ body{background:var(--bg);}
       </div>
       <div class="sc">
         <div class="sc-icon" style="background:rgba(61,143,224,.1);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent3)" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#32963f" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
-        <div class="sv" style="color:var(--accent3);" id="s-streak">0</div>
+        <div class="sv" style="color:#32963f;" id="s-streak">0</div>
         <div class="sl">Day Streak</div>
       </div>
       <div class="sc">
@@ -979,7 +980,7 @@ body{background:var(--bg);}
       </div>
       <!-- Right: log panel -->
       <div class="goal-home-panel goal-home-log">
-        <div class="goal-home-label">Manual Add Session</div>
+        <div class="goal-home-label">Manual Session</div>
         <div class="goal-log-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="12" y1="12" x2="12" y2="18"/></svg>
         </div>
