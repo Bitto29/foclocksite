@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -278,6 +277,36 @@ body{background:var(--bg);}
 
 /* SUBJECT BARS */
 .sbrow{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+
+/* Subject period dropdown */
+.subj-period-sel{
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-xs);
+  color:var(--text2);font-size:11px;font-weight:700;font-family:var(--font);
+  padding:5px 8px;cursor:pointer;outline:none;transition:border-color .2s ease;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%239398a3' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 7px center;padding-right:24px;
+}
+.subj-period-sel:focus{border-color:var(--accent);}
+.subj-period-sel option{background:var(--card);color:var(--text);font-family:var(--font);}
+.subj-custom-range{display:none;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap;}
+.subj-custom-range.show{display:flex;}
+.subj-date-inp{
+  flex:1;min-width:110px;padding:7px 10px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius-xs);color:var(--text);font-size:12px;font-family:var(--font);
+  font-weight:600;outline:none;transition:border-color .2s ease;
+}
+.subj-date-inp:focus{border-color:var(--accent);}
+.subj-go-btn{
+  padding:7px 13px;background:linear-gradient(135deg,var(--accent4),var(--accent));
+  border:none;border-radius:var(--radius-xs);color:#fff;font-size:12px;font-weight:800;
+  cursor:pointer;font-family:var(--font);white-space:nowrap;
+}
+.subj-period-label{
+  font-size:10px;font-weight:700;color:var(--accent2);background:rgba(61,143,224,.1);
+  border:1px solid rgba(61,143,224,.2);border-radius:6px;padding:2px 7px;
+  display:inline-block;margin-bottom:8px;
+}
 .sbname{font-size:12px;font-weight:700;width:80px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);}
 .sbbar{flex:1;height:8px;background:var(--bg3);border-radius:999px;overflow:hidden;}
 .sbfill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent3));border-radius:999px;transition:width .5s ease;}
@@ -1015,7 +1044,22 @@ body{background:var(--bg);}
       <div class="chart-wrap"><canvas id="prog-chart"></canvas></div>
     </div>
     <div class="card">
-      <div class="ctitle">By Subject</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div class="ctitle" style="margin-bottom:0;">By Subject</div>
+        <select class="subj-period-sel" id="subj-period-sel" onchange="setSubjPeriod(this.value)">
+          <option value="all">All Time</option>
+          <option value="today">Today</option>
+          <option value="yesterday">Yesterday</option>
+          <option value="custom">Date Range</option>
+        </select>
+      </div>
+      <div class="subj-custom-range" id="subj-custom-range">
+        <input type="date" class="subj-date-inp" id="subj-from" placeholder="From">
+        <span style="font-size:12px;color:var(--text3);font-weight:600;flex-shrink:0;">to</span>
+        <input type="date" class="subj-date-inp" id="subj-to" placeholder="To">
+        <button class="subj-go-btn" onclick="applyCustomSubjRange()">Go</button>
+      </div>
+      <div id="subj-period-label"></div>
       <div id="subj-bars"><div style="font-size:13px;color:var(--text2);font-weight:500;">No sessions yet.</div></div>
     </div>
     <div class="card">
@@ -1687,6 +1731,7 @@ var CUR = null;
 var STMR = null, PNTMR = null, REMTMR = null, WL = null;
 var ACTX = null, ANODES = {}, CURNAMB = null, CURLOFI = null, CUR_LOFI_INDEX = 0;
 var PCHART = null, PERIOD = 'week';
+var SUBJ_PERIOD = 'all', SUBJ_FROM = '', SUBJ_TO = '';
 var MANS = 0, SELSUBJ = '', SELT = 30;
 var THEME_MQ = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -2689,11 +2734,43 @@ function getChartData(){
 }
 function updChart(){ if(!PCHART)return; PCHART.data=getChartData(); PCHART.update(); }
 function setPeriod(p,el){ PERIOD=p; document.querySelectorAll('.ptab').forEach(function(t){t.classList.remove('active');}); el.classList.add('active'); updChart(); }
+function yesterday(){ var d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().split('T')[0]; }
+function setSubjPeriod(p){
+  SUBJ_PERIOD=p;
+  var cr=document.getElementById('subj-custom-range');
+  if(cr) cr.classList.toggle('show', p==='custom');
+  if(p!=='custom') updSBars();
+}
+function applyCustomSubjRange(){
+  var f=document.getElementById('subj-from').value;
+  var t=document.getElementById('subj-to').value;
+  if(!f||!t){ toast('Pick both dates.'); return; }
+  if(f>t){ toast('Start date must be before end date.'); return; }
+  SUBJ_FROM=f; SUBJ_TO=t;
+  updSBars();
+}
+function getSubjPeriodLabel(){
+  if(SUBJ_PERIOD==='all') return '';
+  if(SUBJ_PERIOD==='today') return 'Today — '+today();
+  if(SUBJ_PERIOD==='yesterday') return 'Yesterday — '+yesterday();
+  if(SUBJ_PERIOD==='custom'&&SUBJ_FROM&&SUBJ_TO) return SUBJ_FROM+' → '+SUBJ_TO;
+  return '';
+}
 function updSBars(){
   var c=document.getElementById('subj-bars');
-  var tot={}; D.sess.forEach(function(s){tot[s.subj]=(tot[s.subj]||0)+s.dur;});
+  var lbl=document.getElementById('subj-period-label');
+  // Filter sessions by period
+  var filtered=D.sess;
+  if(SUBJ_PERIOD==='today'){ var t=today(); filtered=D.sess.filter(function(s){return s.d===t;}); }
+  else if(SUBJ_PERIOD==='yesterday'){ var y=yesterday(); filtered=D.sess.filter(function(s){return s.d===y;}); }
+  else if(SUBJ_PERIOD==='custom'&&SUBJ_FROM&&SUBJ_TO){ filtered=D.sess.filter(function(s){return s.d>=SUBJ_FROM&&s.d<=SUBJ_TO;}); }
+  // Show label
+  var labelTxt=getSubjPeriodLabel();
+  if(lbl) lbl.innerHTML=labelTxt?'<div class="subj-period-label">'+labelTxt+'</div>':'';
+  // Aggregate
+  var tot={}; filtered.forEach(function(s){tot[s.subj]=(tot[s.subj]||0)+s.dur;});
   var keys=Object.keys(tot).sort(function(a,b){return tot[b]-tot[a];});
-  if(!keys.length){c.innerHTML='<div style="font-size:13px;color:var(--text2);font-weight:500;">No sessions yet.</div>';return;}
+  if(!keys.length){c.innerHTML='<div style="font-size:13px;color:var(--text2);font-weight:500;">No sessions for this period.</div>';return;}
   var mx=Math.max.apply(null,Object.values(tot));
   c.innerHTML=keys.map(function(k){
     var m=Math.round(tot[k]/60),p=Math.round(tot[k]/mx*100);
