@@ -537,6 +537,31 @@ body{background:var(--bg);}
 .sess-resume-btn{background:var(--success);color:#fff;}
 .sess-resume-btn:hover{filter:brightness(1.1);}
 
+/* MINI SESSION PiP */
+#sess-pip{
+  position:fixed;bottom:24px;right:20px;width:196px;
+  background:var(--bg2);border:1.5px solid var(--border2);
+  border-radius:18px;box-shadow:0 8px 36px rgba(0,0,0,.38);
+  z-index:1100;display:none;flex-direction:column;
+  padding:10px 14px 12px;cursor:default;user-select:none;gap:4px;
+}
+#sess-pip.show{display:flex;}
+#sess-pip.pip-dragging{opacity:.85;transition:none !important;}
+.pip-drag-bar{width:36px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 6px;cursor:grab;border-radius:3px;}
+.pip-drag-bar:active{cursor:grabbing;}
+.pip-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.pip-subj{font-size:11px;font-weight:800;color:var(--accent2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:108px;}
+.pip-expand{
+  background:var(--accent);color:#fff;border:none;
+  border-radius:7px;font-size:10px;font-weight:800;
+  padding:4px 8px;cursor:pointer;font-family:var(--font);
+  transition:filter .15s;
+}
+.pip-expand:hover{filter:brightness(1.12);}
+.pip-time{font-size:40px;font-weight:900;letter-spacing:-2.5px;font-variant-numeric:tabular-nums;color:var(--text);text-align:center;line-height:1.05;}
+.pip-label{font-size:10px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.7px;text-align:center;}
+.pip-status{font-size:10px;color:var(--text2);font-weight:600;text-align:center;margin-top:2px;}
+
 /* SESSION MUSIC BAR */
 .smusic{
   width:calc(100% - 32px);margin:0 16px 16px;padding:14px;
@@ -1547,7 +1572,14 @@ body{background:var(--bg);}
       <div class="ssubj" id="s-subj">Mathematics</div>
       <div class="smode" id="s-mode">Timed Session</div>
     </div>
-    <div style="font-size:13px;font-weight:800;color:var(--success);" id="s-xp">Focus</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button id="fs-toggle-btn" onclick="toggleSessionFullscreen()" title="Toggle fullscreen" style="background:none;border:1.5px solid var(--border2);border-radius:9px;padding:6px 8px;cursor:pointer;color:var(--text2);display:flex;align-items:center;transition:all .15s;">
+        <svg id="fs-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+      <button onclick="minimizeSess()" title="Minimize to mini player" style="background:none;border:1.5px solid var(--border2);border-radius:9px;padding:6px 8px;cursor:pointer;color:var(--text2);display:flex;align-items:center;transition:all .15s;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
+      </button>
+    </div>
   </div>
   <div class="twrap">
     <div class="tring">
@@ -1570,7 +1602,6 @@ body{background:var(--bg);}
     </div>
 
     <div class="session-tools">
-      <button class="small-btn" id="fs-toggle-btn" onclick="toggleSessionFullscreen()">Fullscreen</button>
       <button class="small-btn" onclick="openSessionCalc()">
         <span style="display:flex;align-items:center;gap:5px;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
@@ -1631,6 +1662,18 @@ body{background:var(--bg);}
       <div class="mchip" onclick="setSM('bengali',this)">Songs</div>
     </div>
   </div>
+</div>
+
+<!-- SESSION PiP (minimize mode) -->
+<div id="sess-pip">
+  <div class="pip-drag-bar" id="pip-drag-bar"></div>
+  <div class="pip-hdr">
+    <div class="pip-subj" id="pip-subj">Session</div>
+    <button class="pip-expand" onclick="maximizeSess()">⛶ Expand</button>
+  </div>
+  <div class="pip-time" id="pip-time">00:00</div>
+  <div class="pip-label" id="pip-label">remaining</div>
+  <div class="pip-status" id="pip-status">● In Progress</div>
 </div>
 
 <!-- RETURN BANNER -->
@@ -2309,6 +2352,7 @@ function updHome(){
 
 // ===== START MODAL =====
 function openSM(){
+  if(CUR){ toast('⚡ A session is already running!'); maximizeSess(); return; }
   SELSUBJ=''; SELT=30; renderChips();
   document.querySelectorAll('.sm-dur-opt').forEach(function(o){o.classList.remove('sel');});
   var nto=document.getElementById('sm-notimer-opt'); if(nto)nto.classList.remove('sel');
@@ -2398,7 +2442,8 @@ function startSess(){
 function tick(){
   if(!CUR||CUR.paused)return;
   var elapsed=getSessionElapsed(); CUR.el=elapsed; CUR.xp=Math.floor(elapsed/60);
-  updTDisp(); if(CUR.timed&&elapsed>=CUR.total)endSess(true);
+  if(SESS_MIN){ updPipDisp(); } else { updTDisp(); }
+  if(CUR.timed&&elapsed>=CUR.total)endSess(true);
 }
 function updateSessionXPDisplay(){
   if(!CUR)return;
@@ -2424,6 +2469,130 @@ function updTDisp(){
   updateSessionXPDisplay();
 }
 function pad(n){return String(n).padStart(2,'0');}
+
+/* ---- SESSION PiP (minimize) ---- */
+var SESS_MIN=false;
+var PIP_WIN=null;
+
+async function minimizeSess(){
+  if(!CUR)return;
+  SESS_MIN=true;
+  document.getElementById('sess').classList.remove('active');
+  document.getElementById('rbn').classList.remove('show');
+  /* Try Document Picture-in-Picture (Chrome 116+, always on top of all tabs) */
+  if(window.documentPictureInPicture){
+    try{
+      PIP_WIN=await window.documentPictureInPicture.requestWindow({width:260,height:200});
+      var accentColor='#3d8fe0';
+      var pipCSS="*{margin:0;padding:0;box-sizing:border-box;}"
+        +"body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;"
+        +"background:#111827;color:#f1f5f9;display:flex;flex-direction:column;"
+        +"align-items:center;justify-content:center;height:100vh;gap:6px;"
+        +"overflow:hidden;-webkit-font-smoothing:antialiased;}"
+        +"#pip-subj{font-size:11px;font-weight:800;color:"+accentColor+";letter-spacing:.3px;"
+        +"white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;text-align:center;}"
+        +"#pip-time{font-size:54px;font-weight:900;letter-spacing:-3px;"
+        +"font-variant-numeric:tabular-nums;line-height:1;color:#f8fafc;}"
+        +"#pip-label{font-size:10px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.8px;}"
+        +"#pip-status{font-size:11px;color:#94a3b8;font-weight:600;}"
+        +"#pip-expand{background:"+accentColor+";color:#fff;border:none;border-radius:8px;"
+        +"font-size:11px;font-weight:800;padding:6px 16px;cursor:pointer;margin-top:6px;"
+        +"font-family:inherit;transition:filter .15s;}"
+        +"#pip-expand:hover{filter:brightness(1.15);}";
+      PIP_WIN.document.head.innerHTML='<meta charset="utf-8"><style>'+pipCSS+'</style>';
+      PIP_WIN.document.body.innerHTML=
+        '<div id="pip-subj">'+(CUR.subj||'Session')+'</div>'+
+        '<div id="pip-time">00:00</div>'+
+        '<div id="pip-label">remaining</div>'+
+        '<div id="pip-status">\u25cf In Progress</div>'+
+        '<button id="pip-expand">\u26f6 Expand</button>';
+      PIP_WIN.document.getElementById('pip-expand').addEventListener('click',function(){
+        maximizeSess();
+      });
+      PIP_WIN.addEventListener('pagehide',function(){
+        /* User closed the pip window via the X button */
+        if(SESS_MIN){ SESS_MIN=false; PIP_WIN=null;
+          if(CUR){ document.getElementById('sess').classList.add('active'); updTDisp(); } }
+      });
+      updPipDisp(); return;
+    }catch(e){ /* API not available or user denied, fall through to floating div */ }
+  }
+  /* Fallback: draggable floating div */
+  document.getElementById('sess-pip').classList.add('show');
+  if(CUR.subj)document.getElementById('pip-subj').textContent=CUR.subj;
+  updPipDisp();
+}
+
+function maximizeSess(){
+  SESS_MIN=false;
+  if(PIP_WIN){ try{ PIP_WIN.close(); }catch(e){} PIP_WIN=null; }
+  document.getElementById('sess-pip').classList.remove('show');
+  if(CUR){ document.getElementById('sess').classList.add('active'); updTDisp(); }
+}
+
+function updPipDisp(){
+  if(!CUR||!SESS_MIN)return;
+  var elapsed=getSessionElapsed();
+  var ds,lbl;
+  if(CUR.timed){ ds=Math.max(0,CUR.total-elapsed); lbl='remaining'; }
+  else{ ds=elapsed; lbl='elapsed'; }
+  var m=Math.floor(ds/60),s=ds%60;
+  var timeStr=pad(m)+':'+pad(s);
+  var statusStr=CUR.paused?'\u23f8 Paused':'\u25cf In Progress';
+  /* Update Document PiP window */
+  if(PIP_WIN&&!PIP_WIN.closed){
+    var pt=PIP_WIN.document.getElementById('pip-time');
+    var pl=PIP_WIN.document.getElementById('pip-label');
+    var ps=PIP_WIN.document.getElementById('pip-status');
+    if(pt)pt.textContent=timeStr;
+    if(pl)pl.textContent=lbl;
+    if(ps)ps.textContent=statusStr;
+    return;
+  }
+  /* Update fallback floating div */
+  var pt2=document.getElementById('pip-time');
+  var pl2=document.getElementById('pip-label');
+  var ps2=document.getElementById('pip-status');
+  if(pt2)pt2.textContent=timeStr;
+  if(pl2)pl2.textContent=lbl;
+  if(ps2)ps2.textContent=statusStr;
+}
+
+/* Draggable fallback pip */
+(function(){
+  function initPipDrag(){
+    var pip=document.getElementById('sess-pip');
+    var handle=document.getElementById('pip-drag-bar');
+    if(!pip||!handle)return;
+    var ox=0,oy=0,dragging=false;
+    function onDown(e){
+      dragging=true; pip.classList.add('pip-dragging');
+      var cx=e.touches?e.touches[0].clientX:e.clientX;
+      var cy=e.touches?e.touches[0].clientY:e.clientY;
+      var r=pip.getBoundingClientRect(); ox=cx-r.left; oy=cy-r.top;
+      e.preventDefault();
+    }
+    function onMove(e){
+      if(!dragging)return;
+      var cx=e.touches?e.touches[0].clientX:e.clientX;
+      var cy=e.touches?e.touches[0].clientY:e.clientY;
+      var x=cx-ox,y=cy-oy;
+      var mw=window.innerWidth-pip.offsetWidth-8;
+      var mh=window.innerHeight-pip.offsetHeight-8;
+      x=Math.max(8,Math.min(x,mw)); y=Math.max(8,Math.min(y,mh));
+      pip.style.right='auto'; pip.style.bottom='auto';
+      pip.style.left=x+'px'; pip.style.top=y+'px';
+    }
+    function onUp(){ if(!dragging)return; dragging=false; pip.classList.remove('pip-dragging'); }
+    handle.addEventListener('mousedown',onDown);
+    handle.addEventListener('touchstart',onDown,{passive:false});
+    document.addEventListener('mousemove',onMove);
+    document.addEventListener('touchmove',onMove,{passive:false});
+    document.addEventListener('mouseup',onUp);
+    document.addEventListener('touchend',onUp);
+  }
+  document.addEventListener('DOMContentLoaded',initPipDrag);
+})();
 function fmtDur(mins){
   if(mins<60)return mins+'m';
   var h=Math.floor(mins/60),m=mins%60;
@@ -2433,6 +2602,7 @@ function endSess(done){
   if(!CUR)return;
   clearInterval(STMR);clearInterval(PNTMR);clearInterval(REMTMR);
   relWL();stopSM();
+  try{ if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen(); }catch(e){}
   CUR.el=getSessionElapsed();
   var dur=CUR.el,xp=Math.floor(dur/60),subj=CUR.subj;
   var rec={id:uid(),subj:subj,dur:dur,d:today(),done:done,ts:Date.now(),xp:xp,open:!CUR.timed};
@@ -2443,6 +2613,9 @@ function endSess(done){
   recalcStreak(); chkAch();
   document.getElementById('sess').classList.remove('active');
   document.getElementById('rbn').classList.remove('show');
+  var pip=document.getElementById('sess-pip'); if(pip)pip.classList.remove('show');
+  if(PIP_WIN){ try{ PIP_WIN.close(); }catch(e){} PIP_WIN=null; }
+  SESS_MIN=false;
   closeMG(); closeSessionCalc(); clearSessionState(); CUR=null;
   refreshDerivedAndUI(); scheduleCloudSave();
   notifyApp('Session complete','You earned '+xp+' XP from this session.',{tag:'session-complete',requireInteraction:true});
@@ -3117,4 +3290,4 @@ function toast(msg){
 init();
 </script>
 </body>
-</html
+</html>
