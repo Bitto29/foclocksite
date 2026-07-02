@@ -2361,7 +2361,7 @@ body{background:var(--bg);}
               </div>
               <div>
                 <div class="foco-nm">Foco</div>
-                <div class="foco-tg">AI Assistant &bull; Gemini 2.5 Flash</div>
+                <div class="foco-tg">Your AI Assistant</div>
               </div>
             </div>
             <div class="foco-hdr-btns">
@@ -2482,7 +2482,7 @@ body{background:var(--bg);}
             </button>
           </div>
           <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px;margin-bottom:12px;">
-            <div id="beng-current-name" style="font-size:14px;font-weight:800;">Mellow Bangla</div>
+            <div id="beng-current-name" style="font-size:14px;font-weight:800;">Station 1</div>
             <div id="beng-status" style="font-size:11px;color:var(--text2);margin-top:3px;font-weight:500;">Ready to play</div>
           </div>
           <audio id="bg-audio" preload="none" playsinline></audio>
@@ -2588,13 +2588,6 @@ body{background:var(--bg);}
         <div class="mi-icon" style="background:rgba(61,143,224,.1);">
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg>
         </div>
-        <div style="flex:1;"><div class="mi-t">Calculator</div><div class="mi-s">Quick math tool</div></div>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-      <div class="mi" onclick="gSub('sub-rem')">
-        <div class="mi-icon" style="background:rgba(61,143,224,.08);">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent3)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        </div>
         <div style="flex:1;"><div class="mi-t">Reminders</div><div class="mi-s">Set study alarms</div></div>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
@@ -2636,29 +2629,7 @@ body{background:var(--bg);}
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
     </div>
-
-    <!-- CALCULATOR -->
-    <div class="subp" id="sub-calc">
-      <button class="back-btn" onclick="gSub('more-main')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
-      <div class="page-title">Calculator</div>
-      <div class="cdsp"><div class="cexpr" id="c-expr"></div><div class="cres" id="c-res">0</div></div>
-      <div class="cgrid">
-        <button class="cbtn cl" onclick="ca('C')">C</button>
-        <button class="cbtn op" onclick="ca('+/-')">+/-</button>
-        <button class="cbtn op" onclick="ca('%')">%</button>
-        <button class="cbtn op" onclick="ca('/')">÷</button>
-        <button class="cbtn" onclick="ca('7')">7</button><button class="cbtn" onclick="ca('8')">8</button><button class="cbtn" onclick="ca('9')">9</button>
-        <button class="cbtn op" onclick="ca('*')">×</button>
-        <button class="cbtn" onclick="ca('4')">4</button><button class="cbtn" onclick="ca('5')">5</button><button class="cbtn" onclick="ca('6')">6</button>
-        <button class="cbtn op" onclick="ca('-')">-</button>
-        <button class="cbtn" onclick="ca('1')">1</button><button class="cbtn" onclick="ca('2')">2</button><button class="cbtn" onclick="ca('3')">3</button>
-        <button class="cbtn op" onclick="ca('+')">+</button>
-        <button class="cbtn" onclick="ca('0')" style="grid-column:span 2;">0</button>
-        <button class="cbtn" onclick="ca('.')">.</button>
-        <button class="cbtn eq" onclick="ca('=')">=</button>
-      </div>
-    </div>
-
+    
     <!-- REMINDERS -->
     <div class="subp" id="sub-rem">
       <button class="back-btn" onclick="gSub('more-main')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
@@ -2747,7 +2718,7 @@ body{background:var(--bg);}
 
       <div class="card">
         <div class="ctitle">&#129302; Foco &mdash; AI Assistant</div>
-        <div class="tip-txt">Go to <strong>Foc Space &rarr; Foco</strong> for a full AI chat powered by <strong>Gemini 2.5 Flash</strong>. Foco can:<br>
+        <div class="tip-txt">Go to <strong>Foc Space &rarr; Foco</strong> your ai study assistant. Foco can:<br>
         &bull; Answer any question &mdash; academic, creative, coding, general<br>
         &bull; Attach &amp; analyze images, PDFs, code files, CSVs<br>
         &bull; Generate images via the Image button<br>
@@ -2786,10 +2757,10 @@ body{background:var(--bg);}
       <div class="page-title">About Foc Lock</div>
       <div class="card" style="text-align:center;padding:24px;">
         <div class="about-logo-wrap">
-          <img src="https://i.postimg.cc/g0LW01fr/18936-removebg-preview.png" style="width:52px;height:52px;object-fit:contain;" alt="Foc Lock">
+          <img src="https://foclock.vercel.app/clogo.png" style="width:52px;height:52px;object-fit:contain;" alt="Foc Lock">
         </div>
         <div style="font-size:22px;font-weight:900;letter-spacing:-.3px;background:linear-gradient(135deg,var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Foc Lock</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:3px;font-weight:600;">Version 1.0.0</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:3px;font-weight:600;">Version 3.3.0</div>
         <div style="font-size:13px;color:var(--text2);margin-top:14px;line-height:1.7;font-weight:500;">Your personal focus companion. Stay locked in, track progress, earn rewards, and build powerful study habits that last.</div>
       </div>
       <div class="card">
@@ -5044,14 +5015,21 @@ function toast(msg){
   clearTimeout(TTMR); TTMR=setTimeout(function(){t.classList.remove('show');},3000);
 }
 
-// ===== FOCO AI CHATBOT ===== 
-var GKEY='AQ.Ab8RN6IRRMpx7KrANHxD4bi9hAbNCGMwzMRZTONt5nJwYwtRmw';
-var GURL='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
-var GIMG_URL='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent';
-var FOCO_HIST=[]; // Gemini message history [{role,parts}]
-var FOCO_ATTS=[]; // pending attachments
-var FOCO_TTS=false;
-var FOCO_RECOG=null;
+// ===== FOCO AI CHATBOT =====
+var GEMINI_KEYS = [
+  'AQ.Ab8RN6IajtjwA9Ou8ighwOBPC5YIy-uaEx5xFOsNeRhK1YdUqg',
+  'AQ.Ab8RN6JlFv0yJAARfCQ77iIqzq3MnhKXgwB9tpeNdHMk_wbjTw'
+];
+var GROQ_KEY = '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';
+
+var GEMINI_MODEL = 'gemini-2.5-flash';
+var GROQ_MODEL = 'llama-3.3-70b-versatile';
+
+var GURL = 'https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL + ':generateContent';
+var FOCO_HIST = []; // [{role:'user'|'model', parts:[{text:'...'}]}]
+var FOCO_ATTS = [];  // pending attachments
+var FOCO_TTS = false;
+var FOCO_RECOG = null;
 
 /* =========================================================
    FOCO KNOWLEDGE + APP CONTEXT
@@ -5064,7 +5042,7 @@ var FOCO_RECOG=null;
    - automatic image blocks
 ========================================================= */
 
-var FOCO_SYS=`You are Foco, a highly capable and friendly AI assistant built into Foc Lock — a student productivity and focus tracking app.
+var FOCO_SYS = `You are Foco, a highly capable and friendly AI assistant built into Foc Lock — a student productivity and focus tracking app.
 
 You can help with absolutely anything: academics, coding, creative writing, analysis, math, science, history, philosophy, entertainment, life advice, jokes, motivation, study planning, and more.
 
@@ -5097,20 +5075,20 @@ your detailed image prompt here
 === CURRENT USER ===
 `;
 
-function focoSafeNum(v,d){
-  return (typeof safeNum==='function') ? safeNum(v,d) : (isFinite(v) ? +v : d);
+function focoSafeNum(v, d){
+  return (typeof safeNum === 'function') ? safeNum(v, d) : (isFinite(v) ? +v : d);
 }
 
 function focoPrettyDate(ts){
   if(!ts) return 'Unknown date';
-  var d=new Date(ts);
+  var d = new Date(ts);
   if(isNaN(d.getTime())) return 'Unknown date';
-  var now=new Date();
-  var sameDay=d.toDateString()===now.toDateString();
+  var now = new Date();
+  var sameDay = d.toDateString() === now.toDateString();
   if(sameDay){
-    return d.toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'});
+    return d.toLocaleTimeString('en', {hour:'2-digit', minute:'2-digit'});
   }
-  return d.toLocaleDateString('en',{month:'short',day:'numeric',year:'numeric'});
+  return d.toLocaleDateString('en', {month:'short', day:'numeric', year:'numeric'});
 }
 
 function focoSessionSubject(s){
@@ -5122,46 +5100,46 @@ function focoSessionSubject(s){
 }
 
 function focoSessionMinutes(s){
-  return Math.max(0, Math.round(focoSafeNum(s && s.dur,0)/60));
+  return Math.max(0, Math.round(focoSafeNum(s && s.dur, 0) / 60));
 }
 
 function focoGetStudyStats(){
-  var sessions=Array.isArray(D&&D.sess)?D.sess.slice():[];
-  var notes=Array.isArray(window.NOTES)?window.NOTES.slice():[];
-  var subjects=Array.isArray(D&&D.subj)?D.subj.slice():[];
+  var sessions = Array.isArray(D && D.sess) ? D.sess.slice() : [];
+  var notes = Array.isArray(window.NOTES) ? window.NOTES.slice() : [];
+  var subjects = Array.isArray(D && D.subj) ? D.subj.slice() : [];
 
-  sessions.sort(function(a,b){ return focoSafeNum(a.ts,0)-focoSafeNum(b.ts,0); });
+  sessions.sort(function(a, b){ return focoSafeNum(a.ts, 0) - focoSafeNum(b.ts, 0); });
 
-  var bySubject={};
+  var bySubject = {};
   sessions.forEach(function(s){
-    var subj=focoSessionSubject(s);
-    var mins=focoSessionMinutes(s);
-    if(!bySubject[subj]) bySubject[subj]={subj:subj,minutes:0,sessions:0,lastTs:0};
+    var subj = focoSessionSubject(s);
+    var mins = focoSessionMinutes(s);
+    if(!bySubject[subj]) bySubject[subj] = {subj:subj, minutes:0, sessions:0, lastTs:0};
     bySubject[subj].minutes += mins;
     bySubject[subj].sessions += 1;
-    bySubject[subj].lastTs = Math.max(bySubject[subj].lastTs, focoSafeNum(s.ts,0));
+    bySubject[subj].lastTs = Math.max(bySubject[subj].lastTs, focoSafeNum(s.ts, 0));
   });
 
-  var rankedSubjects=Object.keys(bySubject).map(function(k){ return bySubject[k]; }).sort(function(a,b){
-    return (b.minutes-a.minutes) || (b.sessions-a.sessions) || (b.lastTs-a.lastTs);
+  var rankedSubjects = Object.keys(bySubject).map(function(k){ return bySubject[k]; }).sort(function(a, b){
+    return (b.minutes - a.minutes) || (b.sessions - a.sessions) || (b.lastTs - a.lastTs);
   });
 
   var mostStudied = rankedSubjects[0] || null;
-  var lastSession = sessions.length ? sessions[sessions.length-1] : null;
+  var lastSession = sessions.length ? sessions[sessions.length - 1] : null;
 
-  var noteBySubject={};
+  var noteBySubject = {};
   notes.forEach(function(n){
-    var subj=(n&&n.subj)?String(n.subj):'General';
-    if(!noteBySubject[subj]) noteBySubject[subj]={subj:subj,count:0,lastTs:0};
+    var subj = (n && n.subj) ? String(n.subj) : 'General';
+    if(!noteBySubject[subj]) noteBySubject[subj] = {subj:subj, count:0, lastTs:0};
     noteBySubject[subj].count += 1;
-    noteBySubject[subj].lastTs = Math.max(noteBySubject[subj].lastTs, focoSafeNum(n&&n.ts,0));
+    noteBySubject[subj].lastTs = Math.max(noteBySubject[subj].lastTs, focoSafeNum(n && n.ts, 0));
   });
 
-  var noteSubjects=Object.keys(noteBySubject).map(function(k){ return noteBySubject[k]; }).sort(function(a,b){
-    return (b.count-a.count) || (b.lastTs-a.lastTs);
+  var noteSubjects = Object.keys(noteBySubject).map(function(k){ return noteBySubject[k]; }).sort(function(a, b){
+    return (b.count - a.count) || (b.lastTs - a.lastTs);
   });
 
-  var lastNote = notes.length ? notes.slice().sort(function(a,b){ return focoSafeNum(a.ts,0)-focoSafeNum(b.ts,0); })[notes.length-1] : null;
+  var lastNote = notes.length ? notes.slice().sort(function(a, b){ return focoSafeNum(a.ts, 0) - focoSafeNum(b.ts, 0); })[notes.length - 1] : null;
   var recentSessions = sessions.slice(-5).reverse().map(function(s){
     return {
       subj: focoSessionSubject(s),
@@ -5170,7 +5148,7 @@ function focoGetStudyStats(){
     };
   });
 
-  var recentNotes = notes.slice().sort(function(a,b){ return focoSafeNum(a.ts,0)-focoSafeNum(b.ts,0); }).slice(-5).reverse().map(function(n){
+  var recentNotes = notes.slice().sort(function(a, b){ return focoSafeNum(a.ts, 0) - focoSafeNum(b.ts, 0); }).slice(-5).reverse().map(function(n){
     return {
       title: n.title || 'Untitled',
       subj: n.subj || 'General',
@@ -5194,29 +5172,29 @@ function focoGetStudyStats(){
 }
 
 function buildFocoSys(){
-  var app=document.getElementById('app');
-  var theme=(app && app.dataset && app.dataset.theme) ? app.dataset.theme : 'dark';
+  var app = document.getElementById('app');
+  var theme = (app && app.dataset && app.dataset.theme) ? app.dataset.theme : 'dark';
 
-  var name=(D && D.name) ? D.name : 'Guest';
-  var email=(AUTH && AUTH.user && AUTH.user.email) ? AUTH.user.email : 'Not signed in';
-  var level=(D && D.level != null) ? D.level : 1;
-  var xp=(D && D.xp != null) ? D.xp : 0;
-  var streak=(D && D.streak && D.streak.c != null) ? D.streak.c : 0;
-  var sessionsCount=Array.isArray(D&&D.sess) ? D.sess.length : 0;
-  var focusMinutes=Array.isArray(D&&D.sess) ? Math.round(D.sess.reduce(function(a,s){ return a + focoSessionMinutes(s); },0)) : 0;
+  var name = (D && D.name) ? D.name : 'Guest';
+  var email = (AUTH && AUTH.user && AUTH.user.email) ? AUTH.user.email : 'Not signed in';
+  var level = (D && D.level != null) ? D.level : 1;
+  var xp = (D && D.xp != null) ? D.xp : 0;
+  var streak = (D && D.streak && D.streak.c != null) ? D.streak.c : 0;
+  var sessionsCount = Array.isArray(D && D.sess) ? D.sess.length : 0;
+  var focusMinutes = Array.isArray(D && D.sess) ? Math.round(D.sess.reduce(function(a, s){ return a + focoSessionMinutes(s); }, 0)) : 0;
 
-  var curSubj=(CUR && CUR.subj) ? CUR.subj : 'None';
-  var sessionType=CUR ? (CUR.timed ? 'Timed' : 'Open') : 'No active session';
-  var sessionStatus=CUR ? (CUR.paused ? 'Paused' : 'Running') : 'No active session';
+  var curSubj = (CUR && CUR.subj) ? CUR.subj : 'None';
+  var sessionType = CUR ? (CUR.timed ? 'Timed' : 'Open') : 'No active session';
+  var sessionStatus = CUR ? (CUR.paused ? 'Paused' : 'Running') : 'No active session';
 
-  var elapsedSec=0;
-  if(typeof getSessionElapsed==='function') elapsedSec=getSessionElapsed();
-  else if(CUR) elapsedSec=focoSafeNum(CUR.elapsed,0);
+  var elapsedSec = 0;
+  if(typeof getSessionElapsed === 'function') elapsedSec = getSessionElapsed();
+  else if(CUR) elapsedSec = focoSafeNum(CUR.elapsed, 0);
 
-  var elapsedMin=Math.floor(elapsedSec/60);
-  var totalMin=(CUR && CUR.timed && CUR.total) ? Math.round(CUR.total/60) : 0;
+  var elapsedMin = Math.floor(elapsedSec / 60);
+  var totalMin = (CUR && CUR.timed && CUR.total) ? Math.round(CUR.total / 60) : 0;
 
-  var stats=focoGetStudyStats();
+  var stats = focoGetStudyStats();
   var mostStudied = stats.mostStudied
     ? (stats.mostStudied.subj + ' (' + Math.round(stats.mostStudied.minutes) + ' min across ' + stats.mostStudied.sessions + ' sessions)')
     : 'No sessions yet';
@@ -5229,11 +5207,11 @@ function buildFocoSys(){
     ? ((stats.lastNote.title || 'Untitled') + ' in ' + (stats.lastNote.subj || 'General') + ' on ' + focoPrettyDate(stats.lastNote.ts))
     : 'No notes yet';
 
-  var topSubjects = stats.bySubject.slice(0,5).map(function(x){
+  var topSubjects = stats.bySubject.slice(0, 5).map(function(x){
     return '- ' + x.subj + ': ' + Math.round(x.minutes) + ' min (' + x.sessions + ' sessions)';
   }).join('\n') || '- No study subjects yet';
 
-  var noteSubjects = stats.noteSubjects.slice(0,5).map(function(x){
+  var noteSubjects = stats.noteSubjects.slice(0, 5).map(function(x){
     return '- ' + x.subj + ': ' + x.count + ' notes';
   }).join('\n') || '- No note subjects yet';
 
@@ -5336,77 +5314,209 @@ You may include more than one image block if needed.
 }
 
 function extractImageBlocks(text){
-  var prompts=[];
-  var clean=String(text || '').replace(/\r/g,'');
-  clean=clean.replace(/\[\[IMAGE\]\]([\s\S]*?)\[\[\/IMAGE\]\]/gi,function(_,p1){
-    var p=String(p1 || '').replace(/\s+/g,' ').trim();
+  var prompts = [];
+  var clean = String(text || '').replace(/\r/g,'');
+  clean = clean.replace(/\[\[IMAGE\]\]([\s\S]*?)\[\[\/IMAGE\]\]/gi, function(_, p1){
+    var p = String(p1 || '').replace(/\s+/g,' ').trim();
     if(p) prompts.push(p);
     return '\n';
   });
-  clean=clean.replace(/\n{3,}/g,'\n\n').trim();
-  return {text:clean,prompts:prompts};
+  clean = clean.replace(/\n{3,}/g,'\n\n').trim();
+  return { text: clean, prompts: prompts };
 }
 
 function pollinationsImageUrl(prompt){
   return 'https://image.pollinations.ai/prompt/' +
     encodeURIComponent(prompt) +
     '?width=1024&height=1024&nologo=true&seed=' +
-    Math.floor(Math.random()*999999);
+    Math.floor(Math.random() * 999999);
 }
 
 function focoWaitImage(url){
-  return new Promise(function(resolve,reject){
-    var img=new Image();
-    img.onload=function(){ resolve(url); };
-    img.onerror=function(){ reject(new Error('Image generation failed.')); };
-    img.src=url;
+  return new Promise(function(resolve, reject){
+    var img = new Image();
+    img.onload = function(){ resolve(url); };
+    img.onerror = function(){ reject(new Error('Image generation failed.')); };
+    img.src = url;
   });
 }
 
 function focoAttachImages(bubble, imgSrc){
   if(!bubble || !imgSrc) return;
-  var imgs=Array.isArray(imgSrc) ? imgSrc : [imgSrc];
+  var imgs = Array.isArray(imgSrc) ? imgSrc : [imgSrc];
   imgs.forEach(function(src){
     if(!src) return;
-    var gi=document.createElement('img');
-    gi.src=src;
-    gi.style.cssText='max-width:100%;border-radius:8px;margin-top:6px;display:block;';
+    var gi = document.createElement('img');
+    gi.src = src;
+    gi.style.cssText = 'max-width:100%;border-radius:8px;margin-top:6px;display:block;';
     bubble.appendChild(gi);
   });
 }
 
-async function focoShowPollinationsImage(prompt){
-  prompt=String(prompt || '').replace(/\s+/g,' ').trim();
-  if(!prompt) return null;
-  var imageUrl=pollinationsImageUrl(prompt);
-  await focoWaitImage(imageUrl);
-  return imageUrl;
+function focoGeminiReadyKeys(){
+  return GEMINI_KEYS.map(function(k){ return String(k || '').trim(); }).filter(function(k){
+    return k && k.indexOf('PASTE_') !== 0;
+  });
+}
+
+function focoGroqReadyKey(){
+  var k = String(GROQ_KEY || '').trim();
+  return (k && k.indexOf('PASTE_') !== 0) ? k : '';
+}
+
+var FOCO_PROVIDER_POOL = [
+  { id:'gemini-1', type:'gemini', keyIndex:0, nextTryAt:0 },
+  { id:'gemini-2', type:'gemini', keyIndex:1, nextTryAt:0 },
+  { id:'groq', type:'groq', keyIndex:0, nextTryAt:0 }
+];
+
+function focoProviderKey(provider){
+  if(provider.type === 'gemini'){
+    var keys = focoGeminiReadyKeys();
+    return keys[provider.keyIndex] || '';
+  }
+  if(provider.type === 'groq'){
+    return focoGroqReadyKey();
+  }
+  return '';
+}
+
+function focoProviderReady(provider){
+  return Date.now() >= (provider.nextTryAt || 0) && !!focoProviderKey(provider);
 }
 
 function focoParseRetrySeconds(err){
-  var raw='';
-  if(typeof err==='string') raw=err;
-  else if(err && typeof err.message==='string') raw=err.message;
-  else if(err && err.error && typeof err.error.message==='string') raw=err.error.message;
-  raw=String(raw || '');
+  var raw = '';
+  if(typeof err === 'string') raw = err;
+  else if(err && typeof err.message === 'string') raw = err.message;
+  else if(err && err.error && typeof err.error.message === 'string') raw = err.error.message;
+  raw = String(raw || '');
 
-  var m=raw.match(/Please retry in\s+([0-9]+(?:\.[0-9]+)?)s/i);
+  var m = raw.match(/Please retry in\s+([0-9]+(?:\.[0-9]+)?)s/i);
   if(m && m[1]){
-    var sec=Math.ceil(parseFloat(m[1]));
+    var sec = Math.ceil(parseFloat(m[1]));
     if(isFinite(sec) && sec > 0) return sec;
   }
   return null;
 }
 
-function focoFriendlyApiError(err, scope){
-  var raw='';
-  if(typeof err==='string') raw=err;
-  else if(err && typeof err.message==='string') raw=err.message;
-  else if(err && err.error && typeof err.error.message==='string') raw=err.error.message;
+function focoMarkProviderCooldown(provider, err){
+  var retry = focoParseRetrySeconds(err);
+  var waitMs = (retry ? retry : 60) * 1000;
+  provider.nextTryAt = Date.now() + waitMs;
+}
 
-  raw=String(raw || 'Something went wrong.');
-  var low=raw.toLowerCase();
-  var retry=focoParseRetrySeconds(err);
+function focoGroqMessagesFromHistory(systemText, hist){
+  var messages = [{role:'system', content:systemText}];
+  (hist || []).forEach(function(m){
+    var role = (m.role === 'model') ? 'assistant' : 'user';
+    var chunks = [];
+    (m.parts || []).forEach(function(p){
+      if(p && typeof p.text === 'string' && p.text.trim()){
+        chunks.push(p.text);
+      } else if(p && p.inlineData){
+        chunks.push('[Attachment image omitted in Groq fallback]');
+      }
+    });
+    var txt = chunks.join('\n').trim();
+    if(txt) messages.push({role:role, content:txt});
+  });
+  return messages;
+}
+
+async function focoRunGemini(providerKey, systemText, hist, maxTokens){
+  var body = {
+    systemInstruction:{parts:[{text:systemText}]},
+    contents:hist,
+    generationConfig:{temperature:0.75,maxOutputTokens:maxTokens||2048,topP:0.92}
+  };
+  var r = await fetch(GURL + '?key=' + encodeURIComponent(providerKey), {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+  var d = await r.json();
+  if(d.error) throw new Error(d.error.message || 'API error');
+
+  var reply = (
+    d.candidates &&
+    d.candidates[0] &&
+    d.candidates[0].content &&
+    d.candidates[0].content.parts &&
+    d.candidates[0].content.parts[0] &&
+    d.candidates[0].content.parts[0].text
+  ) || '';
+
+  if(!reply.trim()) throw new Error('Empty response');
+  return reply;
+}
+
+async function focoRunGroq(providerKey, systemText, hist, maxTokens){
+  var body = {
+    model:GROQ_MODEL,
+    messages:focoGroqMessagesFromHistory(systemText, hist),
+    temperature:0.75,
+    max_tokens:maxTokens || 2048
+  };
+
+  var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method:'POST',
+    headers:{
+      'Authorization':'Bearer ' + providerKey,
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify(body)
+  });
+
+  var d = await r.json();
+  if(d.error) throw new Error(d.error.message || 'API error');
+
+  var reply = (
+    d.choices &&
+    d.choices[0] &&
+    d.choices[0].message &&
+    d.choices[0].message.content
+  ) || '';
+
+  if(!reply.trim()) throw new Error('Empty response');
+  return reply;
+}
+
+async function focoGenerateReply(systemText, hist, maxTokens){
+  var lastErr = null;
+
+  for(var i = 0; i < FOCO_PROVIDER_POOL.length; i++){
+    var provider = FOCO_PROVIDER_POOL[i];
+    if(!focoProviderReady(provider)) continue;
+
+    try{
+      var key = focoProviderKey(provider);
+      if(provider.type === 'gemini'){
+        return await focoRunGemini(key, systemText, hist, maxTokens);
+      }
+      if(provider.type === 'groq'){
+        return await focoRunGroq(key, systemText, hist, maxTokens);
+      }
+      throw new Error('Unsupported provider');
+    }catch(err){
+      lastErr = err;
+      focoMarkProviderCooldown(provider, err);
+      continue;
+    }
+  }
+
+  throw lastErr || new Error('All providers are unavailable.');
+}
+
+function focoFriendlyApiError(err, scope){
+  var raw = '';
+  if(typeof err === 'string') raw = err;
+  else if(err && typeof err.message === 'string') raw = err.message;
+  else if(err && err.error && typeof err.error.message === 'string') raw = err.error.message;
+
+  raw = String(raw || 'Something went wrong.');
+  var low = raw.toLowerCase();
+  var retry = focoParseRetrySeconds(err);
 
   if(
     low.indexOf('quota') !== -1 ||
@@ -5414,104 +5524,87 @@ function focoFriendlyApiError(err, scope){
     low.indexOf('rate limit') !== -1 ||
     low.indexOf('rate-limit') !== -1 ||
     low.indexOf('resource exhausted') !== -1 ||
-    low.indexOf('please retry in') !== -1
-  ){
-    if(retry){
-      if(scope==='session') return 'Foco is busy right now. Try again in ' + retry + ' seconds.';
-      return 'Foco reached the free limit. Try again in ' + retry + ' seconds.';
-    }
-    return scope==='session'
-      ? 'Foco is busy right now because the free limit was reached. Please try again later.'
-      : 'Foco reached the free limit. Please try again later.';
-  }
-
-  if(
+    low.indexOf('invalid authentication') !== -1 ||
+    low.indexOf('unauthorized') !== -1 ||
+    low.indexOf('unauthenticated') !== -1 ||
+    low.indexOf('permission denied') !== -1 ||
     low.indexOf('api key') !== -1 ||
-    low.indexOf('invalid api key') !== -1 ||
-    low.indexOf('permission denied') !== -1
-  ){
-    return scope==='session'
-      ? 'Session Foco could not verify the API key. Check the app setup.'
-      : 'Foco could not verify the API key. Check the app setup.';
-  }
-
-  if(
+    low.indexOf('please retry in') !== -1 ||
     low.indexOf('failed to fetch') !== -1 ||
     low.indexOf('network') !== -1 ||
     low.indexOf('internet connection') !== -1 ||
     low.indexOf('offline') !== -1
   ){
-    return scope==='session'
-      ? 'Session Foco could not connect right now. Check your internet connection.'
-      : 'Foco could not connect right now. Check your internet connection.';
+    if(retry){
+      if(scope === 'session') return 'Foco is busy right now. Try again in ' + retry + ' seconds.';
+      return 'Foco reached the limit. Try again in ' + retry + ' seconds.';
+    }
+    return scope === 'session'
+      ? 'Foco is busy right now. Please try again later.'
+      : 'Foco is busy right now. Please try again later.';
   }
 
   if(raw.length > 160) return raw.slice(0,160) + '…';
   return raw;
 }
 
-function setStudioTab(tab,el){
-  document.querySelectorAll('.studio-tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.studio-panel').forEach(function(p){p.classList.remove('active');});
-  if(el)el.classList.add('active');
-  var panel=document.getElementById('studio-'+tab);
-  if(panel)panel.classList.add('active');
-  if(tab==='calc'){ CALC_TARGET='studio'; updateCalcUI(); }
-  else if(CALC_TARGET==='studio'){ CALC_TARGET='main'; updateCalcUI(); }
-  if(tab==='notes'){ renderNotes(); }
+function setStudioTab(tab, el){
+  document.querySelectorAll('.studio-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.studio-panel').forEach(function(p){ p.classList.remove('active'); });
+  if(el) el.classList.add('active');
+  var panel = document.getElementById('studio-' + tab);
+  if(panel) panel.classList.add('active');
+  if(tab === 'calc'){ CALC_TARGET = 'studio'; updateCalcUI(); }
+  else if(CALC_TARGET === 'studio'){ CALC_TARGET = 'main'; updateCalcUI(); }
+  if(tab === 'notes'){ renderNotes(); }
 }
 
-function focoKD(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();focoSend();} }
+function focoKD(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); focoSend(); } }
 function focoGrow(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,110)+'px'; }
-function focoQuick(txt){ document.getElementById('foco-inp').value=txt; focoSend(); }
+function focoQuick(txt){ document.getElementById('foco-inp').value = txt; focoSend(); }
 
 async function focoSend(){
-  var inp=document.getElementById('foco-inp');
-  var txt=(inp.value||'').trim();
-  if(!txt&&!FOCO_ATTS.length)return;
+  var inp = document.getElementById('foco-inp');
+  var txt = (inp.value || '').trim();
+  if(!txt && !FOCO_ATTS.length) return;
 
-  var parts=[];
-  var previewAtts=FOCO_ATTS.slice();
+  var parts = [];
+  var previewAtts = FOCO_ATTS.slice();
   FOCO_ATTS.forEach(function(att){
-    if(att.textContent!=null){
-      parts.push({text:'[File: '+att.name+']\n'+att.textContent});
+    if(att.textContent != null){
+      parts.push({text:'[File: ' + att.name + ']\n' + att.textContent});
     } else {
-      parts.push({inlineData:{mimeType:att.mimeType,data:att.data}});
+      parts.push({inlineData:{mimeType:att.mimeType, data:att.data}});
     }
   });
-  if(txt)parts.push({text:txt});
+  if(txt) parts.push({text:txt});
 
-  var dispTxt=txt||(FOCO_ATTS.map(function(a){return a.name;}).join(', '));
-  focoAddMsg('user',dispTxt,null,previewAtts);
-  FOCO_HIST.push({role:'user',parts:parts});
-  FOCO_ATTS=[];
-  document.getElementById('foco-att-bar').innerHTML='';
-  inp.value=''; focoGrow(inp);
+  var dispTxt = txt || (FOCO_ATTS.map(function(a){return a.name;}).join(', '));
+  focoAddMsg('user', dispTxt, null, previewAtts);
+  FOCO_HIST.push({role:'user', parts:parts});
+  FOCO_ATTS = [];
+  document.getElementById('foco-att-bar').innerHTML = '';
+  inp.value = '';
+  focoGrow(inp);
 
-  var sb=document.getElementById('foco-send'); sb.disabled=true;
-  var tid='ft'+Date.now(); focoTyping(tid);
+  var sb = document.getElementById('foco-send');
+  sb.disabled = true;
+  var tid = 'ft' + Date.now();
+  focoTyping(tid);
 
   try{
-    var body={
-      systemInstruction:{parts:[{text:buildFocoSys()}]},
-      contents:FOCO_HIST,
-      generationConfig:{temperature:0.75,maxOutputTokens:2048,topP:0.92}
-    };
-    var r=await fetch(GURL+'?key='+GKEY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    var d=await r.json();
+    var reply = await focoGenerateReply(buildFocoSys(), FOCO_HIST, 2048);
     focoRmTyping(tid);
-    if(d.error)throw new Error(d.error.message||'API error');
-    var reply=(d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts&&d.candidates[0].content.parts[0]&&d.candidates[0].content.parts[0].text)||'Sorry, no response received.';
 
-    var parsed=extractImageBlocks(reply);
-    var cleanReply=parsed.text;
-    var imagePrompts=parsed.prompts;
-    var imageUrls=[];
+    var parsed = extractImageBlocks(reply);
+    var cleanReply = parsed.text;
+    var imagePrompts = parsed.prompts;
+    var imageUrls = [];
 
     if(imagePrompts.length){
       for(var i=0;i<imagePrompts.length;i++){
         try{
-          var u=await focoShowPollinationsImage(imagePrompts[i]);
+          var u = await focoShowPollinationsImage(imagePrompts[i]);
           if(u) imageUrls.push(u);
         }catch(imgErr){
           console.error('Image generation failed:', imgErr);
@@ -5520,81 +5613,94 @@ async function focoSend(){
     }
 
     if(cleanReply || imageUrls.length){
-      FOCO_HIST.push({role:'model',parts:[{text:cleanReply || 'Visual generated.'}]});
-      focoAddMsg('bot',cleanReply || 'Here is a visual to help explain this.',imageUrls);
+      FOCO_HIST.push({role:'model', parts:[{text:cleanReply || 'Visual generated.'}]});
+      focoAddMsg('bot', cleanReply || 'Here is a visual to help explain this.', imageUrls);
     } else {
-      FOCO_HIST.push({role:'model',parts:[{text:reply}]});
-      focoAddMsg('bot',reply);
+      FOCO_HIST.push({role:'model', parts:[{text:reply}]});
+      focoAddMsg('bot', reply);
     }
 
-    if(FOCO_TTS)focoSpeak(cleanReply || reply);
-    try{ focoHistSave(); }catch(e){ console.error('Failed to save chat history:',e); }
+    if(FOCO_TTS) focoSpeak(cleanReply || reply);
+    try{ focoHistSave(); }catch(e){ console.error('Failed to save chat history:', e); }
   }catch(err){
     focoRmTyping(tid);
-    focoAddMsg('bot','⚠️ '+focoFriendlyApiError(err,'main'));
+    focoAddMsg('bot', '⚠️ ' + focoFriendlyApiError(err, 'main'));
   }
-  sb.disabled=false;
+
+  sb.disabled = false;
 }
 
-function focoAddMsg(role,text,imgSrc,atts){
-  var empty=document.getElementById('foco-empty');
-  if(empty)empty.remove();
-  var wrap=document.getElementById('foco-msgs');
-  var div=document.createElement('div');
-  div.className='foco-msg '+(role==='user'?'user':'bot');
+function focoAddMsg(role, text, imgSrc, atts){
+  var empty = document.getElementById('foco-empty');
+  if(empty) empty.remove();
+
+  var wrap = document.getElementById('foco-msgs');
+  var div = document.createElement('div');
+  div.className = 'foco-msg ' + (role === 'user' ? 'user' : 'bot');
 
   var av;
-  if(role==='bot'){
-    av=document.createElement('img');
-    av.className='foco-av-sm'; av.src='https://i.postimg.cc/SR3fFMf0/image.png'; av.alt='Foco';
+  if(role === 'bot'){
+    av = document.createElement('img');
+    av.className = 'foco-av-sm';
+    av.src = 'https://i.postimg.cc/SR3fFMf0/image.png';
+    av.alt = 'Foco';
   } else {
-    av=document.createElement('div'); av.className='foco-uav';
-    av.textContent=(D&&D.name?D.name.charAt(0).toUpperCase():'U');
+    av = document.createElement('div');
+    av.className = 'foco-uav';
+    av.textContent = (D && D.name ? D.name.charAt(0).toUpperCase() : 'U');
   }
 
-  var col=document.createElement('div');
-  col.className='foco-col '+(role==='user'?'user':'');
+  var col = document.createElement('div');
+  col.className = 'foco-col ' + (role === 'user' ? 'user' : '');
 
-  // Attachment image previews
-  if(atts&&atts.length){
+  if(atts && atts.length){
     atts.forEach(function(a){
-      if(a.mimeType&&a.mimeType.startsWith('image/')&&a.data){
-        var pi=document.createElement('img');
-        pi.src='data:'+a.mimeType+';base64,'+a.data;
-        pi.className='foco-att-img-preview'; col.appendChild(pi);
+      if(a.mimeType && a.mimeType.startsWith('image/') && a.data){
+        var pi = document.createElement('img');
+        pi.src = 'data:' + a.mimeType + ';base64,' + a.data;
+        pi.className = 'foco-att-img-preview';
+        col.appendChild(pi);
       }
     });
   }
 
-  var bubble=document.createElement('div');
-  bubble.className='foco-bubble '+(role==='user'?'user':'bot');
-  if(role==='bot'){
-    var safeText=String(text || '').trim();
-    if(!safeText && imgSrc){ safeText='Here is a visual to help explain this.'; }
-    bubble.innerHTML=focoMd(safeText);
+  var bubble = document.createElement('div');
+  bubble.className = 'foco-bubble ' + (role === 'user' ? 'user' : 'bot');
+
+  if(role === 'bot'){
+    var safeText = String(text || '').trim();
+    if(!safeText && imgSrc){ safeText = 'Here is a visual to help explain this.'; }
+    bubble.innerHTML = focoMd(safeText);
     focoAttachImages(bubble, imgSrc);
   } else {
-    bubble.textContent=text;
+    bubble.textContent = text;
   }
 
-  var ts=document.createElement('div'); ts.className='foco-ts';
-  var now=new Date();
-  ts.textContent=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  var ts = document.createElement('div');
+  ts.className = 'foco-ts';
+  var now = new Date();
+  ts.textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
 
   col.appendChild(bubble);
-  if(role==='bot'){
-    var spkBtn=document.createElement('button'); spkBtn.className='foco-speak-btn';
-    spkBtn.title='Listen'; spkBtn.textContent='🔊';
-    spkBtn.onclick=(function(t){return function(){focoSpeak(t);};})(text);
-    var tsr=document.createElement('div'); tsr.style.cssText='display:flex;align-items:center;gap:4px;';
-    tsr.appendChild(ts); tsr.appendChild(spkBtn); col.appendChild(tsr);
+  if(role === 'bot'){
+    var spkBtn = document.createElement('button');
+    spkBtn.className = 'foco-speak-btn';
+    spkBtn.title = 'Listen';
+    spkBtn.textContent = '🔊';
+    spkBtn.onclick = (function(t){ return function(){ focoSpeak(t); }; })(text);
+    var tsr = document.createElement('div');
+    tsr.style.cssText = 'display:flex;align-items:center;gap:4px;';
+    tsr.appendChild(ts);
+    tsr.appendChild(spkBtn);
+    col.appendChild(tsr);
   } else {
     col.appendChild(ts);
   }
 
-  div.appendChild(av); div.appendChild(col);
+  div.appendChild(av);
+  div.appendChild(col);
   wrap.appendChild(div);
-  wrap.scrollTop=wrap.scrollHeight;
+  wrap.scrollTop = wrap.scrollHeight;
 }
 
 function focoMd(t){
@@ -5611,336 +5717,418 @@ function focoMd(t){
     .replace(/^- (.+)$/gm,'<li>$1</li>')
     .replace(/^(\d+)\. (.+)$/gm,'<li>$1. $2</li>')
     .replace(/(<li>[\s\S]+?<\/li>)(?!<li>)/g,'<ul>$1</ul>')
-    .replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')
+    .replace(/\n\n/g,'</p><p>')
+    .replace(/\n/g,'<br>')
     .replace(/^(?!<[hup]|<li|<pre|<br)(.)/,'<p>$1')
     .replace(/([^>])$/,'$1</p>')
     .replace(/<p><\/p>/g,'');
 }
 
 function focoTyping(id){
-  var wrap=document.getElementById('foco-msgs');
-  var div=document.createElement('div'); div.className='foco-msg bot'; div.id=id;
-  var av=document.createElement('img'); av.className='foco-av-sm';
-  av.src='https://i.postimg.cc/SR3fFMf0/image.png';
-  var bub=document.createElement('div'); bub.className='foco-bubble bot foco-typing-wrap';
-  bub.innerHTML='<div class="foco-dot"></div><div class="foco-dot"></div><div class="foco-dot"></div>';
-  div.appendChild(av); div.appendChild(bub); wrap.appendChild(div);
-  wrap.scrollTop=wrap.scrollHeight;
+  var wrap = document.getElementById('foco-msgs');
+  var div = document.createElement('div');
+  div.className = 'foco-msg bot';
+  div.id = id;
+  var av = document.createElement('img');
+  av.className = 'foco-av-sm';
+  av.src = 'https://i.postimg.cc/SR3fFMf0/image.png';
+  var bub = document.createElement('div');
+  bub.className = 'foco-bubble bot foco-typing-wrap';
+  bub.innerHTML = '<div class="foco-dot"></div><div class="foco-dot"></div><div class="foco-dot"></div>';
+  div.appendChild(av);
+  div.appendChild(bub);
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
 }
-function focoRmTyping(id){ var el=document.getElementById(id); if(el)el.remove(); }
+function focoRmTyping(id){
+  var el = document.getElementById(id);
+  if(el) el.remove();
+}
 
 /* File attachment */
 function focoPickFile(){ document.getElementById('foco-file-in').click(); }
+
 function focoGotFiles(files){
   Array.from(files).forEach(function(file){
-    var isText=(file.type.startsWith('text/')||/\.(json|js|py|html|css|xml|csv|md|txt)$/.test(file.name));
-    var r=new FileReader();
+    var isText = (file.type.startsWith('text/') || /\.(json|js|py|html|css|xml|csv|md|txt)$/.test(file.name));
+    var r = new FileReader();
     if(isText){
-      r.onload=function(e){ FOCO_ATTS.push({name:file.name,mimeType:file.type||'text/plain',textContent:e.target.result}); focoRenderAtts(); };
+      r.onload = function(e){
+        FOCO_ATTS.push({name:file.name, mimeType:file.type||'text/plain', textContent:e.target.result});
+        focoRenderAtts();
+      };
       r.readAsText(file);
     } else {
-      r.onload=function(e){ var b64=e.target.result.split(',')[1]; FOCO_ATTS.push({name:file.name,mimeType:file.type,data:b64}); focoRenderAtts(); };
+      r.onload = function(e){
+        var b64 = e.target.result.split(',')[1];
+        FOCO_ATTS.push({name:file.name, mimeType:file.type, data:b64});
+        focoRenderAtts();
+      };
       r.readAsDataURL(file);
     }
   });
-  document.getElementById('foco-file-in').value='';
+  document.getElementById('foco-file-in').value = '';
 }
+
 function focoRenderAtts(){
-  var bar=document.getElementById('foco-att-bar'); bar.innerHTML='';
-  FOCO_ATTS.forEach(function(att,i){
-    var chip=document.createElement('div'); chip.className='foco-chip';
-    if(att.mimeType&&att.mimeType.startsWith('image/')&&att.data){
-      var im=document.createElement('img'); im.src='data:'+att.mimeType+';base64,'+att.data; chip.appendChild(im);
-    } else { chip.innerHTML='<span style="font-size:13px;">📄</span>'; }
-    var nm=document.createElement('span'); nm.textContent=att.name.length>18?att.name.slice(0,16)+'..':att.name; chip.appendChild(nm);
-    var xb=document.createElement('button'); xb.className='xc'; xb.textContent='×';
-    xb.onclick=(function(idx){return function(){FOCO_ATTS.splice(idx,1);focoRenderAtts();};})(i);
-    chip.appendChild(xb); bar.appendChild(chip);
+  var bar = document.getElementById('foco-att-bar');
+  bar.innerHTML = '';
+  FOCO_ATTS.forEach(function(att, i){
+    var chip = document.createElement('div');
+    chip.className = 'foco-chip';
+    if(att.mimeType && att.mimeType.startsWith('image/') && att.data){
+      var im = document.createElement('img');
+      im.src = 'data:' + att.mimeType + ';base64,' + att.data;
+      chip.appendChild(im);
+    } else {
+      chip.innerHTML = '<span style="font-size:13px;">📄</span>';
+    }
+    var nm = document.createElement('span');
+    nm.textContent = att.name.length > 18 ? att.name.slice(0,16) + '..' : att.name;
+    chip.appendChild(nm);
+    var xb = document.createElement('button');
+    xb.className = 'xc';
+    xb.textContent = '×';
+    xb.onclick = (function(idx){ return function(){ FOCO_ATTS.splice(idx,1); focoRenderAtts(); }; })(i);
+    chip.appendChild(xb);
+    bar.appendChild(chip);
   });
 }
 
 /* Voice Input */
 function focoVoice(){
-  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('Voice input not supported in this browser.');return;}
-  if(FOCO_RECOG){FOCO_RECOG.stop();FOCO_RECOG=null;document.getElementById('foco-mic-btn').classList.remove('rec');return;}
-  FOCO_RECOG=new SR();
-  FOCO_RECOG.lang='en-US'; FOCO_RECOG.continuous=false; FOCO_RECOG.interimResults=false;
-  FOCO_RECOG.onstart=function(){document.getElementById('foco-mic-btn').classList.add('rec');};
-  FOCO_RECOG.onresult=function(e){
-    var tx=e.results[0][0].transcript;
-    var inp=document.getElementById('foco-inp');
-    inp.value=(inp.value+' '+tx).trim(); focoGrow(inp);
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ toast('Voice input not supported in this browser.'); return; }
+
+  if(FOCO_RECOG){
+    FOCO_RECOG.stop();
+    FOCO_RECOG = null;
+    document.getElementById('foco-mic-btn').classList.remove('rec');
+    return;
+  }
+
+  FOCO_RECOG = new SR();
+  FOCO_RECOG.lang = 'en-US';
+  FOCO_RECOG.continuous = false;
+  FOCO_RECOG.interimResults = false;
+
+  FOCO_RECOG.onstart = function(){ document.getElementById('foco-mic-btn').classList.add('rec'); };
+  FOCO_RECOG.onresult = function(e){
+    var tx = e.results[0][0].transcript;
+    var inp = document.getElementById('foco-inp');
+    inp.value = (inp.value + ' ' + tx).trim();
+    focoGrow(inp);
   };
-  FOCO_RECOG.onerror=function(e){toast('Voice error: '+e.error);};
-  FOCO_RECOG.onend=function(){document.getElementById('foco-mic-btn').classList.remove('rec');FOCO_RECOG=null;};
+  FOCO_RECOG.onerror = function(e){ toast('Voice error: ' + e.error); };
+  FOCO_RECOG.onend = function(){
+    document.getElementById('foco-mic-btn').classList.remove('rec');
+    FOCO_RECOG = null;
+  };
   FOCO_RECOG.start();
 }
 
 /* Text-to-Speech */
 function focoToggleTTS(){
-  FOCO_TTS=!FOCO_TTS;
-  var btn=document.getElementById('foco-tts-btn');
-  if(FOCO_TTS){btn.classList.add('on');toast('TTS on — responses will be read aloud');}
-  else{btn.classList.remove('on');if(window.speechSynthesis)window.speechSynthesis.cancel();toast('TTS off');}
+  FOCO_TTS = !FOCO_TTS;
+  var btn = document.getElementById('foco-tts-btn');
+  if(FOCO_TTS){
+    btn.classList.add('on');
+    toast('TTS on — responses will be read aloud');
+  } else {
+    btn.classList.remove('on');
+    if(window.speechSynthesis) window.speechSynthesis.cancel();
+    toast('TTS off');
+  }
 }
+
 function focoSpeak(text){
-  if(!window.speechSynthesis)return;
+  if(!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  var clean=text.replace(/```[\s\S]*?```/g,'code block').replace(/[*_#`>]/g,'').replace(/<[^>]+>/g,'').replace(/\n+/g,' ');
-  var utt=new SpeechSynthesisUtterance(clean);
-  utt.rate=1.05; utt.pitch=1; utt.volume=1;
+  var clean = text.replace(/```[\s\S]*?```/g,'code block').replace(/[*_#`>]/g,'').replace(/<[^>]+>/g,'').replace(/\n+/g,' ');
+  var utt = new SpeechSynthesisUtterance(clean);
+  utt.rate = 1.05;
+  utt.pitch = 1;
+  utt.volume = 1;
   window.speechSynthesis.speak(utt);
 }
 
 /* Image Generation */
 async function focoImgGen(){
-  var inp=document.getElementById('foco-inp');
-  var prompt=(inp.value||'').trim();
-  if(!prompt){toast('Type an image prompt first, then tap Image.');return;}
-  inp.value=''; focoGrow(inp);
-  focoAddMsg('user','🎨 Generate: '+prompt);
-  var tid='ft'+Date.now(); focoTyping(tid);
+  var inp = document.getElementById('foco-inp');
+  var prompt = (inp.value || '').trim();
+  if(!prompt){ toast('Type an image prompt first, then tap Image.'); return; }
+  inp.value = '';
+  focoGrow(inp);
+  focoAddMsg('user', '🎨 Generate: ' + prompt);
+  var tid = 'ft' + Date.now();
+  focoTyping(tid);
   try{
-    var imageUrl=await focoShowPollinationsImage(prompt);
+    var imageUrl = await focoShowPollinationsImage(prompt);
     focoRmTyping(tid);
-    focoAddMsg('bot','Here is your image:',imageUrl);
-    try{ focoHistSave(); }catch(e){ console.error('Failed to save chat history:',e); }
+    focoAddMsg('bot', 'Here is your image:', imageUrl);
+    try{ focoHistSave(); }catch(e){ console.error('Failed to save chat history:', e); }
   }catch(err){
     focoRmTyping(tid);
-    focoAddMsg('bot','⚠️ '+focoFriendlyApiError(err,'main'));
+    focoAddMsg('bot', '⚠️ ' + focoFriendlyApiError(err, 'main'));
   }
 }
 
 /* Clear chat */
 function focoClear(){
-  if(FOCO_HIST.length&&!confirm('Start a new chat? This chat will be saved to history.'))return;
-  try{ focoHistSave(); }catch(e){ console.error('Failed to save previous chat:',e); }
-  document.getElementById('foco-att-bar').innerHTML='';
+  if(FOCO_HIST.length && !confirm('Start a new chat? This chat will be saved to history.')) return;
+  try{ focoHistSave(); }catch(e){ console.error('Failed to save previous chat:', e); }
+  document.getElementById('foco-att-bar').innerHTML = '';
   focoInitSession();
   toast('New chat started');
 }
 
 /* History save/load via localStorage + Supabase */
 /* Multi-session history */
-var FOCO_SESSIONS=[];
-var FOCO_SID=null;
+var FOCO_SESSIONS = [];
+var FOCO_SID = null;
 
 function focoLoadSessions(){
-  FOCO_SESSIONS=[];
-  if(!(SB&&AUTH&&AUTH.user)) return Promise.resolve();
-  return SB.from('foco_chats').select('sessions').eq('user_id',AUTH.user.id).maybeSingle()
+  FOCO_SESSIONS = [];
+  if(!(SB && AUTH && AUTH.user)) return Promise.resolve();
+  return SB.from('foco_chats').select('sessions').eq('user_id', AUTH.user.id).maybeSingle()
     .then(function(res){
-      if(res.data&&res.data.sessions) FOCO_SESSIONS=res.data.sessions;
+      if(res.data && res.data.sessions) FOCO_SESSIONS = res.data.sessions;
     })
-    .catch(function(err){ console.error('Foco load failed:',err); });
+    .catch(function(err){ console.error('Foco load failed:', err); });
 }
 function focoSaveSessions(){
-  if(!(SB&&AUTH&&AUTH.user)){ toast('Sign in to save Foco chats'); return Promise.resolve(); }
-  return SB.from('foco_chats').upsert({user_id:AUTH.user.id,sessions:FOCO_SESSIONS.slice(0,30),updated_at:new Date().toISOString()},{onConflict:'user_id'})
+  if(!(SB && AUTH && AUTH.user)){ toast('Sign in to save Foco chats'); return Promise.resolve(); }
+  return SB.from('foco_chats').upsert({user_id:AUTH.user.id, sessions:FOCO_SESSIONS.slice(0,30), updated_at:new Date().toISOString()},{onConflict:'user_id'})
     .then(function(res){
-      if(res.error){ console.error('Foco save failed:',res.error); toast('Failed to save chat'); }
+      if(res.error){ console.error('Foco save failed:', res.error); toast('Failed to save chat'); }
     })
-    .catch(function(err){ console.error('Foco save failed:',err); toast('Failed to save chat'); });
+    .catch(function(err){ console.error('Foco save failed:', err); toast('Failed to save chat'); });
 }
 function focoHistSave(){
-  if(!FOCO_HIST.length)return;
-  var firstUser=FOCO_HIST.find(function(m){return m.role==='user';});
-  var preview=firstUser&&firstUser.parts&&firstUser.parts.find(function(p){return p.text;});
-  var idx=FOCO_SESSIONS.findIndex(function(s){return s.id===FOCO_SID;});
-  var sess={id:FOCO_SID,ts:Date.now(),preview:preview?preview.text.slice(0,60):'Chat '+new Date().toLocaleDateString(),msgs:FOCO_HIST};
-  if(idx>=0)FOCO_SESSIONS[idx]=sess; else FOCO_SESSIONS.unshift(sess);
+  if(!FOCO_HIST.length) return;
+  var firstUser = FOCO_HIST.find(function(m){ return m.role === 'user'; });
+  var preview = firstUser && firstUser.parts && firstUser.parts.find(function(p){ return p.text; });
+  var idx = FOCO_SESSIONS.findIndex(function(s){ return s.id === FOCO_SID; });
+  var sess = {id:FOCO_SID, ts:Date.now(), preview:preview ? preview.text.slice(0,60) : 'Chat ' + new Date().toLocaleDateString(), msgs:FOCO_HIST};
+  if(idx >= 0) FOCO_SESSIONS[idx] = sess; else FOCO_SESSIONS.unshift(sess);
   focoSaveSessions();
 }
 function focoSidebarOpen(){
-  var sidebar=document.getElementById('foco-sidebar');
-  var list=document.getElementById('foco-sb-list');
-  if(!sidebar||!list)return;
+  var sidebar = document.getElementById('foco-sidebar');
+  var list = document.getElementById('foco-sb-list');
+  if(!sidebar || !list) return;
   sidebar.classList.add('open');
-  if(!(SB&&AUTH&&AUTH.user)){
-    list.innerHTML='<div class="foco-sb-empty">Sign in to save &amp; view chat history.<br><span style="color:var(--accent2);font-weight:700;cursor:pointer;" onclick="document.getElementById(\'foco-sidebar\').classList.remove(\'open\');openAuth();">Sign in now</span></div>';
+  if(!(SB && AUTH && AUTH.user)){
+    list.innerHTML = '<div class="foco-sb-empty">Sign in to save &amp; view chat history.<br><span style="color:var(--accent2);font-weight:700;cursor:pointer;" onclick="document.getElementById(\'foco-sidebar\').classList.remove(\'open\');openAuth();">Sign in now</span></div>';
     return;
   }
-  list.innerHTML='<div class="foco-sb-empty">Loading&#8230;</div>';
+  list.innerHTML = '<div class="foco-sb-empty">Loading&#8230;</div>';
   focoLoadSessions().then(function(){
     focoRenderSidebarList(list);
   });
 }
 function focoRenderSidebarList(list){
-  if(FOCO_SESSIONS.length===0){
-    list.innerHTML='<div class="foco-sb-empty">No past chats yet.<br>Start a conversation and it will appear here.</div>';
+  if(FOCO_SESSIONS.length === 0){
+    list.innerHTML = '<div class="foco-sb-empty">No past chats yet.<br>Start a conversation and it will appear here.</div>';
   } else {
-    list.innerHTML='';
-    FOCO_SESSIONS.forEach(function(sess,i){
-      var item=document.createElement('div');
-      item.className='foco-sb-item'+(sess.id===FOCO_SID?' active-sess':'');
-      var d=new Date(sess.ts);
-      var now=new Date();
-      var isToday=d.toDateString()===now.toDateString();
-      var dateStr=isToday
-        ?d.toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'})
-        :d.toLocaleDateString('en',{month:'short',day:'numeric'});
-      var sessTag=sess.isSession?'<span style="font-size:9px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);color:var(--accent2);border-radius:4px;padding:1px 5px;font-weight:700;">Session</span> ':'';
-      var msgCount=Math.floor((sess.msgs||[]).length/2);
-      item.innerHTML=
-        '<div class="fhi-preview">'+sessTag+(sess.preview||'Untitled chat')+'</div>'+
-        '<div class="fhi-meta">'+
-          '<span>'+dateStr+' &bull; '+msgCount+' msg'+(msgCount!==1?'s':'')+'</span>'+
-          '<button class="fhi-del" onclick="focoDelSession('+i+',event)" title="Delete">&times;</button>'+
+    list.innerHTML = '';
+    FOCO_SESSIONS.forEach(function(sess, i){
+      var item = document.createElement('div');
+      item.className = 'foco-sb-item' + (sess.id === FOCO_SID ? ' active-sess' : '');
+      var d = new Date(sess.ts);
+      var now = new Date();
+      var isToday = d.toDateString() === now.toDateString();
+      var dateStr = isToday ? d.toLocaleTimeString('en', {hour:'2-digit', minute:'2-digit'}) : d.toLocaleDateString('en', {month:'short', day:'numeric'});
+      var sessTag = sess.isSession ? '<span style="font-size:9px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);color:var(--accent2);border-radius:4px;padding:1px 5px;font-weight:700;">Session</span> ' : '';
+      var msgCount = Math.floor((sess.msgs || []).length / 2);
+      item.innerHTML =
+        '<div class="fhi-preview">' + sessTag + (sess.preview || 'Untitled chat') + '</div>' +
+        '<div class="fhi-meta">' +
+          '<span>' + dateStr + ' &bull; ' + msgCount + ' msg' + (msgCount !== 1 ? 's' : '') + '</span>' +
+          '<button class="fhi-del" onclick="focoDelSession(' + i + ',event)" title="Delete">&times;</button>' +
         '</div>';
-      item.onclick=function(){focoLoadSession(sess);focoSidebarClose();};
+      item.onclick = function(){ focoLoadSession(sess); focoSidebarClose(); };
       list.appendChild(item);
     });
   }
 }
 function focoSidebarClose(){
-  var sb=document.getElementById('foco-sidebar');
-  if(sb)sb.classList.remove('open');
+  var sb = document.getElementById('foco-sidebar');
+  if(sb) sb.classList.remove('open');
 }
-function focoHistoryLoad(){focoSidebarOpen();}
-function focoDelSession(i,e){
+function focoHistoryLoad(){ focoSidebarOpen(); }
+function focoDelSession(i, e){
   e.stopPropagation();
-  FOCO_SESSIONS.splice(i,1); focoSaveSessions();
-  var list=document.getElementById('foco-sb-list');
+  FOCO_SESSIONS.splice(i, 1);
+  focoSaveSessions();
+  var list = document.getElementById('foco-sb-list');
   if(list) focoRenderSidebarList(list);
 }
 function focoLoadSession(sess){
-  FOCO_HIST=sess.msgs||[]; FOCO_SID=sess.id;
-  var wrap=document.getElementById('foco-msgs'); wrap.innerHTML='';
+  FOCO_HIST = sess.msgs || [];
+  FOCO_SID = sess.id;
+  var wrap = document.getElementById('foco-msgs');
+  wrap.innerHTML = '';
   FOCO_HIST.forEach(function(m){
-    var t=m.parts&&m.parts.find(function(p){return p.text;});
-    if(t)focoAddMsg(m.role==='user'?'user':'bot',t.text);
+    var t = m.parts && m.parts.find(function(p){ return p.text; });
+    if(t) focoAddMsg(m.role === 'user' ? 'user' : 'bot', t.text);
   });
   toast('Session loaded');
 }
 function focoRestoreMsgs(msgs){
-  FOCO_HIST=msgs;
-  var wrap=document.getElementById('foco-msgs'); wrap.innerHTML='';
+  FOCO_HIST = msgs;
+  var wrap = document.getElementById('foco-msgs');
+  wrap.innerHTML = '';
   msgs.forEach(function(m){
-    var t=m.parts&&m.parts.find(function(p){return p.text;});
-    if(t)focoAddMsg(m.role==='user'?'user':'bot',t.text);
+    var t = m.parts && m.parts.find(function(p){ return p.text; });
+    if(t) focoAddMsg(m.role === 'user' ? 'user' : 'bot', t.text);
   });
 }
 function focoInitSession(){
-  if(SB&&AUTH&&AUTH.user) focoLoadSessions();
-  FOCO_HIST=[]; FOCO_ATTS=[];
-  FOCO_SID='fs_'+Date.now();
-  var wrap=document.getElementById('foco-msgs');
+  if(SB && AUTH && AUTH.user) focoLoadSessions();
+  FOCO_HIST = [];
+  FOCO_ATTS = [];
+  FOCO_SID = 'fs_' + Date.now();
+  var wrap = document.getElementById('foco-msgs');
   if(wrap){
-    wrap.innerHTML='';  /* Always clear first */
-    var _e=document.createElement('div');
-    _e.id='foco-empty'; _e.className='foco-empty';
-    _e.innerHTML=
-      '<div class="foco-empty-av-wrap">'+
-        '<img class="foco-empty-av" src="https://i.postimg.cc/SR3fFMf0/image.png" alt="Foco">'+
-        '<div class="foco-empty-glow"></div>'+
-      '</div>'+
-      '<div class="foco-empty-name">Hi, I&#39;m Foco 👋</div>'+
-      '<div class="foco-empty-sub">Your AI assistant — ask anything.<br>Files, images, voice &amp; automatic visuals are ready.</div>'+
-      '<div class="foco-sugs">'+
-        '<button class="foco-sug" onclick="focoQuick(\'How do I stay focused while studying?\')">💡 How do I stay focused?</button>'+
-        '<button class="foco-sug" onclick="focoQuick(\'Make me a 3-hour study schedule\')">📅 Study schedule</button>'+
-        '<button class="foco-sug" onclick="focoQuick(\'Write a short poem about space\')">✍️ Write me a poem</button>'+
-        '<button class="foco-sug" onclick="focoQuick(\'What can you do?\')">🤖 What can you do?</button>'+
+    wrap.innerHTML = '';
+    var _e = document.createElement('div');
+    _e.id = 'foco-empty';
+    _e.className = 'foco-empty';
+    _e.innerHTML =
+      '<div class="foco-empty-av-wrap">' +
+        '<img class="foco-empty-av" src="https://i.postimg.cc/SR3fFMf0/image.png" alt="Foco">' +
+        '<div class="foco-empty-glow"></div>' +
+      '</div>' +
+      '<div class="foco-empty-name">Hi, I&#39;m Foco 👋</div>' +
+      '<div class="foco-empty-sub">Your AI assistant — ask anything.<br>Files, images, voice &amp; automatic visuals are ready.</div>' +
+      '<div class="foco-sugs">' +
+        '<button class="foco-sug" onclick="focoQuick(\'How do I stay focused while studying?\')">💡 How do I stay focused?</button>' +
+        '<button class="foco-sug" onclick="focoQuick(\'Make me a 3-hour study schedule\')">📅 Study schedule</button>' +
+        '<button class="foco-sug" onclick="focoQuick(\'Write a short poem about space\')">✍️ Write me a poem</button>' +
+        '<button class="foco-sug" onclick="focoQuick(\'What can you do?\')">🤖 What can you do?</button>' +
       '</div>';
     wrap.appendChild(_e);
   }
 }
 
-// ===== SESSION FOCO POPUP =====
-var SFOCO_HIST=[];
-var SFOCO_ATTS=[];
-var SFOCO_TTS=false;
-var SFOCO_RECOG=null;
-var SFOCO_SID=null;
+/* ===== Pollinations helpers ===== */
+function focoAttachImages(bubble, imgSrc){
+  if(!bubble || !imgSrc) return;
+  var imgs = Array.isArray(imgSrc) ? imgSrc : [imgSrc];
+  imgs.forEach(function(src){
+    if(!src) return;
+    var gi = document.createElement('img');
+    gi.src = src;
+    gi.style.cssText = 'max-width:100%;border-radius:8px;margin-top:6px;display:block;';
+    bubble.appendChild(gi);
+  });
+}
+
+async function focoShowPollinationsImage(prompt){
+  prompt = String(prompt || '').replace(/\s+/g,' ').trim();
+  if(!prompt) return null;
+  var imageUrl = 'https://image.pollinations.ai/prompt/' +
+    encodeURIComponent(prompt) +
+    '?width=1024&height=1024&nologo=true&seed=' +
+    Math.floor(Math.random()*999999);
+  await focoWaitImage(imageUrl);
+  return imageUrl;
+}
+
+/* ===== SESSION FOCO POPUP ===== */
+var SFOCO_HIST = [];
+var SFOCO_ATTS = [];
+var SFOCO_TTS = false;
+var SFOCO_RECOG = null;
+var SFOCO_SID = null;
 
 function openSessFoco(){
   document.getElementById('sess-foco-overlay').classList.add('open');
   document.getElementById('sfoco-inp').focus();
 }
 function closeSessFoco(e){
-  if(!e||e.target===document.getElementById('sess-foco-overlay')){
+  if(!e || e.target === document.getElementById('sess-foco-overlay')){
     document.getElementById('sess-foco-overlay').classList.remove('open');
   }
 }
 function sfocoClearAndAsk(txt){
-  document.getElementById('sfoco-inp').value=txt;
+  document.getElementById('sfoco-inp').value = txt;
   sfocoSend();
 }
-function sfocoKD(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sfocoSend();}}
-function sfocoGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,90)+'px';}
+function sfocoKD(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sfocoSend(); } }
+function sfocoGrow(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,90)+'px'; }
 
 function extractSfocoImageBlocks(text){
-  var prompts=[];
-  var clean=String(text || '').replace(/\r/g,'');
-  clean=clean.replace(/\[\[IMAGE\]\]([\s\S]*?)\[\[\/IMAGE\]\]/gi,function(_,p1){
-    var p=String(p1 || '').replace(/\s+/g,' ').trim();
+  var prompts = [];
+  var clean = String(text || '').replace(/\r/g,'');
+  clean = clean.replace(/\[\[IMAGE\]\]([\s\S]*?)\[\[\/IMAGE\]\]/gi, function(_, p1){
+    var p = String(p1 || '').replace(/\s+/g,' ').trim();
     if(p) prompts.push(p);
     return '\n';
   });
-  clean=clean.replace(/\n{3,}/g,'\n\n').trim();
-  return {text:clean,prompts:prompts};
+  clean = clean.replace(/\n{3,}/g,'\n\n').trim();
+  return { text:clean, prompts:prompts };
 }
 
 async function sfocoShowPollinationsImage(prompt){
-  prompt=String(prompt || '').replace(/\s+/g,' ').trim();
+  prompt = String(prompt || '').replace(/\s+/g,' ').trim();
   if(!prompt) return null;
-  var imageUrl=pollinationsImageUrl(prompt);
+  var imageUrl = 'https://image.pollinations.ai/prompt/' +
+    encodeURIComponent(prompt) +
+    '?width=1024&height=1024&nologo=true&seed=' +
+    Math.floor(Math.random()*999999);
   await focoWaitImage(imageUrl);
   return imageUrl;
 }
 
 async function sfocoSend(){
-  var inp=document.getElementById('sfoco-inp');
-  var txt=(inp.value||'').trim();
-  if(!txt&&!SFOCO_ATTS.length)return;
-  var empty=document.getElementById('sfoco-empty'); if(empty)empty.remove();
+  var inp = document.getElementById('sfoco-inp');
+  var txt = (inp.value || '').trim();
+  if(!txt && !SFOCO_ATTS.length) return;
+  var empty = document.getElementById('sfoco-empty');
+  if(empty) empty.remove();
 
-  /* Build parts from attachments + text */
-  var parts=[];
-  var previewAtts=SFOCO_ATTS.slice();
+  var parts = [];
+  var previewAtts = SFOCO_ATTS.slice();
   SFOCO_ATTS.forEach(function(att){
-    if(att.textContent!=null) parts.push({text:'[File: '+att.name+']\n'+att.textContent});
-    else parts.push({inlineData:{mimeType:att.mimeType,data:att.data}});
+    if(att.textContent != null) parts.push({text:'[File: ' + att.name + ']\n' + att.textContent});
+    else parts.push({inlineData:{mimeType:att.mimeType, data:att.data}});
   });
-  if(txt)parts.push({text:txt});
+  if(txt) parts.push({text:txt});
 
-  var dispTxt=txt||(SFOCO_ATTS.map(function(a){return a.name;}).join(', '));
-  sfocoAddMsg('user',dispTxt,previewAtts);
-  SFOCO_HIST.push({role:'user',parts:parts});
-  SFOCO_ATTS=[];
-  document.getElementById('sfoco-att-bar').innerHTML='';
-  inp.value=''; sfocoGrow(inp);
+  var dispTxt = txt || (SFOCO_ATTS.map(function(a){return a.name;}).join(', '));
+  sfocoAddMsg('user', dispTxt, previewAtts);
+  SFOCO_HIST.push({role:'user', parts:parts});
+  SFOCO_ATTS = [];
+  document.getElementById('sfoco-att-bar').innerHTML = '';
+  inp.value = '';
+  sfocoGrow(inp);
 
-  var sb=document.getElementById('sfoco-send'); sb.disabled=true;
-  var tid='sft'+Date.now(); sfocoTyping(tid);
+  var sb = document.getElementById('sfoco-send');
+  sb.disabled = true;
+  var tid = 'sft' + Date.now();
+  sfocoTyping(tid);
 
   try{
-    var sessCtx=CUR
-      ? ('Currently in a '+(CUR.timed?Math.round(CUR.total/60)+'-minute':'open')+' study session on '+(CUR.subj||'unknown subject')+'. Elapsed: '+Math.floor((CUR.el||0)/60)+' min.')
+    var sessCtx = CUR
+      ? ('Currently in a ' + (CUR.timed ? Math.round(CUR.total/60) + '-minute' : 'open') + ' study session on ' + (CUR.subj || 'unknown subject') + '. Elapsed: ' + Math.floor((CUR.el || 0)/60) + ' min.')
       : 'Not in a session.';
 
-    var sys=buildFocoSys()+'\n\n=== SESSION CHAT CONTEXT ===\n'+sessCtx;
-    var body={
-      systemInstruction:{parts:[{text:sys}]},
-      contents:SFOCO_HIST,
-      generationConfig:{temperature:0.75,maxOutputTokens:1024,topP:0.92}
-    };
-    var r=await fetch(GURL+'?key='+GKEY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    var d=await r.json();
-    sfocoRmTyping(tid);
-    if(d.error)throw new Error(d.error.message||'API error');
+    var sys = buildFocoSys() + '\n\n=== SESSION CHAT CONTEXT ===\n' + sessCtx;
+    var reply = await focoGenerateReply(sys, SFOCO_HIST, 1024);
 
-    var rawReply=(d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts&&d.candidates[0].content.parts[0]&&d.candidates[0].content.parts[0].text)||'Sorry, no response.';
-    var parsed=extractSfocoImageBlocks(rawReply);
-    var cleanReply=parsed.text;
-    var imagePrompts=parsed.prompts;
-    var imageUrls=[];
+    sfocoRmTyping(tid);
+
+    var parsed = extractSfocoImageBlocks(reply);
+    var cleanReply = parsed.text;
+    var imagePrompts = parsed.prompts;
+    var imageUrls = [];
 
     if(imagePrompts.length){
       for(var i=0;i<imagePrompts.length;i++){
         try{
-          var u=await sfocoShowPollinationsImage(imagePrompts[i]);
+          var u = await sfocoShowPollinationsImage(imagePrompts[i]);
           if(u) imageUrls.push(u);
         }catch(imgErr){
           console.error('Image generation failed:', imgErr);
@@ -5949,452 +6137,230 @@ async function sfocoSend(){
     }
 
     if(cleanReply || imageUrls.length){
-      SFOCO_HIST.push({role:'model',parts:[{text:cleanReply || 'Visual generated.'}]});
-      sfocoAddMsg('bot',cleanReply || 'Here is a visual to help explain this.',imageUrls);
+      SFOCO_HIST.push({role:'model', parts:[{text:cleanReply || 'Visual generated.'}]});
+      sfocoAddMsg('bot', cleanReply || 'Here is a visual to help explain this.', imageUrls);
     } else {
-      SFOCO_HIST.push({role:'model',parts:[{text:rawReply}]});
-      sfocoAddMsg('bot',rawReply);
+      SFOCO_HIST.push({role:'model', parts:[{text:reply}]});
+      sfocoAddMsg('bot', reply);
     }
 
-    if(SFOCO_TTS)sfocoSpeak(cleanReply || rawReply);
+    if(SFOCO_TTS) sfocoSpeak(cleanReply || reply);
     sfocoSaveToHistory();
   }catch(err){
     sfocoRmTyping(tid);
-    sfocoAddMsg('bot','⚠️ '+focoFriendlyApiError(err,'session'));
+    sfocoAddMsg('bot', '⚠️ ' + focoFriendlyApiError(err, 'session'));
   }
-  sb.disabled=false;
+
+  sb.disabled = false;
 }
 
-function sfocoAddMsg(role,text,atts,imgSrc){
-  var wrap=document.getElementById('sfoco-msgs');
-  var div=document.createElement('div');
-  div.className='sfoco-msg '+(role==='user'?'user':'bot');
-  var av;
-  if(role==='bot'){
-    av=document.createElement('img'); av.className='sfoco-bav';
-    av.src='https://i.postimg.cc/SR3fFMf0/image.png';
-  } else {
-    av=document.createElement('div'); av.className='sfoco-uav';
-    av.textContent=(D&&D.name?D.name.charAt(0).toUpperCase():'U');
-  }
-  var col=document.createElement('div');
-  col.style.cssText='display:flex;flex-direction:column;gap:3px;max-width:78%;'+(role==='user'?'align-items:flex-end;':'');
+function sfocoAddMsg(role, text, atts, imgSrc){
+  var wrap = document.getElementById('sfoco-msgs');
+  var div = document.createElement('div');
+  div.className = 'sfoco-msg ' + (role === 'user' ? 'user' : 'bot');
 
-  /* Attachment image previews */
-  if(atts&&atts.length){
+  var av;
+  if(role === 'bot'){
+    av = document.createElement('img');
+    av.className = 'sfoco-bav';
+    av.src = 'https://i.postimg.cc/SR3fFMf0/image.png';
+  } else {
+    av = document.createElement('div');
+    av.className = 'sfoco-uav';
+    av.textContent = (D && D.name ? D.name.charAt(0).toUpperCase() : 'U');
+  }
+
+  var col = document.createElement('div');
+  col.style.cssText = 'display:flex;flex-direction:column;gap:3px;max-width:78%;' + (role === 'user' ? 'align-items:flex-end;' : '');
+
+  if(atts && atts.length){
     atts.forEach(function(a){
-      if(a.mimeType&&a.mimeType.startsWith('image/')&&a.data){
-        var pi=document.createElement('img');
-        pi.src='data:'+a.mimeType+';base64,'+a.data;
-        pi.className='sfoco-att-img-preview'; col.appendChild(pi);
+      if(a.mimeType && a.mimeType.startsWith('image/') && a.data){
+        var pi = document.createElement('img');
+        pi.src = 'data:' + a.mimeType + ';base64,' + a.data;
+        pi.className = 'sfoco-att-img-preview';
+        col.appendChild(pi);
       }
     });
   }
 
-  var bubble=document.createElement('div');
-  bubble.className='sfoco-bubble '+(role==='user'?'user':'bot');
-  if(role==='bot'){
-    var safeText=String(text || '').trim();
-    if(!safeText && imgSrc){ safeText='Here is a visual to help explain this.'; }
-    bubble.innerHTML=focoMd(safeText);
+  var bubble = document.createElement('div');
+  bubble.className = 'sfoco-bubble ' + (role === 'user' ? 'user' : 'bot');
+
+  if(role === 'bot'){
+    var safeText = String(text || '').trim();
+    if(!safeText && imgSrc){ safeText = 'Here is a visual to help explain this.'; }
+    bubble.innerHTML = focoMd(safeText);
     focoAttachImages(bubble, imgSrc);
   } else {
-    bubble.textContent=text;
+    bubble.textContent = text;
   }
+
   col.appendChild(bubble);
-  div.appendChild(av); div.appendChild(col);
+  div.appendChild(av);
+  div.appendChild(col);
   wrap.appendChild(div);
-  wrap.scrollTop=wrap.scrollHeight;
+  wrap.scrollTop = wrap.scrollHeight;
 }
 
 function sfocoTyping(id){
-  var wrap=document.getElementById('sfoco-msgs');
-  var div=document.createElement('div'); div.className='sfoco-msg bot'; div.id=id;
-  var av=document.createElement('img'); av.className='sfoco-bav'; av.src='https://i.postimg.cc/SR3fFMf0/image.png';
-  var bub=document.createElement('div'); bub.className='sfoco-bubble bot sfoco-typing';
-  bub.innerHTML='<div class="sfoco-dot"></div><div class="sfoco-dot"></div><div class="sfoco-dot"></div>';
-  div.appendChild(av); div.appendChild(bub); wrap.appendChild(div);
-  wrap.scrollTop=wrap.scrollHeight;
+  var wrap = document.getElementById('sfoco-msgs');
+  var div = document.createElement('div');
+  div.className = 'sfoco-msg bot';
+  div.id = id;
+  var av = document.createElement('img');
+  av.className = 'sfoco-bav';
+  av.src = 'https://i.postimg.cc/SR3fFMf0/image.png';
+  var bub = document.createElement('div');
+  bub.className = 'sfoco-bubble bot sfoco-typing';
+  bub.innerHTML = '<div class="sfoco-dot"></div><div class="sfoco-dot"></div><div class="sfoco-dot"></div>';
+  div.appendChild(av);
+  div.appendChild(bub);
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
 }
-function sfocoRmTyping(id){var el=document.getElementById(id);if(el)el.remove();}
+function sfocoRmTyping(id){
+  var el = document.getElementById(id);
+  if(el) el.remove();
+}
 
 /* Sfoco file attachment */
 function sfocoPickFile(){ document.getElementById('sfoco-file-in').click(); }
+
 function sfocoGotFiles(files){
   Array.from(files).forEach(function(file){
-    var isText=(file.type.startsWith('text/')||/\.(json|js|py|html|css|xml|csv|md|txt)$/.test(file.name));
-    var r=new FileReader();
+    var isText = (file.type.startsWith('text/') || /\.(json|js|py|html|css|xml|csv|md|txt)$/.test(file.name));
+    var r = new FileReader();
     if(isText){
-      r.onload=function(e){ SFOCO_ATTS.push({name:file.name,mimeType:file.type||'text/plain',textContent:e.target.result}); sfocoRenderAtts(); };
+      r.onload = function(e){
+        SFOCO_ATTS.push({name:file.name, mimeType:file.type||'text/plain', textContent:e.target.result});
+        sfocoRenderAtts();
+      };
       r.readAsText(file);
     } else {
-      r.onload=function(e){ var b64=e.target.result.split(',')[1]; SFOCO_ATTS.push({name:file.name,mimeType:file.type,data:b64}); sfocoRenderAtts(); };
+      r.onload = function(e){
+        var b64 = e.target.result.split(',')[1];
+        SFOCO_ATTS.push({name:file.name, mimeType:file.type, data:b64});
+        sfocoRenderAtts();
+      };
       r.readAsDataURL(file);
     }
   });
-  document.getElementById('sfoco-file-in').value='';
+  document.getElementById('sfoco-file-in').value = '';
 }
+
 function sfocoRenderAtts(){
-  var bar=document.getElementById('sfoco-att-bar'); bar.innerHTML='';
-  SFOCO_ATTS.forEach(function(att,i){
-    var chip=document.createElement('div'); chip.className='sfoco-att-chip';
-    if(att.mimeType&&att.mimeType.startsWith('image/')&&att.data){
-      var im=document.createElement('img'); im.src='data:'+att.mimeType+';base64,'+att.data; chip.appendChild(im);
-    } else { chip.innerHTML='<span style="font-size:12px;">📄</span>'; }
-    var nm=document.createElement('span'); nm.textContent=att.name.length>16?att.name.slice(0,14)+'..':att.name; chip.appendChild(nm);
-    var xb=document.createElement('button'); xb.className='xc'; xb.textContent='×';
-    xb.onclick=(function(idx){return function(){SFOCO_ATTS.splice(idx,1);sfocoRenderAtts();};})(i);
-    chip.appendChild(xb); bar.appendChild(chip);
+  var bar = document.getElementById('sfoco-att-bar');
+  bar.innerHTML = '';
+  SFOCO_ATTS.forEach(function(att, i){
+    var chip = document.createElement('div');
+    chip.className = 'sfoco-att-chip';
+    if(att.mimeType && att.mimeType.startsWith('image/') && att.data){
+      var im = document.createElement('img');
+      im.src = 'data:' + att.mimeType + ';base64,' + att.data;
+      chip.appendChild(im);
+    } else {
+      chip.innerHTML = '<span style="font-size:12px;">📄</span>';
+    }
+    var nm = document.createElement('span');
+    nm.textContent = att.name.length > 16 ? att.name.slice(0,14) + '..' : att.name;
+    chip.appendChild(nm);
+    var xb = document.createElement('button');
+    xb.className = 'xc';
+    xb.textContent = '×';
+    xb.onclick = (function(idx){ return function(){ SFOCO_ATTS.splice(idx,1); sfocoRenderAtts(); }; })(i);
+    chip.appendChild(xb);
+    bar.appendChild(chip);
   });
 }
 
 /* Save session Foco chat into main Foco history sidebar */
 function sfocoSaveToHistory(){
-  if(!SFOCO_HIST.length)return;
-  if(!(SB&&AUTH&&AUTH.user)){ toast('Sign in to save this chat'); return; }
+  if(!SFOCO_HIST.length) return;
+  if(!(SB && AUTH && AUTH.user)){ toast('Sign in to save this chat'); return; }
   focoLoadSessions().then(function(){
-    var firstUser=SFOCO_HIST.find(function(m){return m.role==='user';});
-    var preview=firstUser&&firstUser.parts&&firstUser.parts.find(function(p){return p.text;});
-    var label=CUR&&CUR.subj?'[Session: '+CUR.subj+'] ':'[Session] ';
-    var previewTxt=label+(preview?preview.text.slice(0,50):'Chat');
-    var idx=FOCO_SESSIONS.findIndex(function(s){return s.id===SFOCO_SID;});
-    var sess={id:SFOCO_SID,ts:Date.now(),preview:previewTxt,msgs:SFOCO_HIST,isSession:true};
-    if(idx>=0)FOCO_SESSIONS[idx]=sess; else FOCO_SESSIONS.unshift(sess);
+    var firstUser = SFOCO_HIST.find(function(m){ return m.role === 'user'; });
+    var preview = firstUser && firstUser.parts && firstUser.parts.find(function(p){ return p.text; });
+    var label = CUR && CUR.subj ? '[Session: ' + CUR.subj + '] ' : '[Session] ';
+    var previewTxt = label + (preview ? preview.text.slice(0,50) : 'Chat');
+    var idx = FOCO_SESSIONS.findIndex(function(s){ return s.id === SFOCO_SID; });
+    var sess = {id:SFOCO_SID, ts:Date.now(), preview:previewTxt, msgs:SFOCO_HIST, isSession:true};
+    if(idx >= 0) FOCO_SESSIONS[idx] = sess; else FOCO_SESSIONS.unshift(sess);
     focoSaveSessions();
   });
 }
 
 /* Voice */
 function sfocoVoice(){
-  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('Voice not supported in this browser.');return;}
-  if(SFOCO_RECOG){SFOCO_RECOG.stop();SFOCO_RECOG=null;document.getElementById('sfoco-mic-btn').classList.remove('rec');return;}
-  SFOCO_RECOG=new SR();
-  SFOCO_RECOG.lang='en-US';SFOCO_RECOG.continuous=false;SFOCO_RECOG.interimResults=false;
-  SFOCO_RECOG.onstart=function(){document.getElementById('sfoco-mic-btn').classList.add('rec');};
-  SFOCO_RECOG.onresult=function(e){
-    var tx=e.results[0][0].transcript;
-    var inp=document.getElementById('sfoco-inp');
-    inp.value=(inp.value+' '+tx).trim(); sfocoGrow(inp);
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ toast('Voice not supported in this browser.'); return; }
+  if(SFOCO_RECOG){
+    SFOCO_RECOG.stop();
+    SFOCO_RECOG = null;
+    document.getElementById('sfoco-mic-btn').classList.remove('rec');
+    return;
+  }
+  SFOCO_RECOG = new SR();
+  SFOCO_RECOG.lang = 'en-US';
+  SFOCO_RECOG.continuous = false;
+  SFOCO_RECOG.interimResults = false;
+  SFOCO_RECOG.onstart = function(){ document.getElementById('sfoco-mic-btn').classList.add('rec'); };
+  SFOCO_RECOG.onresult = function(e){
+    var tx = e.results[0][0].transcript;
+    var inp = document.getElementById('sfoco-inp');
+    inp.value = (inp.value + ' ' + tx).trim();
+    sfocoGrow(inp);
   };
-  SFOCO_RECOG.onerror=function(e){toast('Voice error: '+e.error);};
-  SFOCO_RECOG.onend=function(){document.getElementById('sfoco-mic-btn').classList.remove('rec');SFOCO_RECOG=null;};
+  SFOCO_RECOG.onerror = function(e){ toast('Voice error: ' + e.error); };
+  SFOCO_RECOG.onend = function(){
+    document.getElementById('sfoco-mic-btn').classList.remove('rec');
+    SFOCO_RECOG = null;
+  };
   SFOCO_RECOG.start();
 }
 
 /* TTS */
 function sfocoToggleTTS(){
-  SFOCO_TTS=!SFOCO_TTS;
-  var btn=document.getElementById('sfoco-tts-btn');
-  if(SFOCO_TTS){btn.classList.add('on');toast('TTS on');}
-  else{btn.classList.remove('on');if(window.speechSynthesis)window.speechSynthesis.cancel();toast('TTS off');}
-}
-function sfocoSpeak(text){
-  if(!window.speechSynthesis)return;
-  window.speechSynthesis.cancel();
-  var clean=text.replace(/```[\s\S]*?```/g,'code block').replace(/[*_#`]/g,'').replace(/<[^>]+>/g,'').replace(/\n+/g,' ');
-  var utt=new SpeechSynthesisUtterance(clean);
-  utt.rate=1.05; window.speechSynthesis.speak(utt);
-}
-
-/* Image gen */
-async function sfocoImgGen(){
-  var inp=document.getElementById('sfoco-inp');
-  var prompt=(inp.value||'').trim();
-  if(!prompt){toast('Type an image prompt first.');return;}
-  inp.value=''; sfocoGrow(inp);
-  var empty=document.getElementById('sfoco-empty'); if(empty)empty.remove();
-  sfocoAddMsg('user','🎨 Generate: '+prompt);
-  var tid='sft'+Date.now(); sfocoTyping(tid);
-  try{
-    var imageUrl=await sfocoShowPollinationsImage(prompt);
-    sfocoRmTyping(tid);
-    sfocoAddMsg('bot','Here is your image:',[],imageUrl);
-    SFOCO_HIST.push({role:'model',parts:[{text:'[Generated image for: '+prompt+']'}]});
-    sfocoSaveToHistory();
-  }catch(err){
-    sfocoRmTyping(tid);
-    sfocoAddMsg('bot','⚠️ '+focoFriendlyApiError(err,'session'));
-  }
-}
-
-// ===== SESSION FOCO POPUP =====
-var SFOCO_HIST=[];
-var SFOCO_ATTS=[];
-var SFOCO_TTS=false;
-var SFOCO_RECOG=null;
-var SFOCO_SID=null;
-
-function openSessFoco(){
-  document.getElementById('sess-foco-overlay').classList.add('open');
-  document.getElementById('sfoco-inp').focus();
-}
-function closeSessFoco(e){
-  if(!e||e.target===document.getElementById('sess-foco-overlay')){
-    document.getElementById('sess-foco-overlay').classList.remove('open');
-  }
-}
-function sfocoClearAndAsk(txt){
-  document.getElementById('sfoco-inp').value=txt;
-  sfocoSend();
-}
-function sfocoKD(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sfocoSend();}}
-function sfocoGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,90)+'px';}
-
-function extractSfocoImageBlocks(text){
-  var prompts=[];
-  var clean=String(text || '').replace(/\r/g,'');
-  clean=clean.replace(/\[\[IMAGE\]\]([\s\S]*?)\[\[\/IMAGE\]\]/gi,function(_,p1){
-    var p=String(p1 || '').replace(/\s+/g,' ').trim();
-    if(p) prompts.push(p);
-    return '\n';
-  });
-  clean=clean.replace(/\n{3,}/g,'\n\n').trim();
-  return {text:clean,prompts:prompts};
-}
-
-async function sfocoShowPollinationsImage(prompt,caption){
-  prompt=String(prompt || '').replace(/\s+/g,' ').trim();
-  if(!prompt) return;
-  var imageUrl=pollinationsImageUrl(prompt);
-  await focoWaitImage(imageUrl);
-  sfocoAddMsg('bot',caption || 'Here is a visual to help explain this.',imageUrl);
-}
-
-async function sfocoSend(){
-  var inp=document.getElementById('sfoco-inp');
-  var txt=(inp.value||'').trim();
-  if(!txt&&!SFOCO_ATTS.length)return;
-  var empty=document.getElementById('sfoco-empty'); if(empty)empty.remove();
-
-  /* Build parts from attachments + text */
-  var parts=[];
-  var previewAtts=SFOCO_ATTS.slice();
-  SFOCO_ATTS.forEach(function(att){
-    if(att.textContent!=null) parts.push({text:'[File: '+att.name+']\n'+att.textContent});
-    else parts.push({inlineData:{mimeType:att.mimeType,data:att.data}});
-  });
-  if(txt)parts.push({text:txt});
-
-  var dispTxt=txt||(SFOCO_ATTS.map(function(a){return a.name;}).join(', '));
-  sfocoAddMsg('user',dispTxt,previewAtts);
-  SFOCO_HIST.push({role:'user',parts:parts});
-  SFOCO_ATTS=[];
-  document.getElementById('sfoco-att-bar').innerHTML='';
-  inp.value=''; sfocoGrow(inp);
-
-  var sb=document.getElementById('sfoco-send'); sb.disabled=true;
-  var tid='sft'+Date.now(); sfocoTyping(tid);
-
-  try{
-    var sessCtx=CUR
-      ? ('Currently in a '+(CUR.timed?Math.round(CUR.total/60)+'-minute':'open')+' study session on '+(CUR.subj||'unknown subject')+'. Elapsed: '+Math.floor((CUR.el||0)/60)+' min.')
-      : 'Not in a session.';
-
-    var sys=buildFocoSys()+'\n\n=== SESSION CHAT CONTEXT ===\n'+sessCtx;
-    var body={
-      systemInstruction:{parts:[{text:sys}]},
-      contents:SFOCO_HIST,
-      generationConfig:{temperature:0.75,maxOutputTokens:1024,topP:0.92}
-    };
-    var r=await fetch(GURL+'?key='+GKEY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    var d=await r.json();
-    sfocoRmTyping(tid);
-    if(d.error)throw new Error(d.error.message||'API error');
-
-    var rawReply=(d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts&&d.candidates[0].content.parts[0]&&d.candidates[0].content.parts[0].text)||'Sorry, no response.';
-    var parsed=extractSfocoImageBlocks(rawReply);
-    var cleanReply=parsed.text;
-    var imagePrompts=parsed.prompts;
-
-    if(cleanReply){
-      SFOCO_HIST.push({role:'model',parts:[{text:cleanReply}]});
-      sfocoAddMsg('bot',cleanReply);
-    } else if(imagePrompts.length){
-      SFOCO_HIST.push({role:'model',parts:[{text:'Visual generated.'}]});
-    } else {
-      SFOCO_HIST.push({role:'model',parts:[{text:rawReply}]});
-      sfocoAddMsg('bot',rawReply);
-    }
-
-    if(imagePrompts.length){
-      for(var i=0;i<imagePrompts.length;i++){
-        try{
-          await sfocoShowPollinationsImage(
-            imagePrompts[i],
-            i===0 ? (cleanReply || 'Here is a visual to help explain this.') : 'Another visual to help explain this.'
-          );
-        }catch(imgErr){
-          sfocoAddMsg('bot','⚠️ Image generation failed. '+imgErr.message);
-        }
-      }
-    }
-
-    if(SFOCO_TTS)sfocoSpeak(cleanReply || rawReply);
-    sfocoSaveToHistory();
-  }catch(err){
-    sfocoRmTyping(tid);
-    sfocoAddMsg('bot','⚠️ '+err.message);
-  }
-  sb.disabled=false;
-}
-
-function sfocoAddMsg(role,text,atts){
-  var wrap=document.getElementById('sfoco-msgs');
-  var div=document.createElement('div');
-  div.className='sfoco-msg '+(role==='user'?'user':'bot');
-  var av;
-  if(role==='bot'){
-    av=document.createElement('img'); av.className='sfoco-bav';
-    av.src='https://i.postimg.cc/SR3fFMf0/image.png';
+  SFOCO_TTS = !SFOCO_TTS;
+  var btn = document.getElementById('sfoco-tts-btn');
+  if(SFOCO_TTS){
+    btn.classList.add('on');
+    toast('TTS on');
   } else {
-    av=document.createElement('div'); av.className='sfoco-uav';
-    av.textContent=(D&&D.name?D.name.charAt(0).toUpperCase():'U');
+    btn.classList.remove('on');
+    if(window.speechSynthesis) window.speechSynthesis.cancel();
+    toast('TTS off');
   }
-  var col=document.createElement('div');
-  col.style.cssText='display:flex;flex-direction:column;gap:3px;max-width:78%;'+(role==='user'?'align-items:flex-end;':'');
-
-  /* Attachment image previews */
-  if(atts&&atts.length){
-    atts.forEach(function(a){
-      if(a.mimeType&&a.mimeType.startsWith('image/')&&a.data){
-        var pi=document.createElement('img');
-        pi.src='data:'+a.mimeType+';base64,'+a.data;
-        pi.className='sfoco-att-img-preview'; col.appendChild(pi);
-      }
-    });
-  }
-
-  var bubble=document.createElement('div');
-  bubble.className='sfoco-bubble '+(role==='user'?'user':'bot');
-  if(role==='bot') bubble.innerHTML=focoMd(text);
-  else bubble.textContent=text;
-  col.appendChild(bubble);
-  div.appendChild(av); div.appendChild(col);
-  wrap.appendChild(div);
-  wrap.scrollTop=wrap.scrollHeight;
 }
 
-function sfocoTyping(id){
-  var wrap=document.getElementById('sfoco-msgs');
-  var div=document.createElement('div'); div.className='sfoco-msg bot'; div.id=id;
-  var av=document.createElement('img'); av.className='sfoco-bav'; av.src='https://i.postimg.cc/SR3fFMf0/image.png';
-  var bub=document.createElement('div'); bub.className='sfoco-bubble bot sfoco-typing';
-  bub.innerHTML='<div class="sfoco-dot"></div><div class="sfoco-dot"></div><div class="sfoco-dot"></div>';
-  div.appendChild(av); div.appendChild(bub); wrap.appendChild(div);
-  wrap.scrollTop=wrap.scrollHeight;
-}
-function sfocoRmTyping(id){var el=document.getElementById(id);if(el)el.remove();}
-
-/* Sfoco file attachment */
-function sfocoPickFile(){ document.getElementById('sfoco-file-in').click(); }
-function sfocoGotFiles(files){
-  Array.from(files).forEach(function(file){
-    var isText=(file.type.startsWith('text/')||/\.(json|js|py|html|css|xml|csv|md|txt)$/.test(file.name));
-    var r=new FileReader();
-    if(isText){
-      r.onload=function(e){ SFOCO_ATTS.push({name:file.name,mimeType:file.type||'text/plain',textContent:e.target.result}); sfocoRenderAtts(); };
-      r.readAsText(file);
-    } else {
-      r.onload=function(e){ var b64=e.target.result.split(',')[1]; SFOCO_ATTS.push({name:file.name,mimeType:file.type,data:b64}); sfocoRenderAtts(); };
-      r.readAsDataURL(file);
-    }
-  });
-  document.getElementById('sfoco-file-in').value='';
-}
-function sfocoRenderAtts(){
-  var bar=document.getElementById('sfoco-att-bar'); bar.innerHTML='';
-  SFOCO_ATTS.forEach(function(att,i){
-    var chip=document.createElement('div'); chip.className='sfoco-att-chip';
-    if(att.mimeType&&att.mimeType.startsWith('image/')&&att.data){
-      var im=document.createElement('img'); im.src='data:'+att.mimeType+';base64,'+att.data; chip.appendChild(im);
-    } else { chip.innerHTML='<span style="font-size:12px;">📄</span>'; }
-    var nm=document.createElement('span'); nm.textContent=att.name.length>16?att.name.slice(0,14)+'..':att.name; chip.appendChild(nm);
-    var xb=document.createElement('button'); xb.className='xc'; xb.textContent='×';
-    xb.onclick=(function(idx){return function(){SFOCO_ATTS.splice(idx,1);sfocoRenderAtts();};})(i);
-    chip.appendChild(xb); bar.appendChild(chip);
-  });
-}
-
-/* Save session Foco chat into main Foco history sidebar */
-function sfocoSaveToHistory(){
-  if(!SFOCO_HIST.length)return;
-  if(!(SB&&AUTH&&AUTH.user)){ toast('Sign in to save this chat'); return; }
-  focoLoadSessions().then(function(){
-    var firstUser=SFOCO_HIST.find(function(m){return m.role==='user';});
-    var preview=firstUser&&firstUser.parts&&firstUser.parts.find(function(p){return p.text;});
-    var label=CUR&&CUR.subj?'[Session: '+CUR.subj+'] ':'[Session] ';
-    var previewTxt=label+(preview?preview.text.slice(0,50):'Chat');
-    var idx=FOCO_SESSIONS.findIndex(function(s){return s.id===SFOCO_SID;});
-    var sess={id:SFOCO_SID,ts:Date.now(),preview:previewTxt,msgs:SFOCO_HIST,isSession:true};
-    if(idx>=0)FOCO_SESSIONS[idx]=sess; else FOCO_SESSIONS.unshift(sess);
-    focoSaveSessions();
-  });
-}
-
-/* Voice */
-function sfocoVoice(){
-  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('Voice not supported in this browser.');return;}
-  if(SFOCO_RECOG){SFOCO_RECOG.stop();SFOCO_RECOG=null;document.getElementById('sfoco-mic-btn').classList.remove('rec');return;}
-  SFOCO_RECOG=new SR();
-  SFOCO_RECOG.lang='en-US';SFOCO_RECOG.continuous=false;SFOCO_RECOG.interimResults=false;
-  SFOCO_RECOG.onstart=function(){document.getElementById('sfoco-mic-btn').classList.add('rec');};
-  SFOCO_RECOG.onresult=function(e){
-    var tx=e.results[0][0].transcript;
-    var inp=document.getElementById('sfoco-inp');
-    inp.value=(inp.value+' '+tx).trim(); sfocoGrow(inp);
-  };
-  SFOCO_RECOG.onerror=function(e){toast('Voice error: '+e.error);};
-  SFOCO_RECOG.onend=function(){document.getElementById('sfoco-mic-btn').classList.remove('rec');SFOCO_RECOG=null;};
-  SFOCO_RECOG.start();
-}
-
-/* TTS */
-function sfocoToggleTTS(){
-  SFOCO_TTS=!SFOCO_TTS;
-  var btn=document.getElementById('sfoco-tts-btn');
-  if(SFOCO_TTS){btn.classList.add('on');toast('TTS on');}
-  else{btn.classList.remove('on');if(window.speechSynthesis)window.speechSynthesis.cancel();toast('TTS off');}
-}
 function sfocoSpeak(text){
-  if(!window.speechSynthesis)return;
+  if(!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  var clean=text.replace(/```[\s\S]*?```/g,'code block').replace(/[*_#`]/g,'').replace(/<[^>]+>/g,'').replace(/\n+/g,' ');
-  var utt=new SpeechSynthesisUtterance(clean);
-  utt.rate=1.05; window.speechSynthesis.speak(utt);
+  var clean = text.replace(/```[\s\S]*?```/g,'code block').replace(/[*_#`]/g,'').replace(/<[^>]+>/g,'').replace(/\n+/g,' ');
+  var utt = new SpeechSynthesisUtterance(clean);
+  utt.rate = 1.05;
+  window.speechSynthesis.speak(utt);
 }
 
 /* Image gen */
 async function sfocoImgGen(){
-  var inp=document.getElementById('sfoco-inp');
-  var prompt=(inp.value||'').trim();
-  if(!prompt){toast('Type an image prompt first.');return;}
-  inp.value=''; sfocoGrow(inp);
-  var empty=document.getElementById('sfoco-empty'); if(empty)empty.remove();
-  sfocoAddMsg('user','🎨 Generate: '+prompt);
-  var tid='sft'+Date.now(); sfocoTyping(tid);
+  var inp = document.getElementById('sfoco-inp');
+  var prompt = (inp.value || '').trim();
+  if(!prompt){ toast('Type an image prompt first.'); return; }
+  inp.value = '';
+  sfocoGrow(inp);
+  sfocoAddMsg('user', '🎨 Generate: ' + prompt);
+  var tid = 'sft' + Date.now();
+  sfocoTyping(tid);
   try{
-    var imageUrl=pollinationsImageUrl(prompt);
-    await focoWaitImage(imageUrl);
+    var imageUrl = await sfocoShowPollinationsImage(prompt);
     sfocoRmTyping(tid);
-    sfocoAddMsg('bot','Here is your image:');
-    var wrap=document.getElementById('sfoco-msgs');
-    var last=wrap.lastElementChild;
-    if(last){
-      var bubble=last.querySelector('.sfoco-bubble');
-      if(bubble){
-        var gi=document.createElement('img');
-        gi.src=imageUrl;
-        gi.style.cssText='max-width:100%;border-radius:8px;margin-top:4px;';
-        bubble.appendChild(gi);
-      }
-    }
-    SFOCO_HIST.push({role:'model',parts:[{text:'[Generated image for: '+prompt+']'}]});
+    sfocoAddMsg('bot', 'Here is your image:', null, imageUrl);
+    SFOCO_HIST.push({role:'model', parts:[{text:'[Generated image for: ' + prompt + ']'}]});
     sfocoSaveToHistory();
   }catch(err){
     sfocoRmTyping(tid);
-    sfocoAddMsg('bot','⚠️ '+err.message);
+    sfocoAddMsg('bot', '⚠️ ' + focoFriendlyApiError(err, 'session'));
   }
 }
 // ══════════════════════════════════════════════════════════════
@@ -6997,7 +6963,7 @@ init();
       </div>
       <div>
         <div class="sfoco-name">Ask Foco</div>
-        <div class="sfoco-sub">AI Assistant &bull; Gemini 2.5 Flash</div>
+        <div class="sfoco-sub">AI Assistant &bull; Study Guide</div>
       </div>
       <button class="sfoco-close" onclick="closeSessFoco()">&times;</button>
     </div>
