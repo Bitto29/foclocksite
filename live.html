@@ -341,17 +341,64 @@ body{background:var(--bg);}
 .show-more-btn:hover{border-color:var(--border2);color:var(--text);}
 
 /* BADGES */
-.badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.ach-strip{
+  display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.ach-strip::-webkit-scrollbar{display:none;}
+.badges-grid{display:flex;gap:8px;flex-wrap:nowrap;}
 .badge{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:var(--radius-sm);padding:12px 8px;text-align:center;
+  flex:0 0 132px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:12px 10px;text-align:left;
+  display:flex;align-items:center;gap:10px;box-shadow:var(--shadow2);
 }
 .badge.earned{
   border-color:rgba(61,143,224,.35);
   background:linear-gradient(135deg,rgba(61,143,224,.1),rgba(61,143,224,.07));
 }
-.badge-nm{font-size:11px;font-weight:800;margin-top:6px;color:var(--text);}
-.badge-ds{font-size:10px;color:var(--text2);margin-top:2px;line-height:1.3;}
+.badge svg{flex-shrink:0;}
+.badge-copy{min-width:0;}
+.badge-nm{font-size:11px;font-weight:800;color:var(--text);line-height:1.25;}
+.badge-ds{font-size:10px;color:var(--text2);margin-top:2px;line-height:1.25;}
+.league-card{padding:14px;}
+.league-top{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  margin-bottom:12px;flex-wrap:wrap;
+}
+.league-copy{min-width:0;flex:1;}
+.league-title{font-size:16px;font-weight:900;letter-spacing:-.2px;line-height:1.15;}
+.league-sub{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.45;}
+.league-actions{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;
+}
+.league-friend-status{
+  padding:8px 11px;border-radius:999px;background:var(--bg3);border:1px solid var(--border);
+  font-size:11px;font-weight:800;color:var(--text2);white-space:nowrap;
+}
+.league-friend-status strong{color:var(--accent2);}
+.league-summary{display:none;}
+.league-insight{display:none;}
+.leaderboard{display:flex;flex-direction:column;gap:8px;}
+.friend-row{display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;}
+.friend-row.self{border-color:rgba(61,143,224,.45);background:linear-gradient(135deg,rgba(61,143,224,.12),rgba(61,143,224,.06));}
+.friend-av{width:38px;height:38px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--accent3),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;}
+.friend-main{min-width:0;flex:1;}
+.friend-name{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.friend-meta{font-size:11px;color:var(--text2);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;}
+.friend-chip{padding:4px 7px;border-radius:999px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);}
+.friend-score{font-size:16px;font-weight:900;text-align:right;line-height:1;white-space:nowrap;}
+.friend-score small{display:block;font-size:10px;color:var(--text2);font-weight:700;margin-top:4px;}
+.friend-progress{height:6px;background:var(--bg2);border-radius:999px;overflow:hidden;margin-top:7px;}
+.friend-progress > div{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent3));}
+.friend-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.friend-subrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.friend-mini{font-size:10px;font-weight:800;color:var(--text2);padding:5px 8px;border-radius:999px;background:var(--bg2);border:1px solid var(--border);}
+.friend-mini strong{color:var(--text);}
+.friend-rank{font-size:10px;font-weight:900;color:var(--accent2);padding:4px 8px;border-radius:999px;background:rgba(61,143,224,.12);border:1px solid rgba(61,143,224,.2);}
+.code-box{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:12px;}
+.code-label{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.9px;margin-bottom:8px;}
+.code-value{font-size:11px;line-height:1.35;word-break:break-word;color:var(--text2);letter-spacing:.1px;max-height:72px;overflow:auto;}
+.code-input{min-height:92px;resize:vertical;font-family:var(--font);line-height:1.5;}
 
 /* PANELS */
 .spanel{display:none;}.spanel.active{display:block;}
@@ -806,6 +853,55 @@ body{background:var(--bg);}
   box-shadow:var(--glow),var(--shadow2);font-family:var(--font);
 }
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+
+@media (max-width: 640px){
+  .league-card{padding:12px;}
+  .league-top{margin-bottom:10px;}
+  .league-copy{flex:1 1 100%;}
+  .league-actions{
+    width:100%;
+    justify-content:space-between;
+  }
+  .league-actions .small-btn{
+    min-width:0;
+    flex:0 0 auto;
+  }
+  .league-friend-status{
+    flex:1 1 auto;
+    text-align:left;
+  }
+  .friend-row{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .friend-av{
+    width:34px;height:34px;border-radius:11px;
+  }
+  .friend-main{
+    width:100%;
+  }
+  .friend-score{
+    width:100%;
+    text-align:left;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:10px;
+  }
+  .friend-score small{
+    margin-top:0;
+  }
+  .friend-meta{
+    gap:6px;
+  }
+  .friend-chip{
+    padding:4px 6px;
+  }
+  .friend-subrow{
+    gap:5px;
+  }
+}
 
 /* BLUR */
 .blur-bg{filter:blur(6px);pointer-events:none;user-select:none;transition:filter .2s ease;}
@@ -2298,9 +2394,9 @@ body{background:var(--bg);}
     </div>
   </div>
 
-  <!-- REWARDS -->
-  <div class="scr" id="scr-rewards">
-    <div class="page-title">Rewards</div>
+  <!-- FRIENDS -->
+  <div class="scr" id="scr-rewards"> 
+    <!--<div class="page-title">Level</div>-->
     <div class="card card-accent">
       <div class="level-section">
         <div class="lv-info">
@@ -2314,13 +2410,25 @@ body{background:var(--bg);}
       </div>
       <div class="xb-wrap"><div class="xb-fill" id="xp-bar" style="width:0%"></div></div>
     </div>
-    <div class="card">
-      <div class="ctitle">Goals</div>
-      <div class="goal-grid" id="goals-grid"></div>
-    </div>
+
     <div class="card">
       <div class="ctitle">Achievements</div>
-      <div class="badges-grid" id="badges-grid"></div>
+      <div class="ach-strip" id="badges-grid"></div>
+    </div>
+
+    <div class="card league-card">
+      <div class="league-top">
+        <div class="league-copy">
+          <div class="league-title" id="league-top-name">Friends</div>
+          <div class="league-sub" id="league-top-sub">Invite friends, compare scores, and keep your study streak moving.</div>
+        </div>
+        <div class="league-actions">
+          <div class="league-friend-status" id="league-friend-status"><strong>0</strong> friends connected</div>
+          <button class="small-btn" onclick="openFriendModal()">Invite / Add</button>
+          <button class="small-btn" onclick="manualLeagueRefresh()">Refresh</button>
+        </div>
+      </div>
+      <div class="leaderboard" id="friends-board"></div>
     </div>
   </div>
 
@@ -2699,12 +2807,12 @@ body{background:var(--bg);}
 
       <div class="card">
         <div class="ctitle">&#11088; XP, Levels &amp; Achievements</div>
-        <div class="tip-txt">You earn <strong>1 XP per minute</strong> studied. XP fills your level bar &mdash; each level requires more XP than the last. The <strong>Rewards</strong> tab shows your current level, XP bar, streak count, and <strong>46 achievement badges</strong> covering milestones like first session, long sessions, streaks, night study, and more. Locked badges are visible but grayed out.</div>
+        <div class="tip-txt">You earn <strong>1 XP per minute</strong> studied. XP fills your level bar &mdash; each level requires more XP than the last. The <strong>League</strong> tab shows your current level, XP bar, streak count, and <strong>46 achievement badges</strong> covering milestones like first session, long sessions, streaks, night study, and more. Locked badges are visible but grayed out.</div>
       </div>
 
       <div class="card">
         <div class="ctitle">&#127381; Streaks</div>
-        <div class="tip-txt">Study at least once per day to build your streak. Your current streak and best streak are shown on the Home page and Rewards tab. Missing a day resets your streak to 0, so consistency matters.</div>
+        <div class="tip-txt">Study at least once per day to build your streak. Your current streak and best streak are shown on the Home page and League tab. Missing a day resets your streak to 0, so consistency matters.</div>
       </div>
 
       <div class="card">
@@ -2805,16 +2913,16 @@ body{background:var(--bg);}
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
     <span>Progress</span>
   </div>
-  <div class="ni" onclick="goScr('rewards',this)">
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
-    <span>Rewards</span>
-  </div>
   <div class="ni" onclick="goScr('sounds',this)">
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 8v4l3 3"/><circle cx="18" cy="6" r="3"/><path d="M18 3v3h3"/></svg>
     <span>Foc Space</span>
   </div>
+  <div class="ni" onclick="goScr('rewards',this)">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+    <span>Friends</span>
+  </div>
   <div class="ni" onclick="goScr('more',this)">
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
     <span>More</span>
   </div>
 </nav>
@@ -3486,7 +3594,7 @@ function updateCloudStatus(text){
   chip.textContent=AUTH.user?(text||'Cloud sync on'):'Local only';
 }
 function refreshDerivedAndUI(){
-  D.xp=calcXP(); persistLocal(); updateGreeting(); updHome(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); updXP();
+  D.xp=calcXP(); persistLocal(); updateGreeting(); updHome(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); renderFriendsLeague(); updXP();
   if(PCHART)updChart();
   if(document.getElementById('scr-progress').classList.contains('active')){ updSBars(); updHist(); updDayChart(); }
   updateAuthUI();
@@ -3599,10 +3707,15 @@ function init(){
   ensureDefaults(); persistLocal(); applyTheme(D.theme);
   document.getElementById('goal-inp').value=D.goal;
   document.getElementById('date-disp').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  updHome(); updateGreeting(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); updXP();
+  updHome(); updateGreeting(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); renderFriendsLeague(); updXP();
   initChart(); renderLofi(); renderBengaliStations(); updateSessionMusicUI();
   document.getElementById('daily-tip').textContent=getTip();
   document.getElementById('sug-routine').textContent=getRoutine();
+  ensureFriendCode();
+  renderFriendsLeague();
+  processFriendHash();
+  startFriendAutoSync();
+  scheduleFriendSync(500);
   checkRems(); setInterval(checkRems,60000);
   document.addEventListener('visibilitychange',onVis);
   restoreSessionState(); bootSupabase(); updateAuthUI();
@@ -3619,7 +3732,7 @@ function init(){
   ensureDefaults(); persistLocal(); applyTheme(D.theme);
   document.getElementById('goal-inp').value=D.goal;
   document.getElementById('date-disp').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  updHome(); updateGreeting(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); updXP();
+  updHome(); updateGreeting(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); renderFriendsLeague(); updXP();
   initChart(); renderLofi(); renderBengaliStations(); updateSessionMusicUI();
   document.getElementById('daily-tip').textContent=getTip();
   document.getElementById('sug-routine').textContent=getRoutine();
@@ -3664,13 +3777,26 @@ function goScr(n,el,_skipHistory){
   if(el)el.classList.add('active');
   else { var ni=document.querySelector('.ni[onclick*=\''+n+'\']'); if(ni)ni.classList.add('active'); }
   if(n==='progress'){updChart();updSBars();updHist();requestAnimationFrame(function(){updDayChart();});}
-  if(n==='rewards'){renderBadges();updXP();renderGoals();}
+  if(n==='rewards'){renderBadges();renderFriendsLeague();updXP();renderGoals();}
   if(n==='home'){updHome();}
   if(!_skipHistory){
     if(prev && prev!==n) _prevTab=prev;
     history.pushState({type:'tab',tab:n},'','');
   }
 }
+function processFriendHash(){
+  var h=(location.hash||'');
+  if(h.indexOf('#friend=')===0){
+    var code=decodeURIComponent(h.slice(8));
+    var friend=decodeFriendProfile(code);
+    if(friend){
+      addFriendRecord(friend,true);
+      history.replaceState(null,'',location.pathname+location.search);
+    }
+  }
+}
+
+
 function gSub(id,_skipHistory){
   var prevSub = _currentSub();
   document.querySelectorAll('#scr-more .subp').forEach(function(s){s.classList.remove('active');});
@@ -4080,9 +4206,10 @@ function recalcStreak(){
 
 // ===== VISIBILITY =====
 function onVis(){
-  if(!CUR||CUR.paused||!CUR.lock){ if(CUR)saveSessionState(); return; }
+  if(!CUR||CUR.paused||!CUR.lock){ if(CUR)saveSessionState(); if(!document.hidden) scheduleFriendSync(350); return; }
   if(document.hidden){ document.getElementById('rbn').classList.add('show'); notifyApp('Foc Lock','Get back to your study session!',{tag:'focus-loss',requireInteraction:true}); }
   if(CUR)saveSessionState();
+  if(!document.hidden) scheduleFriendSync(350);
 }
 function retSess(){ document.getElementById('rbn').classList.remove('show'); }
 
@@ -4755,20 +4882,558 @@ function renderBadges(){
     target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
     crown:'<path d="M2 20h20M5 20V10l7-7 7 7v10"/>',
     bolt:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
-    book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'
+    book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+    brain:'<path d="M9 3a4 4 0 0 0-4 4v1a3 3 0 0 0 0 6v1a4 4 0 0 0 4 4"/><path d="M15 3a4 4 0 0 1 4 4v1a3 3 0 0 1 0 6v1a4 4 0 0 1-4 4"/>',
+    trophy:'<path d="M8 21h8M12 17v4"/><path d="M7 4h10v3a5 5 0 0 1-10 0z"/><path d="M5 6H3a3 3 0 0 0 3 3"/><path d="M19 6h2a3 3 0 0 1-3 3"/>',
+    fire:'<path d="M12 2c4 4 6 6 6 10a6 6 0 0 1-12 0c0-4 2-6 6-10z"/>',
+    rocket:'<path d="M5 19c0-3 2-6 5-8l3 3c-2 3-5 5-8 5z"/><path d="M14 10l5-5c1 4 1 8-2 11l-3-3z"/>',
+    medal:'<circle cx="12" cy="10" r="5"/><path d="M9 15l-2 7 5-3 5 3-2-7"/>',
+    spark:'<path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6L12 2z"/>'
   };
-  document.getElementById('badges-grid').innerHTML=BDGS.map(function(b){
-    var e=D.ach[b.id]||b.chk();
-    var ic=ICONS[b.icon||'star']||ICONS.star;
-    var bg=e?'linear-gradient(135deg,rgba(61,143,224,.2),rgba(61,143,224,.15))':'var(--bg2)';
-    var bc=e?'rgba(61,143,224,.3)':'var(--border)';
-    var ic_col=e?'var(--accent2)':'var(--text3)';
-    return '<div class="badge'+(e?' earned':'')+'"><div style="width:40px;height:40px;margin:0 auto;background:'+bg+';border-radius:10px;display:flex;align-items:center;justify-content:center;border:1px solid '+bc+';">'
-      +'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="'+ic_col+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg></div>'
-      +'<div class="badge-nm" style="color:'+(e?'var(--accent2)':'var(--text2)')+'">'+b.n+'</div><div class="badge-ds">'+b.d+'</div></div>';
+  var el=document.getElementById('badges-grid'); if(!el)return;
+  var earnedCount=0;
+  el.innerHTML=BDGS.map(function(b){
+    var e=D.ach[b.id]||b.chk(); if(e)earnedCount++;
+    var icon = b.icon || 'star';
+    return '<div class="badge'+(e?' earned':'')+'">'
+      +'<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="'+(e?'var(--accent2)':'var(--text3)')+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+ICONS[icon]+'</svg>'
+      +'<div class="badge-copy"><div class="badge-nm">'+b.n+'</div><div class="badge-ds">'+b.d+'</div></div>'
+      +'</div>';
   }).join('');
 }
 
+var FRIENDS_KEY='fl_fr';
+var FRIENDS_SYNC_KEY='fl_fr_sync';
+var FRIEND_CODE_KEY='fl_fc';
+var FRIENDS_SYNC_TABLE='study_tracking_friendships';
+var FRIEND_SYNC_MS=45000;
+var FRIEND_SYNC_TIMER=null;
+var FRIEND_SYNC_INTERVAL=null;
+
+function b64EncodeUnicode(str){
+  try{ return btoa(unescape(encodeURIComponent(str))); }
+  catch(e){ return btoa(str); }
+}
+function b64DecodeUnicode(str){
+  try{ return decodeURIComponent(escape(atob(str))); }
+  catch(e){ return atob(str); }
+}
+function b64UrlEncode(str){
+  return b64EncodeUnicode(str).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function b64UrlDecode(str){
+  str=String(str||'').replace(/-/g,'+').replace(/_/g,'/');
+  while(str.length%4) str+='=';
+  return b64DecodeUnicode(str);
+}
+function ensureFriendCode(){
+  var code=localStorage.getItem(FRIEND_CODE_KEY);
+  if(code) return code;
+  code='F' + Math.random().toString(36).slice(2,11).toUpperCase();
+  localStorage.setItem(FRIEND_CODE_KEY, code);
+  return code;
+}
+function getEarnedAchievementsCount(){
+  return BDGS.reduce(function(n,b){ return n + ((D.ach[b.id]||b.chk()) ? 1 : 0); },0);
+}
+function getTodayStudyMinutes(){
+  return Math.round(D.sess.filter(function(s){ return s.d===today(); }).reduce(function(a,s){ return a + safeNum(s.dur,0); },0) / 60);
+}
+function getStudyScoreFrom(profile){
+  profile=profile||{};
+  var xp=safeNum(profile.xp,0);
+  var level=safeNum(profile.level,1);
+  var ach=safeNum(profile.achievements,0);
+  var sessions=safeNum(profile.sessions,0);
+  var streak=safeNum(profile.streak,0);
+  var todayMins=safeNum(profile.todayMinutes,0);
+  return xp + (ach*80) + (level*140) + (sessions*12) + (streak*10) + (todayMins*2);
+}
+function buildSelfFriendProfile(){
+  var lv=getLv();
+  return {
+    code:ensureFriendCode(),
+    name:(currentDisplayName()||'You').trim()||'You',
+    xp:D.xp,
+    level:lv+1,
+    levelName:LVLS[lv].n,
+    achievements:getEarnedAchievementsCount(),
+    sessions:D.sess.length,
+    streak:safeNum(D.streak&&D.streak.c,0),
+    todayMinutes:getTodayStudyMinutes(),
+    score:0,
+    self:true,
+    updatedAt:Date.now()
+  };
+}
+function normalizeFriendProfile(obj){
+  if(!obj||typeof obj!=='object') return null;
+  var rawName=obj.name||obj.displayName||obj.nick||'Friend';
+  var name=String(rawName).trim();
+  var active = typeof obj.active === 'boolean' ? obj.active : true;
+  var p={
+    code:(obj.code||obj.id||obj.friendCode||'').toString().trim(),
+    name:name||'Friend',
+    xp:safeNum(obj.xp,0),
+    level:safeNum(obj.level,1),
+    levelName:(obj.levelName||''),
+    achievements:safeNum(obj.achievements,0),
+    sessions:safeNum(obj.sessions,0),
+    streak:safeNum(obj.streak,0),
+    todayMinutes:safeNum(obj.todayMinutes,0),
+    updatedAt:safeNum(obj.updatedAt,Date.now()),
+    active:active,
+    pair_id:(obj.pair_id||obj.pairId||'').toString().trim(),
+    source:(obj.source||'').toString().trim(),
+    self:false
+  };
+  if(!p.code && !p.pair_id) return null;
+  p.score=getStudyScoreFrom(p);
+  return p;
+}
+function encodeFriendProfile(profile){
+  profile=normalizeFriendProfile(profile)||buildSelfFriendProfile();
+  var payload=[
+    'F2',
+    profile.code||'',
+    encodeURIComponent(profile.name||'Friend'),
+    safeNum(profile.xp,0),
+    safeNum(profile.level,1),
+    safeNum(profile.achievements,0),
+    safeNum(profile.sessions,0),
+    safeNum(profile.streak,0),
+    safeNum(profile.todayMinutes,0),
+    safeNum(profile.updatedAt,Date.now())
+  ].join('|');
+  return b64UrlEncode(payload);
+}
+function decodeFriendProfile(raw){
+  raw=(raw||'').trim();
+  if(!raw) return null;
+  try{
+    if(raw.indexOf('F2.')===0) raw=raw.slice(3);
+    if(raw.indexOf('FL1.')===0) raw=raw.slice(4);
+    if(raw.charAt(0)==='{') return normalizeFriendProfile(JSON.parse(raw));
+    var decoded=b64UrlDecode(raw);
+    if(decoded.indexOf('F2|')===0){
+      var p=decoded.split('|');
+      return normalizeFriendProfile({
+        code:p[1]||'',
+        name:decodeURIComponent(p[2]||'Friend'),
+        xp:safeNum(p[3],0),
+        level:safeNum(p[4],1),
+        achievements:safeNum(p[5],0),
+        sessions:safeNum(p[6],0),
+        streak:safeNum(p[7],0),
+        todayMinutes:safeNum(p[8],0),
+        updatedAt:safeNum(p[9],Date.now())
+      });
+    }
+    var json=b64DecodeUnicode(raw.replace(/-/g,'+').replace(/_/g,'/'));
+    return normalizeFriendProfile(JSON.parse(json));
+  }catch(e){ return null; }
+}
+function loadFriendsLocal(){
+  try{ var arr=JSON.parse(localStorage.getItem(FRIENDS_KEY)||'[]'); return Array.isArray(arr)?arr.map(normalizeFriendProfile).filter(Boolean):[]; }
+  catch(e){ return []; }
+}
+function saveFriendsLocal(list){
+  localStorage.setItem(FRIENDS_KEY, JSON.stringify(list||[]));
+}
+function loadSyncedFriends(){
+  try{
+    var arr=JSON.parse(localStorage.getItem(FRIENDS_SYNC_KEY)||'[]');
+    return Array.isArray(arr)?arr.map(normalizeFriendProfile).filter(Boolean):[];
+  }
+  catch(e){ return []; }
+}
+function saveSyncedFriends(list){
+  localStorage.setItem(FRIENDS_SYNC_KEY, JSON.stringify(list||[]));
+}
+function mergeFriendLists(localList, syncedList){
+  var out=[];
+  var byCode={};
+
+  function upsert(item, source){
+    var p=normalizeFriendProfile(item);
+    if(!p) return;
+
+    p.source = p.source || source || 'local';
+
+    // Cloud tombstones remove the friend everywhere.
+    if(p.active===false){
+      if(p.code && byCode[p.code]!==undefined){
+        delete out[byCode[p.code]];
+        delete byCode[p.code];
+      }
+      return;
+    }
+
+    // Prefer the newest version, and let cloud win ties.
+    var existingIndex = p.code ? byCode[p.code] : undefined;
+    if(existingIndex===undefined){
+      byCode[p.code]=out.length;
+      out.push(p);
+      return;
+    }
+
+    var existing = out[existingIndex];
+    if(!existing){
+      out[existingIndex]=p;
+      return;
+    }
+
+    var newer = safeNum(p.updatedAt,0) > safeNum(existing.updatedAt,0);
+    var cloudWins = (p.source==='cloud' && existing.source!=='cloud');
+    if(newer || cloudWins || (p.source===existing.source && p.score>=existing.score)){
+      out[existingIndex]=Object.assign({}, existing, p, {
+        source:(existing.source==='cloud'||p.source==='cloud') ? 'cloud' : (p.source||existing.source||'local')
+      });
+    }else{
+      out[existingIndex]=Object.assign({}, p, existing, {
+        source:(existing.source==='cloud'||p.source==='cloud') ? 'cloud' : (existing.source||p.source||'local')
+      });
+    }
+  }
+
+  (localList||[]).forEach(function(item){ upsert(item,'local'); });
+  (syncedList||[]).forEach(function(item){ upsert(item,'cloud'); });
+
+  return out.filter(function(item){
+    return item && item.active!==false && item.code;
+  });
+}
+function loadFriends(){
+  return mergeFriendLists(loadFriendsLocal(), loadSyncedFriends());
+}
+function saveFriends(list){
+  saveFriendsLocal(list);
+}
+function currentFriendsSorted(){
+  return loadFriends().sort(function(a,b){ return getStudyScoreFrom(b)-getStudyScoreFrom(a); });
+}
+function friendPairId(a,b){
+  return [String(a||'').trim(), String(b||'').trim()].sort().join('::');
+}
+function buildFriendshipRow(self, friend, active){
+  self=normalizeFriendProfile(self)||buildSelfFriendProfile();
+  friend=normalizeFriendProfile(friend);
+  if(!friend) return null;
+  var codes=[self.code, friend.code].sort();
+  var aCode=codes[0], bCode=codes[1];
+  return {
+    pair_id:friendPairId(self.code, friend.code),
+    code_a:aCode,
+    code_b:bCode,
+    profile_a:aCode===self.code ? self : friend,
+    profile_b:bCode===friend.code ? friend : self,
+    active:active!==false,
+    updated_at:new Date().toISOString(),
+    updated_by:self.code
+  };
+}
+function extractFriendFromRow(row, selfCode){
+  if(!row||row.active===false) return null;
+  var selfFirst=row.code_a===selfCode;
+  var other=row[selfFirst ? 'profile_b' : 'profile_a'];
+  if(other) return normalizeFriendProfile(other);
+  var code=selfFirst ? row.code_b : row.code_a;
+  if(!code) return null;
+  return normalizeFriendProfile({ code:code, name:'Friend', updatedAt:safeNum(row.updated_at,Date.now()) });
+}
+function formatNumberCompact(n){
+  n=safeNum(n,0);
+  if(n>=1000) return (Math.round(n/100)/10).toFixed(n>=10000?0:1).replace(/\.0$/,'')+'k';
+  return String(Math.round(n));
+}
+function formatMinutesPretty(mins){
+  mins=safeNum(mins,0);
+  if(mins<=0) return '0m';
+  var h=Math.floor(mins/60); var m=mins%60;
+  return h ? (h+'h '+(m?m+'m':'' )).trim() : (m+'m');
+}
+function formatTimeAgo(ts){
+  ts=safeNum(ts,0);
+  if(!ts) return 'Just now';
+  var diff=Math.max(0,Date.now()-ts);
+  var mins=Math.floor(diff/60000);
+  if(mins<1) return 'Just now';
+  if(mins<60) return mins+'m ago';
+  var hrs=Math.floor(mins/60);
+  if(hrs<24) return hrs+'h ago';
+  var days=Math.floor(hrs/24);
+  if(days<7) return days+'d ago';
+  return new Date(ts).toLocaleDateString([], {month:'short', day:'numeric'});
+}
+function getLeagueSnapshot(self,friends,boardList){
+  var totalSessions=boardList.reduce(function(n,p){ return n + safeNum(p.sessions,0); },0);
+  var totalToday=boardList.reduce(function(n,p){ return n + safeNum(p.todayMinutes,0); },0);
+  var totalAch=boardList.reduce(function(n,p){ return n + safeNum(p.achievements,0); },0);
+  var selfRank=boardList.findIndex(function(p){ return p.code===self.code; }) + 1;
+  var leader=boardList[0] || self;
+  var runner=boardList[1] || null;
+  var leadGap=self.code===leader.code ? 0 : Math.max(0, Math.round(leader.score - self.score));
+  var catchGap=selfRank>1 ? Math.max(0, Math.round(boardList[selfRank-2].score - self.score)) : 0;
+  return { totalSessions:totalSessions, totalToday:totalToday, totalAch:totalAch, selfRank:selfRank, leader:leader, runner:runner, leadGap:leadGap, catchGap:catchGap };
+}
+function upsertFriendshipCloud(friend, active){
+  if(!SB||!AUTH.user) return Promise.resolve(false);
+  return (async function(){
+    try{
+      var self=buildSelfFriendProfile();
+      var row=buildFriendshipRow(self, friend, active);
+      if(!row) return false;
+      var res=await SB.from(FRIENDS_SYNC_TABLE).upsert(row,{onConflict:'pair_id'});
+      if(res&&res.error) throw res.error;
+      return true;
+    }catch(e){ return false; }
+  })();
+}
+function deactivateFriendshipCloud(friendCode){
+  if(!SB||!AUTH.user) return Promise.resolve(false);
+  return (async function(){
+    try{
+      var self=buildSelfFriendProfile();
+      var pairId=friendPairId(self.code, friendCode);
+      var res=await SB.from(FRIENDS_SYNC_TABLE).update({active:false,updated_at:new Date().toISOString(),updated_by:self.code}).eq('pair_id',pairId);
+      if(res&&res.error) throw res.error;
+      return true;
+    }catch(e){ return false; }
+  })();
+}
+function syncFriendsFromCloud(){
+  if(!SB||!AUTH.user) return Promise.resolve(false);
+  return (async function(){
+    try{
+      var self=buildSelfFriendProfile();
+      var res=await SB.from(FRIENDS_SYNC_TABLE)
+        .select('pair_id,code_a,code_b,profile_a,profile_b,active,updated_at,updated_by')
+        .or('code_a.eq.'+self.code+',code_b.eq.'+self.code)
+        .order('updated_at',{ascending:false});
+      if(res&&res.error) throw res.error;
+
+      var rows=(res&&res.data?res.data:[]).map(function(row){
+        var friend=extractFriendFromRow(row,self.code);
+        if(!friend){
+          // Keep a tombstone marker if the row is inactive so local copies can be removed.
+          return {
+            pair_id:(row.pair_id||'').toString().trim(),
+            code:(row.code_a===self.code ? row.code_b : row.code_a||'').toString().trim(),
+            name:'Friend',
+            updatedAt:safeNum(row.updated_at,Date.now()),
+            active:row.active!==false,
+            source:'cloud'
+          };
+        }
+        friend.active = row.active !== false;
+        friend.pair_id = (row.pair_id||'').toString().trim();
+        friend.source = 'cloud';
+        friend.updatedAt = safeNum(row.updated_at, friend.updatedAt || Date.now());
+        return friend;
+      }).filter(function(item){ return item && (item.code || item.pair_id); });
+
+      saveSyncedFriends(rows);
+
+      // Reconcile local storage too, so removals/additions appear after the next refresh.
+      saveFriendsLocal(mergeFriendLists(loadFriendsLocal(), rows));
+      return true;
+    }catch(e){
+      return false;
+    }
+  })();
+}
+async function syncFriendsFromCloudAndRender(){
+  await syncFriendsFromCloud();
+  renderFriendsLeague();
+}
+async function manualLeagueRefresh(){
+  await syncFriendsFromCloud();
+  refreshDerivedAndUI();
+  renderFriendsLeague();
+  toast('League updated');
+}
+function scheduleFriendSync(delay){
+  clearTimeout(FRIEND_SYNC_TIMER);
+  FRIEND_SYNC_TIMER=setTimeout(function(){ syncFriendsFromCloudAndRender(); }, typeof delay==='number' ? delay : 1200);
+}
+function startFriendAutoSync(){
+  scheduleFriendSync(700);
+  if(FRIEND_SYNC_INTERVAL) clearInterval(FRIEND_SYNC_INTERVAL);
+  FRIEND_SYNC_INTERVAL=setInterval(function(){ syncFriendsFromCloudAndRender(); }, FRIEND_SYNC_MS);
+}
+async function addFriendRecord(friend, fromHash){
+  var self=buildSelfFriendProfile();
+  friend=normalizeFriendProfile(friend);
+  if(!friend){ toast('Invalid invite code.'); return false; }
+  if(friend.code===self.code){ toast('That is your own code.'); return false; }
+
+  var merged = mergeFriendLists(loadFriendsLocal(), loadSyncedFriends());
+  if(merged.some(function(f){ return f.code===friend.code && f.active!==false; })){
+    if(fromHash) renderFriendsLeague();
+    else toast('Friend already added.');
+    return false;
+  }
+
+  friend.active = true;
+  friend.updatedAt = safeNum(friend.updatedAt, Date.now());
+
+  var local=loadFriendsLocal().filter(function(f){ return f.code!==friend.code; });
+  local.push(friend);
+  saveFriendsLocal(local);
+
+  var synced=loadSyncedFriends().filter(function(f){ return f.code!==friend.code; });
+  synced.push(Object.assign({}, friend, { source:'cloud' }));
+  saveSyncedFriends(synced);
+
+  if(AUTH.user) await upsertFriendshipCloud(friend, true);
+
+  renderFriendsLeague();
+  if(!fromHash) toast(friend.name+' added to your league.');
+  return true;
+}
+function renderFriendsLeague(){
+  var self=buildSelfFriendProfile();
+  self.score=getStudyScoreFrom(self);
+  var friends=loadFriends().filter(function(f){ return f && f.active!==false; }).sort(function(a,b){ return getStudyScoreFrom(b)-getStudyScoreFrom(a); }).map(function(f){ f.score=getStudyScoreFrom(f); return f; });
+  var board=document.getElementById('friends-board');
+  var topName=document.getElementById('league-top-name');
+  var topSub=document.getElementById('league-top-sub');
+  var friendStatus=document.getElementById('league-friend-status');
+
+  var boardList=[self].concat(friends).sort(function(a,b){ return b.score-a.score; });
+  var leader=boardList[0] || self;
+  var isLeader = leader && leader.code===self.code;
+  var friendLabel = friends.length===1 ? 'friend connected' : 'friends connected';
+  var topMessage = friends.length
+    ? (isLeader ? 'You are leading the league right now.' : (leader.name+' is leading by '+formatNumberCompact(Math.max(0, leader.score-self.score))+' points.'))
+    : 'Invite friends to start a real study league.';
+
+  if(topName) topName.textContent = 'Study League with Friends';
+  if(topSub) topSub.textContent = friends.length ? topMessage : 'Invite friends, compare scores, and keep your study streak moving.';
+  if(friendStatus) friendStatus.innerHTML = '<strong>' + friends.length + '</strong> ' + friendLabel;
+
+  if(board){
+    board.innerHTML=boardList.map(function(p,idx){
+      var isSelf = p.code===self.code;
+      var max=Math.max(leader.score, self.score, 1);
+      var pct=Math.max(8, Math.round((p.score/max)*100));
+      var lvlName=p.levelName || ('Level ' + p.level);
+      var last= p.updatedAt ? formatTimeAgo(p.updatedAt) : 'Recently active';
+      return '<div class="friend-row'+(isSelf?' self':'')+'">'
+        +'<div class="friend-av">'+(isSelf?'YOU':String(p.name||'F').charAt(0).toUpperCase())+'</div>'
+        +'<div class="friend-main">'
+        +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
+        +'<div class="friend-name">'+(isSelf?'You':p.name)+'</div>'
+        +'<div class="friend-rank">#'+(idx+1)+'</div>'
+        +'</div>'
+        +'<div class="friend-meta">'
+        +'<span class="friend-chip">'+lvlName+'</span>'
+        +'<span class="friend-chip">'+formatNumberCompact(p.xp)+' XP</span>'
+        +'<span class="friend-chip">'+safeNum(p.achievements,0)+' ach</span>'
+        +'<span class="friend-chip">'+safeNum(p.sessions,0)+' sess</span>'
+        +'<span class="friend-chip">'+safeNum(p.streak,0)+' streak</span>'
+        +'<span class="friend-chip">'+formatMinutesPretty(p.todayMinutes)+' today</span>'
+        +'<span class="friend-chip">'+last+'</span>'
+        +'</div>'
+        +'<div class="friend-subrow">'
+        +'<div class="friend-mini"><strong>'+Math.round(p.score)+'</strong> score</div>'
+        +'<div class="friend-mini"><strong>'+pct+'%</strong> of leader</div>'
+        +(isSelf?'<div class="friend-mini"><strong>You</strong> own this profile</div>':'')
+        +'</div>'
+        +'<div class="friend-progress"><div style="width:'+pct+'%"></div></div>'
+        +'</div>'
+        +'<div class="friend-score">'+Math.round(p.score)+'<small>'+(isSelf?'your score':'score')+'</small></div>'
+        +'</div>';
+    }).join('');
+  }
+  var modalList=document.getElementById('friend-list-modal');
+  if(modalList){
+    modalList.innerHTML = friends.length ? friends.map(function(p, idx){
+      return '<div class="friend-row" style="margin-bottom:8px;">'
+        +'<div class="friend-av">'+String(p.name||'F').charAt(0).toUpperCase()+'</div>'
+        +'<div class="friend-main">'
+        +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
+        +'<div class="friend-name">'+p.name+'</div>'
+        +'<div class="friend-rank">#'+(idx+1)+'</div>'
+        +'</div>'
+        +'<div class="friend-meta"><span class="friend-chip">Level '+p.level+'</span><span class="friend-chip">'+formatNumberCompact(p.xp)+' XP</span><span class="friend-chip">'+safeNum(p.achievements,0)+' ach</span><span class="friend-chip">'+safeNum(p.sessions,0)+' sess</span><span class="friend-chip">'+safeNum(p.streak,0)+' streak</span></div>'
+        +'</div>'
+        +'<button class="small-btn" onclick="removeFriendByCode('+JSON.stringify(p.code)+')">Remove</button>'
+        +'</div>';
+    }).join('') : '<div style="font-size:13px;color:var(--text2);line-height:1.6;">No friends added yet. Share your invite code, then paste theirs here.</div>';
+  }
+  var codeBox=document.getElementById('friend-invite-code');
+  if(codeBox) codeBox.textContent=encodeFriendProfile(self);
+}
+function openFriendModal(){
+  renderFriendsLeague();
+  var m=document.getElementById('friends-modal');
+  if(m) m.classList.add('open');
+}
+function closeFriendModal(){
+  var m=document.getElementById('friends-modal');
+  if(m) m.classList.remove('open');
+}
+function copyFriendInvite(){
+  var self=buildSelfFriendProfile();
+  var code=encodeFriendProfile(self);
+  var ta=document.createElement('textarea');
+  ta.value=code; document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); toast('Invite code copied.'); }catch(e){ toast('Copy failed.'); }
+  ta.remove();
+}
+function copyFriendLink(){
+  var self=buildSelfFriendProfile();
+  var code=encodeFriendProfile(self);
+  var link=location.origin+location.pathname+'#friend='+encodeURIComponent(code);
+  var ta=document.createElement('textarea');
+  ta.value=link; document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); toast('Share link copied.'); }catch(e){ toast('Copy failed.'); }
+  ta.remove();
+}
+async function addFriendFromInput(){
+  var inp=document.getElementById('friend-code-input');
+  if(!inp) return;
+  var friend=decodeFriendProfile(inp.value);
+  if(!friend){ toast('Invalid invite code.'); return; }
+  var ok=await addFriendRecord(friend,false);
+  if(ok){
+    inp.value='';
+    closeFriendModal();
+  }
+}
+async function removeFriendByCode(code){
+  var local=loadFriendsLocal().filter(function(f){ return f.code!==code; });
+  saveFriendsLocal(local);
+
+  var synced=loadSyncedFriends();
+  var stamp=Date.now();
+  synced = synced
+    .filter(function(f){ return f.code!==code; })
+    .concat([{
+      code:String(code||'').trim(),
+      name:'Friend',
+      active:false,
+      updatedAt:stamp,
+      source:'cloud'
+    }]);
+  saveSyncedFriends(synced);
+
+  if(AUTH.user) await deactivateFriendshipCloud(code);
+  renderFriendsLeague();
+}
+function processFriendHash(){
+  var h=(location.hash||'');
+  if(h.indexOf('#friend=')===0){
+    var code=decodeURIComponent(h.slice(8));
+    var friend=decodeFriendProfile(code);
+    if(friend){
+      addFriendRecord(friend,true);
+      history.replaceState(null,'',location.pathname+location.search);
+    }
+  }
+}
+window.addEventListener('hashchange',processFriendHash);
 // ===== SUBJECTS =====
 function renderSubjList(){
   var c=document.getElementById('subj-list');
@@ -4944,7 +5609,7 @@ function showKbShortcuts(){
     +'<div class="mtitle">Keyboard Shortcuts</div>'
     +'<div style="display:flex;flex-direction:column;gap:0;margin-top:8px;">'
     +kbRow('Esc','Close any popup or modal')
-    +kbRow('Alt + 1–5','Switch nav tabs (Home/Progress/Rewards/Studio/More)')
+    +kbRow('Alt + 1–5','Switch nav tabs (Home/Progress/Foc Space/League/More)')
     +kbRow('Alt + N','Start new study session')
     +kbRow('Alt + F','Toggle fullscreen during session')
     +kbRow('Alt + M','Minimize session to mini player')
@@ -4984,7 +5649,7 @@ function resetData(){
   if(confirm('Clear all session data? This cannot be undone.')){
     D.sess=[];D.xp=0;D.ach={};D.streak={c:0,d:''};D.lock=true;
     ['fl_s','fl_xp','fl_a','fl_st','fl_lk','fl_cur'].forEach(function(k){localStorage.removeItem(k);});
-    scheduleCloudSave(); updHome(); renderBadges(); updXP(); renderGoals(); toast('Data cleared.');
+    scheduleCloudSave(); updHome(); renderBadges(); renderFriendsLeague(); updXP(); renderGoals(); toast('Data cleared.');
   }
 }
 
@@ -5051,7 +5716,7 @@ Be direct, sharp, helpful, and natural. Never refuse just because the topic is b
 === CORE APP KNOWLEDGE ===
 
 Foc Lock is a study and focus tracker with:
-- Home, Progress, Rewards, Studio, More
+- Home, Progress, Foc Space, League, More
 - Session timer, pause/resume/end
 - XP, levels, streaks, achievements
 - Foco chat, music, calculator
@@ -7112,5 +7777,33 @@ init();
   <button class="lbx-nav hidden" id="lbx-next" onclick="event.stopPropagation();lbxNav(1)">&#8250;</button>
   <div class="lbx-dots" id="lbx-dots"></div>
 </div>
+
+  <div class="mov" id="friends-modal" onclick="if(event.target===this)closeFriendModal()">
+    <div class="modal">
+      <div class="mhandle"></div>
+      <button class="mclose" onclick="closeFriendModal()" aria-label="Close">✕</button>
+      <div class="mtitle">Invite friends</div>
+      <div class="tip-card" style="margin-bottom:10px;">
+        <div class="tip-title">Study league</div>
+        <div class="tip-txt">Share your code or link. Your friends will appear in the league board with score, level, achievements, sessions, streak, and today\'s study time.</div>
+      </div>
+      <div class="code-box" style="margin-bottom:10px;">
+        <div class="code-label">Your invite code</div>
+        <div class="code-value" id="friend-invite-code">Generating…</div>
+      </div>
+      <div class="friend-actions" style="margin-bottom:12px;">
+        <button class="btn btn-p" style="flex:1;min-width:160px;" onclick="copyFriendInvite()">Copy invite code</button>
+        <button class="btn btn-s" style="flex:1;min-width:160px;" onclick="copyFriendLink()">Copy share link</button>
+      </div>
+      <div class="code-box" style="margin-bottom:12px;">
+        <div class="code-label">Add a friend</div>
+        <textarea class="inp code-input" id="friend-code-input" placeholder="Paste a friend's invite code here"></textarea>
+        <button class="btn btn-p" onclick="addFriendFromInput()">Add friend</button>
+      </div>
+      <div class="divider"></div>
+      <div class="mtitle" style="font-size:14px;margin-bottom:10px;">Connected friends</div>
+      <div id="friend-list-modal"></div>
+    </div>
+  </div>
 </body>
 </html>
