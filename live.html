@@ -360,10 +360,17 @@ body{background:var(--bg);}
 .badge-copy{min-width:0;}
 .badge-nm{font-size:11px;font-weight:800;color:var(--text);line-height:1.25;}
 .badge-ds{font-size:10px;color:var(--text2);margin-top:2px;line-height:1.25;}
-.league-card{padding:14px;}
+.league-card{padding:16px;background:linear-gradient(180deg,var(--card,var(--bg3)) 0%,var(--bg3) 100%);}
 .league-top{
   display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
-  margin-bottom:12px;flex-wrap:wrap;
+  margin-bottom:14px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--border);
+}
+.league-head{display:flex;align-items:flex-start;gap:10px;min-width:0;flex:1;}
+.league-head-icon{
+  width:36px;height:36px;border-radius:11px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent2),var(--accent3));
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  box-shadow:0 4px 12px rgba(61,143,224,.3);
 }
 .league-copy{min-width:0;flex:1;}
 .league-title{font-size:16px;font-weight:900;letter-spacing:-.2px;line-height:1.15;}
@@ -372,29 +379,53 @@ body{background:var(--bg);}
   display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;
 }
 .league-friend-status{
-  padding:8px 11px;border-radius:999px;background:var(--bg3);border:1px solid var(--border);
+  padding:8px 12px;border-radius:999px;background:var(--bg2);border:1px solid var(--border);
   font-size:11px;font-weight:800;color:var(--text2);white-space:nowrap;
 }
 .league-friend-status strong{color:var(--accent2);}
 .league-summary{display:none;}
 .league-insight{display:none;}
-.leaderboard{display:flex;flex-direction:column;gap:8px;}
-.friend-row{display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;}
-.friend-row.self{border-color:rgba(61,143,224,.45);background:linear-gradient(135deg,rgba(61,143,224,.12),rgba(61,143,224,.06));}
-.friend-av{width:38px;height:38px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--accent3),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;}
+.leaderboard{display:flex;flex-direction:column;gap:10px;}
+.friend-row{
+  display:flex;align-items:flex-start;gap:12px;padding:13px;background:var(--bg3);
+  border:1px solid var(--border);border-radius:16px;position:relative;overflow:hidden;
+  transition:border-color .15s,transform .15s;
+}
+.friend-row:hover{border-color:var(--border2);}
+.friend-row.self{
+  border-color:rgba(61,143,224,.5);
+  background:linear-gradient(135deg,rgba(61,143,224,.13),rgba(61,143,224,.05));
+}
+.friend-av-wrap{position:relative;flex-shrink:0;}
+.friend-av{
+  width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,var(--accent3),var(--accent));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
 .friend-main{min-width:0;flex:1;}
-.friend-name{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.friend-meta{font-size:11px;color:var(--text2);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;}
-.friend-chip{padding:4px 7px;border-radius:999px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);}
-.friend-score{font-size:16px;font-weight:900;text-align:right;line-height:1;white-space:nowrap;}
-.friend-score small{display:block;font-size:10px;color:var(--text2);font-weight:700;margin-top:4px;}
-.friend-progress{height:6px;background:var(--bg2);border-radius:999px;overflow:hidden;margin-top:7px;}
-.friend-progress > div{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent3));}
+.friend-name{font-size:13.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.friend-meta{font-size:11px;color:var(--text2);margin-top:5px;display:flex;gap:6px;flex-wrap:wrap;}
+.friend-chip{padding:4px 8px;border-radius:999px;background:var(--bg2);border:1px solid var(--border);font-weight:700;}
+.friend-score{font-size:18px;font-weight:900;text-align:right;line-height:1;white-space:nowrap;flex-shrink:0;color:var(--text);}
+.friend-score small{display:block;font-size:9.5px;color:var(--text3);font-weight:700;margin-top:5px;text-transform:uppercase;letter-spacing:.4px;}
+.friend-progress{height:5px;background:var(--bg2);border-radius:999px;overflow:hidden;margin-top:9px;}
+.friend-progress > div{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width .3s;}
 .friend-actions{display:flex;gap:8px;flex-wrap:wrap;}
 .friend-subrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
 .friend-mini{font-size:10px;font-weight:800;color:var(--text2);padding:5px 8px;border-radius:999px;background:var(--bg2);border:1px solid var(--border);}
 .friend-mini strong{color:var(--text);}
-.friend-rank{font-size:10px;font-weight:900;color:var(--accent2);padding:4px 8px;border-radius:999px;background:rgba(61,143,224,.12);border:1px solid rgba(61,143,224,.2);}
+.friend-rank{
+  font-size:10px;font-weight:900;color:var(--accent2);padding:4px 9px;border-radius:999px;
+  background:rgba(61,143,224,.12);border:1px solid rgba(61,143,224,.2);flex-shrink:0;
+}
+.friend-rank.r1{color:#f0b429;background:rgba(240,180,41,.14);border-color:rgba(240,180,41,.3);}
+.friend-rank.r2{color:#98a5b3;background:rgba(152,165,179,.14);border-color:rgba(152,165,179,.3);}
+.friend-rank.r3{color:#c07a3a;background:rgba(192,122,58,.14);border-color:rgba(192,122,58,.3);}
+.friend-empty{
+  text-align:center;padding:28px 16px;color:var(--text2);font-size:12.5px;font-weight:600;line-height:1.6;
+  background:var(--bg3);border:1px dashed var(--border2);border-radius:16px;
+}
+.friend-empty strong{display:block;font-size:14px;color:var(--text);font-weight:900;margin-bottom:4px;}
 .code-box{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:12px;}
 .code-label{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.9px;margin-bottom:8px;}
 .code-value{font-size:11px;line-height:1.35;word-break:break-word;color:var(--text2);letter-spacing:.1px;max-height:72px;overflow:auto;}
@@ -2418,9 +2449,14 @@ body{background:var(--bg);}
 
     <div class="card league-card">
       <div class="league-top">
-        <div class="league-copy">
-          <div class="league-title" id="league-top-name">Friends</div>
-          <div class="league-sub" id="league-top-sub">Invite friends, compare scores, and keep your study streak moving.</div>
+        <div class="league-head">
+          <div class="league-head-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v3a5 5 0 0 1-10 0z"/><path d="M5 6H3a3 3 0 0 0 3 3"/><path d="M19 6h2a3 3 0 0 1-3 3"/></svg>
+          </div>
+          <div class="league-copy">
+            <div class="league-title" id="league-top-name">Friends</div>
+            <div class="league-sub" id="league-top-sub">Invite friends, compare scores, and keep your study streak moving.</div>
+          </div>
         </div>
         <div class="league-actions">
           <div class="league-friend-status" id="league-friend-status"><strong>0</strong> friends connected</div>
@@ -3031,6 +3067,7 @@ body{background:var(--bg);}
     <div class="mtitle">Add Session</div>
     <div style="font-size:13px;color:var(--text2);font-weight:500;margin-bottom:14px;line-height:1.5;">Add a study session when you studied without using the app timer.</div>
     <input type="text" class="inp" id="man-subj" placeholder="Subject (e.g. Mathematics)">
+    <div class="sm-chips-row" id="manual-chips" style="margin:-2px 0 11px;"></div>
     <div class="manual-grid" style="margin-bottom:11px;">
       <input type="date" class="inp" id="man-date">
       <input type="time" class="inp" id="man-time">
@@ -3878,6 +3915,21 @@ function setManualDefaults(){
   if(t)t.value=pad(new Date().getHours())+':'+pad(new Date().getMinutes());
   var subj=document.getElementById('man-subj'); if(subj)subj.value='';
   var dur=document.getElementById('man-dur'); if(dur)dur.value='';
+  renderManualChips();
+}
+function renderManualChips(){
+  var c=document.getElementById('manual-chips'); if(!c)return;
+  c.innerHTML='';
+  (D.subj||[]).forEach(function(s){
+    var d=document.createElement('div');
+    d.className='chip'; d.style.cssText='flex-shrink:0;';
+    d.textContent=s;
+    d.onclick=function(){
+      var mi=document.getElementById('man-subj');
+      if(mi){ mi.value=s; mi.focus(); }
+    };
+    c.appendChild(d);
+  });
 }
 function openManualSessionHome(){ setManualDefaults(); setBlurState(true); document.getElementById('manual-modal').classList.add('open'); }
 function closeManualModal(){ document.getElementById('manual-modal').classList.remove('open'); setBlurState(false); }
@@ -4281,13 +4333,15 @@ function mkNoise(type){
     else if(type==='ocean'){ var t=i/ctx.sampleRate; var swell=(Math.sin(t*0.45*Math.PI)+1)/2; var wave=Math.sin(t*1.2*Math.PI)*0.18; var foam=(Math.random()*2-1)*0.48; d[i]=(foam*swell*0.55)+(wave*0.35)+(Math.sin(t*0.08*Math.PI)*0.08); }
   }
   var src=ctx.createBufferSource(); src.buffer=buf; src.loop=true;
-  var gain=ctx.createGain(); var vol=parseInt(document.getElementById('amb-vol').value)/100*0.28; gain.gain.value=vol;
+  var baseMul={white:0.28,rain:0.55,forest:0.5,ocean:0.6}[type]||0.28;
+  var gain=ctx.createGain(); var vol=parseInt(document.getElementById('amb-vol').value)/100*baseMul; gain.gain.value=vol;
   var filt=ctx.createBiquadFilter();
-  if(type==='rain'){filt.type='bandpass';filt.frequency.value=700;filt.Q.value=0.4;}
-  else if(type==='ocean'){filt.type='lowpass';filt.frequency.value=350;}
+  if(type==='rain'){filt.type='bandpass';filt.frequency.value=1200;filt.Q.value=0.3;}
+  else if(type==='forest'){filt.type='lowpass';filt.frequency.value=3200;}
+  else if(type==='ocean'){filt.type='lowpass';filt.frequency.value=900;}
   else{filt.type='lowpass';filt.frequency.value=2800;}
   src.connect(filt);filt.connect(gain);gain.connect(ctx.destination);src.start();
-  return{src:src,gain:gain};
+  return{src:src,gain:gain,type:type};
 }
 function togAmb(type,btn){
   /* Stop lofi and bengali first — only one music at a time */
@@ -4305,7 +4359,7 @@ function togAmb(type,btn){
   document.querySelectorAll('.mchip').forEach(function(c){c.classList.toggle('active',c.textContent.toLowerCase()===type&&CURNAMB===type);});
   updateSessionMusicUI();
 }
-function setAmbVol(v){ if(CURNAMB&&ANODES[CURNAMB])ANODES[CURNAMB].gain.gain.value=v/100*0.28; }
+function setAmbVol(v){ if(CURNAMB&&ANODES[CURNAMB]){var m={white:0.28,rain:0.55,forest:0.5,ocean:0.6}[CURNAMB]||0.28; ANODES[CURNAMB].gain.gain.value=v/100*m;} }
 
 var BENGALI_STATIONS=[
   {name:'Station 1',sub:'Music',url:'https://stream.zeno.fm/nxfshdayjrdvv'},
@@ -4404,8 +4458,8 @@ function updateSessionMusicUI(){
   var bengAudio=document.getElementById('bg-audio');
   var label='No music selected'; var playing=false;
   if(['rain','white','forest','ocean'].includes(SAMAN)){
-    label='Ambient • '+getAmbientLabel(SAMAN)+(CURNAMB===SAMAN&&SANODE?' • Playing':' • Paused');
-    playing=(CURNAMB===SAMAN&&!!SANODE);
+    label='Ambient • '+getAmbientLabel(SAMAN)+(CURNAMB===SAMAN&&ANODES[SAMAN]?' • Playing':' • Paused');
+    playing=(CURNAMB===SAMAN&&!!ANODES[SAMAN]);
   }else if(SAMAN==='lofi'){
     var st=LOFI_STATIONS[CUR_LOFI_INDEX]||LOFI_STATIONS[0];
     label='Lo-Fi • '+(st?st.name:'Station')+(lofiAudio&&!lofiAudio.paused&&CURLOFI?' • Playing':' • Paused');
@@ -4447,7 +4501,7 @@ function updateSessionMusicUI(){
     if(bst)bst.textContent=ba2&&!ba2.paused?'Playing '+bs2.name:'Paused';
   }
 }
-function stopNoise(){ if(SANODE){try{SANODE.src.stop();}catch(e){} SANODE=null;} }
+function stopNoise(){ if(CURNAMB&&ANODES[CURNAMB]){try{ANODES[CURNAMB].src.stop();}catch(e){} delete ANODES[CURNAMB];} SANODE=null; }
 function stopLofi(){ var a=document.getElementById('lofi-audio'); a.pause(); a.src=''; CURLOFI=null; document.querySelectorAll('#lofi-list .lofi-item').forEach(function(b){b.classList.remove('playing');}); updateSessionMusicUI(); }
 function stopBengali(){
   var a=document.getElementById('bg-audio'); a.pause(); a.removeAttribute('src'); a.load();
@@ -4477,8 +4531,8 @@ function stopSM(){ stopNoise(); stopLofi(); stopBengali(); SAMAN=null; updateSes
 function sessionMediaPlayPause(){
   if(!SAMAN||SAMAN==='none'){ toast('Choose a music type first.'); return; }
   if(['rain','white','forest','ocean'].includes(SAMAN)){
-    if(CURNAMB===SAMAN&&SANODE){ stopNoise(); CURNAMB=null; updateSessionMusicUI(); return; }
-    try{SANODE=mkNoise(SAMAN);CURNAMB=SAMAN;}catch(e){toast('Audio not available');} updateSessionMusicUI(); return;
+    if(CURNAMB===SAMAN&&ANODES[SAMAN]){ stopNoise(); CURNAMB=null; updateSessionMusicUI(); return; }
+    try{ANODES[SAMAN]=mkNoise(SAMAN);CURNAMB=SAMAN;}catch(e){toast('Audio not available');} updateSessionMusicUI(); return;
   }
   if(SAMAN==='lofi'){ toggleLofiPlayback(); return; }
   if(SAMAN==='bengali'){ togBeng(); updateSessionMusicUI(); return; }
@@ -4861,7 +4915,34 @@ var BDGS=[
   {id:'x5',n:'XP Master',d:'Earn 500 XP',icon:'bolt',chk:function(){return D.xp>=500;}},
   {id:'x10',n:'XP Legend',d:'Earn 2,500 XP',icon:'bolt',chk:function(){return D.xp>=2500;}},
   {id:'subj5',n:'Explorer',d:'Study 5 different subjects',icon:'book',chk:function(){return uniqueStrings(D.sess.map(function(s){return s.subj;})).length>=5;}},
-  {id:'subj10',n:'Polymath',d:'Study 10 different subjects',icon:'book',chk:function(){return uniqueStrings(D.sess.map(function(s){return s.subj;})).length>=10;}}
+  {id:'subj10',n:'Polymath',d:'Study 10 different subjects',icon:'book',chk:function(){return uniqueStrings(D.sess.map(function(s){return s.subj;})).length>=10;}},
+
+  /* ── Harder / long-haul achievements ── */
+  {id:'s60',n:'60-Day Streak',d:'Study 60 days in a row',icon:'shield',chk:function(){return D.streak.c>=60;}},
+  {id:'s100',n:'Unbreakable',d:'Study 100 days in a row',icon:'shield',chk:function(){return D.streak.c>=100;}},
+  {id:'s365',n:'Year of Focus',d:'Study 365 days in a row',icon:'trophy',chk:function(){return D.streak.c>=365;}},
+  {id:'ss250',n:'Session Veteran',d:'Complete 250 sessions',icon:'medal',chk:function(){return D.sess.length>=250;}},
+  {id:'ss500',n:'Session Master',d:'Complete 500 sessions',icon:'medal',chk:function(){return D.sess.length>=500;}},
+  {id:'ss1000',n:'Grandmaster',d:'Complete 1,000 sessions',icon:'crown',chk:function(){return D.sess.length>=1000;}},
+  {id:'h10',n:'First 10 Hours',d:'Accumulate 10 hours studied',icon:'clock',chk:function(){return D.sess.reduce(function(a,s){return a+safeNum(s.dur,0);},0)>=36000;}},
+  {id:'h50',n:'50 Hour Club',d:'Accumulate 50 hours studied',icon:'fire',chk:function(){return D.sess.reduce(function(a,s){return a+safeNum(s.dur,0);},0)>=180000;}},
+  {id:'h100',n:'Century of Hours',d:'Accumulate 100 hours studied',icon:'fire',chk:function(){return D.sess.reduce(function(a,s){return a+safeNum(s.dur,0);},0)>=360000;}},
+  {id:'h250',n:'250 Hour Club',d:'Accumulate 250 hours studied',icon:'rocket',chk:function(){return D.sess.reduce(function(a,s){return a+safeNum(s.dur,0);},0)>=900000;}},
+  {id:'h500',n:'500 Hour Legend',d:'Accumulate 500 hours studied',icon:'trophy',chk:function(){return D.sess.reduce(function(a,s){return a+safeNum(s.dur,0);},0)>=1800000;}},
+  {id:'x25',n:'XP Titan',d:'Earn 10,000 XP',icon:'bolt',chk:function(){return D.xp>=10000;}},
+  {id:'x50',n:'XP Overlord',d:'Earn 25,000 XP',icon:'bolt',chk:function(){return D.xp>=25000;}},
+  {id:'x100',n:'XP Ascendant',d:'Earn 50,000 XP',icon:'spark',chk:function(){return D.xp>=50000;}},
+  {id:'long2',n:'Deep Work',d:'Complete a single 2-hour session',icon:'brain',chk:function(){return D.sess.some(function(s){return safeNum(s.dur,0)>=7200;});}},
+  {id:'long4',n:'Marathoner',d:'Complete a single 4-hour session',icon:'rocket',chk:function(){return D.sess.some(function(s){return safeNum(s.dur,0)>=14400;});}},
+  {id:'long6',n:'Iron Will',d:'Complete a single 6-hour session',icon:'shield',chk:function(){return D.sess.some(function(s){return safeNum(s.dur,0)>=21600;});}},
+  {id:'early',n:'Early Bird',d:'Start a session before 6 AM',icon:'star',chk:function(){return D.sess.some(function(s){return s.ts&&new Date(s.ts).getHours()<6;});}},
+  {id:'owl',n:'Night Owl',d:'Start a session after midnight',icon:'moon',chk:function(){return D.sess.some(function(s){if(!s.ts)return false;var h=new Date(s.ts).getHours();return h>=0&&h<4;});}},
+  {id:'subj15',n:'Renaissance Mind',d:'Study 15 different subjects',icon:'book',chk:function(){return uniqueStrings(D.sess.map(function(s){return s.subj;})).length>=15;}},
+  {id:'subj20',n:'Universal Scholar',d:'Study 20 different subjects',icon:'brain',chk:function(){return uniqueStrings(D.sess.map(function(s){return s.subj;})).length>=20;}},
+  {id:'notes50',n:'Note Taker',d:'Write 50 notes',icon:'award',chk:function(){return (typeof NOTES!=='undefined'&&Array.isArray(NOTES)?NOTES.length:0)>=50;}},
+  {id:'notes100',n:'Archivist',d:'Write 100 notes',icon:'trophy',chk:function(){return (typeof NOTES!=='undefined'&&Array.isArray(NOTES)?NOTES.length:0)>=100;}},
+  {id:'lvl10',n:'Level 10',d:'Reach level 10',icon:'crown',chk:function(){return safeNum(D.level,1)>=10;}},
+  {id:'lvl25',n:'Level 25',d:'Reach level 25',icon:'crown',chk:function(){return safeNum(D.level,1)>=25;}}
 ];
 function chkAch(){
   BDGS.forEach(function(b){
@@ -4888,7 +4969,8 @@ function renderBadges(){
     fire:'<path d="M12 2c4 4 6 6 6 10a6 6 0 0 1-12 0c0-4 2-6 6-10z"/>',
     rocket:'<path d="M5 19c0-3 2-6 5-8l3 3c-2 3-5 5-8 5z"/><path d="M14 10l5-5c1 4 1 8-2 11l-3-3z"/>',
     medal:'<circle cx="12" cy="10" r="5"/><path d="M9 15l-2 7 5-3 5 3-2-7"/>',
-    spark:'<path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6L12 2z"/>'
+    spark:'<path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6L12 2z"/>',
+    moon:'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
   };
   var el=document.getElementById('badges-grid'); if(!el)return;
   var earnedCount=0;
@@ -5313,18 +5395,25 @@ function renderFriendsLeague(){
   if(friendStatus) friendStatus.innerHTML = '<strong>' + friends.length + '</strong> ' + friendLabel;
 
   if(board){
+    if(!boardList.length){
+      board.innerHTML='<div class="friend-empty"><strong>No one here yet</strong>Invite a friend to start comparing streaks, XP, and study time.</div>';
+    } else {
     board.innerHTML=boardList.map(function(p,idx){
       var isSelf = p.code===self.code;
+      var rank=idx+1;
+      var rankCls = rank<=3 ? ' rank-'+rank : '';
+      var rankChipCls = rank<=3 ? ' r'+rank : '';
+      var medal = rank<=3 ? '<div class="friend-medal m'+rank+'">'+rank+'</div>' : '';
       var max=Math.max(leader.score, self.score, 1);
       var pct=Math.max(8, Math.round((p.score/max)*100));
       var lvlName=p.levelName || ('Level ' + p.level);
       var last= p.updatedAt ? formatTimeAgo(p.updatedAt) : 'Recently active';
-      return '<div class="friend-row'+(isSelf?' self':'')+'">'
-        +'<div class="friend-av">'+(isSelf?'YOU':String(p.name||'F').charAt(0).toUpperCase())+'</div>'
+      return '<div class="friend-row'+(isSelf?' self':'')+rankCls+'">'
+        +'<div class="friend-av-wrap"><div class="friend-av">'+(isSelf?'YOU':String(p.name||'F').charAt(0).toUpperCase())+'</div>'+medal+'</div>'
         +'<div class="friend-main">'
         +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
         +'<div class="friend-name">'+(isSelf?'You':p.name)+'</div>'
-        +'<div class="friend-rank">#'+(idx+1)+'</div>'
+        +'<div class="friend-rank'+rankChipCls+'">#'+rank+'</div>'
         +'</div>'
         +'<div class="friend-meta">'
         +'<span class="friend-chip">'+lvlName+'</span>'
@@ -5345,6 +5434,7 @@ function renderFriendsLeague(){
         +'<div class="friend-score">'+Math.round(p.score)+'<small>'+(isSelf?'your score':'score')+'</small></div>'
         +'</div>';
     }).join('');
+    }
   }
   var modalList=document.getElementById('friend-list-modal');
   if(modalList){
@@ -5491,6 +5581,7 @@ function addManualSession(){
   var mins=parseInt(document.getElementById('man-dur').value,10);
   if(!date){toast('Choose a date.');return;}
   if(!mins||mins<1){toast('Enter a valid duration.');return;}
+  if(subj && D.subj.indexOf(subj) < 0){ D.subj.push(subj); localStorage.setItem('fl_sj',JSON.stringify(D.subj)); scheduleCloudSave(); }
   var ts=new Date(date+'T'+time+':00').getTime();
   if(isNaN(ts))ts=Date.now();
   var rec={id:uid(),subj:subj,dur:mins*60,d:date,done:true,manual:true,ts:ts,xp:mins};
@@ -5964,17 +6055,17 @@ Include:
 If important details are missing, make one sensible assumption and mention it briefly.
 
 === IMAGE BEHAVIOR ===
-If a diagram, chart, timeline, flowchart, map, labeled sketch, infographic, comparison visual, or any image would help the user understand a topic better, include an image block automatically.
+Only generate an image when it is genuinely necessary — meaning the answer is hard to understand in plain text alone (a diagram, chart, timeline, flowchart, map, labeled sketch, infographic, or comparison visual would clearly add value the words can't). Do not generate an image for simple explanations, definitions, or answers that read fine as plain text.
 
-If the user explicitly asks for an image, diagram, chart, map, flowchart, infographic, or visual explanation, always include an image block.
+If the user explicitly asks for an image, diagram, chart, map, flowchart, infographic, or visual, always include an image block.
 
-Use this exact format when you want an image:
+When you do decide an image is warranted, use this exact format:
 
 [[IMAGE]]
 detailed image prompt here
 [[/IMAGE]]
 
-You may include more than one image block if needed.
+You may include more than one image block if needed, but default to zero images unless one of the conditions above is met.
 `;
 }
 
@@ -7364,6 +7455,8 @@ function wirePasteImageSupport(){
 
   document.addEventListener('paste', handlePaste(['ned-title','ned-content'], nedAddImages));
   document.addEventListener('paste', handlePaste(['snote-title','snote-content'], snoteAddImages));
+  document.addEventListener('paste', handlePaste(['foco-inp'], focoGotFiles));
+  document.addEventListener('paste', handlePaste(['sfoco-inp'], sfocoGotFiles));
 }
 
 function nedAddImages(files){
