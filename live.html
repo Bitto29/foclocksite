@@ -2135,7 +2135,7 @@ body{background:var(--bg);}
   transform:rotate(-90deg);
 }
 .ttime{
-  font-size:clamp(27px, 9vw, 43px);
+  font-size:clamp(29px, 9vw, 45px);
   font-weight:900;letter-spacing:-2px;
   font-variant-numeric:tabular-nums;
 }
@@ -4988,6 +4988,7 @@ var FRIENDS_KEY='fl_fr';
 var FRIENDS_SYNC_KEY='fl_fr_sync';
 var FRIEND_CODE_KEY='fl_fc';
 var FRIENDS_SYNC_TABLE='study_tracking_friendships';
+var CLOUD_FRIENDS_LAST_ERROR=null;
 var FRIEND_SYNC_MS=45000;
 var FRIEND_SYNC_TIMER=null;
 var FRIEND_SYNC_INTERVAL=null;
@@ -5259,7 +5260,7 @@ function getLeagueSnapshot(self,friends,boardList){
   return { totalSessions:totalSessions, totalToday:totalToday, totalAch:totalAch, selfRank:selfRank, leader:leader, runner:runner, leadGap:leadGap, catchGap:catchGap };
 }
 function upsertFriendshipCloud(friend, active){
-  if(!SB||!AUTH.user) return Promise.resolve(false);
+  if(!SB) return Promise.resolve(false);
   return (async function(){
     try{
       var self=buildSelfFriendProfile();
@@ -5268,11 +5269,11 @@ function upsertFriendshipCloud(friend, active){
       var res=await SB.from(FRIENDS_SYNC_TABLE).upsert(row,{onConflict:'pair_id'});
       if(res&&res.error) throw res.error;
       return true;
-    }catch(e){ return false; }
+    }catch(e){ console.error('upsertFriendshipCloud failed:', e); return false; }
   })();
 }
 function deactivateFriendshipCloud(friendCode){
-  if(!SB||!AUTH.user) return Promise.resolve(false);
+  if(!SB) return Promise.resolve(false);
   return (async function(){
     try{
       var self=buildSelfFriendProfile();
@@ -5280,11 +5281,11 @@ function deactivateFriendshipCloud(friendCode){
       var res=await SB.from(FRIENDS_SYNC_TABLE).update({active:false,updated_at:new Date().toISOString(),updated_by:self.code}).eq('pair_id',pairId);
       if(res&&res.error) throw res.error;
       return true;
-    }catch(e){ return false; }
+    }catch(e){ console.error('deactivateFriendshipCloud failed:', e); return false; }
   })();
 }
 function syncFriendsFromCloud(){
-  if(!SB||!AUTH.user) return Promise.resolve(false);
+  if(!SB) return Promise.resolve(false);
   return (async function(){
     try{
       var self=buildSelfFriendProfile();
@@ -5318,8 +5319,11 @@ function syncFriendsFromCloud(){
 
       // Reconcile local storage too, so removals/additions appear after the next refresh.
       saveFriendsLocal(mergeFriendLists(loadFriendsLocal(), rows));
+      CLOUD_FRIENDS_LAST_ERROR=null;
       return true;
     }catch(e){
+      console.error('syncFriendsFromCloud failed:', e);
+      CLOUD_FRIENDS_LAST_ERROR = (e && e.message) ? e.message : 'Unknown error';
       return false;
     }
   })();
@@ -5329,10 +5333,11 @@ async function syncFriendsFromCloudAndRender(){
   renderFriendsLeague();
 }
 async function manualLeagueRefresh(){
-  await syncFriendsFromCloud();
+  var ok = await syncFriendsFromCloud();
   refreshDerivedAndUI();
   renderFriendsLeague();
-  toast('League updated');
+  if(ok) toast('League updated');
+  else toast(SB ? ('Sync failed: '+(CLOUD_FRIENDS_LAST_ERROR||'check your connection')) : 'Online sync unavailable.');
 }
 function scheduleFriendSync(delay){
   clearTimeout(FRIEND_SYNC_TIMER);
@@ -5346,12 +5351,12 @@ function startFriendAutoSync(){
 async function addFriendRecord(friend, fromHash){
   var self=buildSelfFriendProfile();
   friend=normalizeFriendProfile(friend);
-  if(!friend){ toast('Invalid invite code.'); return false; }
+  if(!friend){ if(fromHash) toast('This invite link looks invalid or expired.'); else toast('Invalid invite code.'); return false; }
   if(friend.code===self.code){ toast('That is your own code.'); return false; }
 
   var merged = mergeFriendLists(loadFriendsLocal(), loadSyncedFriends());
   if(merged.some(function(f){ return f.code===friend.code && f.active!==false; })){
-    if(fromHash) renderFriendsLeague();
+    if(fromHash){ toast('You\'re already connected with '+friend.name+'.'); goScr('rewards'); renderFriendsLeague(); }
     else toast('Friend already added.');
     return false;
   }
@@ -5367,10 +5372,20 @@ async function addFriendRecord(friend, fromHash){
   synced.push(Object.assign({}, friend, { source:'cloud' }));
   saveSyncedFriends(synced);
 
-  if(AUTH.user) await upsertFriendshipCloud(friend, true);
+  var cloudOk = await upsertFriendshipCloud(friend, true);
 
   renderFriendsLeague();
-  if(!fromHash) toast(friend.name+' added to your league.');
+
+  if(fromHash){
+    goScr('rewards');
+    toast(cloudOk ? ('You\'re now connected with '+friend.name+'!') : (friend.name+' added — will finish syncing online shortly.'));
+  } else {
+    toast(friend.name+' added to your league.');
+  }
+
+  // Pull straight away so the other side's latest stats show, and so a bidirectional
+  // row created by the other person (if they add back) shows up quickly too.
+  scheduleFriendSync(600);
   return true;
 }
 function renderFriendsLeague(){
@@ -5509,8 +5524,9 @@ async function removeFriendByCode(code){
     }]);
   saveSyncedFriends(synced);
 
-  if(AUTH.user) await deactivateFriendshipCloud(code);
+  var cloudOk = await deactivateFriendshipCloud(code);
   renderFriendsLeague();
+  toast(cloudOk ? 'Removed — this updates for both of you.' : 'Removed locally — will finish syncing online shortly.');
 }
 function processFriendHash(){
   var h=(location.hash||'');
