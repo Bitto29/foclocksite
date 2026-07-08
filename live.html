@@ -733,7 +733,84 @@ body{background:var(--bg);}
 }
 .mi2:focus{outline:none;border-color:var(--accent);}
 
-/* CALCULATOR */
+/* ADVANCED CALCULATOR (Foc Calc v3) — themed to match app */
+.fc-calc{
+  width:100%;max-width:330px;margin:0 auto;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:14px 12px 18px;
+  box-shadow:var(--shadow2);
+  user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;
+  transition:background .25s ease,border-color .25s ease;
+}
+.fc-brand{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:0 3px;}
+.fc-brand-left{display:flex;align-items:baseline;gap:5px}
+.fc-brand-name{color:var(--accent2);font-size:12px;font-weight:800;letter-spacing:1.5px}
+.fc-brand-tag{color:var(--text3);font-size:8.5px;letter-spacing:2px;text-transform:uppercase;font-weight:500}
+.fc-brand-model{color:var(--text3);font-size:8px;letter-spacing:1px}
+.fc-screen-frame{background:var(--bg3);border-radius:var(--radius-sm);padding:5px;margin-bottom:12px;
+  border:1px solid var(--border);}
+.fc-screen{background:var(--bg2);border-radius:var(--radius-xs);padding:8px 10px 10px;min-height:104px;position:relative;
+  border:1px solid var(--border);overflow:hidden;}
+.fc-mode-row{display:flex;gap:4px;margin-bottom:5px;min-height:14px;position:relative;z-index:1}
+.fc-chip{font-size:8px;font-weight:800;padding:1.5px 5px;border-radius:2px;letter-spacing:0.5px;display:none;}
+.fc-chip.deg{background:rgba(34,197,94,.15);color:var(--success);display:block}
+.fc-chip.shift{background:rgba(245,158,11,.18);color:#f59e0b}
+.fc-chip.alpha{background:rgba(34,197,94,.18);color:var(--success)}
+.fc-chip.on{display:block}
+.fc-expr{font-family:'Courier New',Courier,monospace;font-size:11.5px;color:var(--text2);text-align:right;min-height:18px;
+  line-height:1.4;word-break:break-all;letter-spacing:0.2px;position:relative;z-index:1;}
+.fc-result{font-family:'Courier New',Courier,monospace;font-size:26px;color:var(--text);text-align:right;min-height:36px;
+  font-weight:700;letter-spacing:-0.5px;position:relative;z-index:1;word-break:break-all;}
+.fc-result.sm{font-size:17px}
+.fc-result.err{color:var(--danger);font-size:13px;font-weight:700;letter-spacing:0}
+.fc-ans-hint{position:absolute;bottom:5px;left:8px;font-size:8px;color:var(--text3);opacity:0.8;
+  font-family:'Courier New',monospace;z-index:1;}
+.fc-r6{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+.fc-r5{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+.fc-r4{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.fc-r1{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.fc-r1text{grid-column:span 3;display:flex;align-items:center;justify-content:flex-start;padding-top:13px;
+  padding-left:9px;font-size:10px;font-weight:700;letter-spacing:0.6px;color:var(--text3);min-height:36px;}
+.fc-bc{display:flex;flex-direction:column;align-items:center;gap:1.5px}
+.fc-tl{display:flex;justify-content:space-between;align-items:flex-end;width:100%;padding:0 9px;height:12px;}
+.fc-tl .s{font-size:7.5px;color:#f59e0b;font-weight:700;line-height:1;font-style:normal}
+.fc-tl .a{font-size:7.5px;color:var(--success);font-weight:700;line-height:1;font-style:normal}
+.fc-calc[data-mode=shift] .fc-tl .s{color:#f59e0b;text-shadow:0 0 6px rgba(245,158,11,0.6);}
+.fc-calc[data-mode=alpha] .fc-tl .a{color:var(--success);text-shadow:0 0 6px rgba(34,197,94,0.5);}
+.fc-k{width:93%;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-weight:700;color:var(--text);border-radius:var(--radius-xs);position:relative;overflow:hidden;
+  transition:transform 0.07s,box-shadow 0.07s,filter 0.07s,background .2s ease;outline:none;-webkit-tap-highlight-color:transparent;
+  font-family:inherit;line-height:1;gap:1px;}
+.fc-k:active{transform:translateY(2px)!important}
+.fc-k.fn{height:27px;font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);}
+.fc-k.fn:hover{background:var(--card2);border-color:var(--border2);}
+.fc-k.num{height:38px;font-size:18px;background:var(--bg3);border:1px solid var(--border);color:var(--text);}
+.fc-k.num:hover{background:var(--card2);border-color:var(--border2);}
+.fc-k.op{height:38px;font-size:17px;background:rgba(61,143,224,.08);border:1px solid rgba(61,143,224,.15);
+  color:var(--accent2);}
+.fc-k.op:hover{background:rgba(61,143,224,.15);}
+.fc-k.eq{height:36px;font-size:16px;font-weight:800;letter-spacing:1px;
+  background:linear-gradient(135deg,var(--accent4),var(--accent));color:#fff;border:none;}
+.fc-k.eq:hover{opacity:.9;}
+.fc-k.kshift{height:27px;font-size:10px;font-weight:800;
+  background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#f59e0b;}
+.fc-k.kshift.on{background:#f59e0b;color:#000;border-color:#f59e0b;}
+.fc-k.kalpha{height:27px;font-size:10px;font-weight:800;
+  background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--success);}
+.fc-k.kalpha.on{background:var(--success);color:#fff;border-color:var(--success);}
+.fc-k.kac{height:27px;font-size:10px;font-weight:800;
+  background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--danger);}
+.fc-k.kac:hover{background:rgba(239,68,68,.18);}
+.fc-k.kdel{height:27px;font-size:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);}
+.fc-k.kdel:hover{background:var(--card2);}
+.fc-k.knav{height:27px;font-size:13px;background:var(--bg3);border:1px solid var(--border);color:var(--text3);}
+.fc-k.knav:hover{background:var(--card2);}
+.fc-k .ks{font-size:8px;opacity:0.65;font-weight:600;line-height:1}
+.fc-div{height:1px;background:var(--border);margin:8px 0;}
+.fc-fn-block{display:flex;flex-direction:column;gap:7px}
+.fc-num-block{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+
+/* CALCULATOR (legacy CSS retained, unused after upgrade) */
 .cdsp{
   background:var(--bg3);border:1px solid var(--border);
   border-radius:var(--radius-sm);padding:16px;text-align:right;margin-bottom:12px;
@@ -1367,16 +1444,6 @@ body{background:var(--bg);}
 
 /* Studio calc */
 .studio-calc-inner{padding:8px 0;max-width:340px;margin:0 auto;width:100%;}
-/* Studio calc — properly sized */
-#studio-calc .cdsp{
-  padding:18px 16px;margin-bottom:14px;
-  border-radius:14px;
-}
-#studio-calc .cres{font-size:36px;}
-#studio-calc .cgrid{gap:9px;}
-#studio-calc .cbtn{
-  padding:18px 4px;font-size:16px;border-radius:12px;
-}
 
 
 /* ── HISTORY SIDEBAR ── */
@@ -2642,22 +2709,114 @@ body{background:var(--bg);}
     <!-- ── CALC TAB ── -->
     <div class="studio-panel" id="studio-calc">
       <div class="studio-calc-inner">
-        <div class="cdsp"><div class="cexpr" id="sc2-expr"></div><div class="cres" id="sc2-res">0</div></div>
-        <div class="cgrid">
-          <button class="cbtn cl" onclick="ca('C')">C</button>
-          <button class="cbtn op" onclick="ca('+/-')">+/-</button>
-          <button class="cbtn op" onclick="ca('%')">%</button>
-          <button class="cbtn op" onclick="ca('/')">÷</button>
-          <button class="cbtn" onclick="ca('7')">7</button><button class="cbtn" onclick="ca('8')">8</button><button class="cbtn" onclick="ca('9')">9</button>
-          <button class="cbtn op" onclick="ca('*')">×</button>
-          <button class="cbtn" onclick="ca('4')">4</button><button class="cbtn" onclick="ca('5')">5</button><button class="cbtn" onclick="ca('6')">6</button>
-          <button class="cbtn op" onclick="ca('-')">-</button>
-          <button class="cbtn" onclick="ca('1')">1</button><button class="cbtn" onclick="ca('2')">2</button><button class="cbtn" onclick="ca('3')">3</button>
-          <button class="cbtn op" onclick="ca('+')">+</button>
-          <button class="cbtn" onclick="ca('0')" style="grid-column:span 2;">0</button>
-          <button class="cbtn" onclick="ca('.')">.</button>
-          <button class="cbtn eq" onclick="ca('=')">=</button>
-        </div>
+        <div class="fc-calc" id="st-calc" data-mode="normal">
+  <div class="fc-brand">
+    <div class="fc-brand-left"><span class="fc-brand-name">Foc Calc</span><span class="fc-brand-tag">Scientific</span></div>
+    <span class="fc-brand-model">v3.00</span>
+  </div>
+  <div class="fc-screen-frame">
+    <div class="fc-screen">
+      <div class="fc-mode-row">
+        <span class="fc-chip shift" id="st-chip-shift">SHIFT</span>
+        <span class="fc-chip alpha" id="st-chip-alpha">ALPHA</span>
+        <span class="fc-chip deg">DEG</span>
+      </div>
+      <div class="fc-expr" id="st-expr">0</div>
+      <div class="fc-result" id="st-result"></div>
+      <span class="fc-ans-hint" id="st-ans-hint"></span>
+    </div>
+  </div>
+  <div class="fc-r6" style="margin-bottom:4px">
+    <div class="fc-bc"><div class="fc-tl"></div><button class="fc-k kshift" id="st-kshift" onclick="fcShift('st')">SHIFT</button></div>
+    <div class="fc-bc"><div class="fc-tl"></div><button class="fc-k kalpha" id="st-kalpha" onclick="fcAlpha('st')">ALPHA</button></div>
+    <div class="fc-bc"><div class="fc-tl"><!--<span class="s" style="margin:auto">◀▶</span>--></div><button class="fc-k knav" onclick="fcCur('st','left')" title="cursor left">◀</button></div>
+    <div class="fc-bc"><div class="fc-tl"></div><button class="fc-k knav" onclick="fcCur('st','right')" title="cursor right">▶</button></div>
+    <div class="fc-bc"><div class="fc-tl"><span class="s" style="margin:auto">OFF</span></div><button class="fc-k kac" onclick="fcAC('st')">AC</button></div>
+    <div class="fc-bc"><div class="fc-tl"><span class="s" style="margin:auto">INS</span></div><button class="fc-k kdel" onclick="fcDEL('st')">DEL</button></div>
+  </div>
+  <div class="fc-div"></div>
+  <div class="fc-fn-block">
+    <div>
+      <div class="fc-r5" style="margin-bottom:1.5px">
+        <div class="fc-tl"><span class="s">10^x</span><span class="a">L</span></div>
+        <div class="fc-tl"><span class="s">e^x</span><span class="a">M</span></div>
+        <div class="fc-tl"><span class="s">sin⁻¹</span><span class="a">D</span></div>
+        <div class="fc-tl"><span class="s">cos⁻¹</span><span class="a">E</span></div>
+        <div class="fc-tl"><span class="s">tan⁻¹</span><span class="a">F</span></div>
+      </div>
+      <div class="fc-r5">
+        <button class="fc-k fn" onclick="fcP('st','log(','10^(','L')">log</button>
+        <button class="fc-k fn" onclick="fcP('st','ln(','exp(','M')">ln</button>
+        <button class="fc-k fn" onclick="fcP('st','sin(','asin(','D')">sin</button>
+        <button class="fc-k fn" onclick="fcP('st','cos(','acos(','E')">cos</button>
+        <button class="fc-k fn" onclick="fcP('st','tan(','atan(','F')">tan</button>
+      </div>
+    </div>
+    <div>
+      <div class="fc-r5" style="margin-bottom:1.5px">
+        <div class="fc-tl"><span class="s">x³</span><span class="a">K</span></div>
+        <div class="fc-tl"><span class="s">∛</span><span class="a">J</span></div>
+        <div class="fc-tl"><span class="s">x^y</span><span class="a">H</span></div>
+        <div class="fc-tl"><span class="s">{</span><span class="a">[</span></div>
+        <div class="fc-tl"><span class="s">}</span><span class="a">]</span></div>
+      </div>
+      <div class="fc-r5">
+        <button class="fc-k fn" onclick="fcP('st','²','³','K')">x²<span class="ks">□</span></button>
+        <button class="fc-k fn" onclick="fcP('st','√(','∛(','J')">√<span class="ks">□</span></button>
+        <button class="fc-k fn" onclick="fcP('st','^(','','H')">x^y</button>
+        <button class="fc-k fn" onclick="fcP('st','(','','[')">(</button>
+        <button class="fc-k fn" onclick="fcP('st',')','',']')">)</button>
+      </div>
+    </div>
+    <div>
+      <div class="fc-r5" style="margin-bottom:1.5px">
+        <div class="fc-tl"><span class="s">Σ</span><span class="a">i</span></div>
+        <div class="fc-tl"><span class="s">γ</span><span class="a">θ</span></div>
+        <div class="fc-tl"><span class="s">%</span><span class="a">:</span></div>
+        <div class="fc-tl"><span class="s">M-</span><span class="a">S</span></div>
+        <div class="fc-tl"><span class="s">MCL</span><span class="a">T</span></div>
+      </div>
+      <div class="fc-r5">
+        <button class="fc-k fn" onclick="fcP('st','π','Σ','i')">π</button>
+        <button class="fc-k fn" onclick="fcP('st','e','γ','θ')">e</button>
+        <button class="fc-k fn" onclick="fcP('st','Ans','%','_:')">Ans</button>
+        <button class="fc-k fn" onclick="fcP('st','M+','M-','S')" style="font-size:10px">M+</button>
+        <button class="fc-k fn" onclick="fcP('st','RCL','MCL','T')" style="font-size:10px">RCL</button>
+      </div>
+    </div>
+  </div>
+  <div class="fc-div"></div>
+  <div class="fc-num-block">
+    <div class="fc-r4">
+      <button class="fc-k num" onclick="fcP('st','7')">7</button>
+      <button class="fc-k num" onclick="fcP('st','8')">8</button>
+      <button class="fc-k num" onclick="fcP('st','9')">9</button>
+      <button class="fc-k op"  onclick="fcP('st','÷')">÷</button>
+    </div>
+    <div class="fc-r4">
+      <button class="fc-k num" onclick="fcP('st','4')">4</button>
+      <button class="fc-k num" onclick="fcP('st','5')">5</button>
+      <button class="fc-k num" onclick="fcP('st','6')">6</button>
+      <button class="fc-k op"  onclick="fcP('st','×')">×</button>
+    </div>
+    <div class="fc-r4">
+      <button class="fc-k num" onclick="fcP('st','1')">1</button>
+      <button class="fc-k num" onclick="fcP('st','2')">2</button>
+      <button class="fc-k num" onclick="fcP('st','3')">3</button>
+      <button class="fc-k op"  onclick="fcP('st','−')">−</button>
+    </div>
+    <div class="fc-r4">
+      <button class="fc-k num" onclick="fcP('st','0')">0</button>
+      <button class="fc-k num" onclick="fcP('st','.')">.</button>
+      <button class="fc-k op"  onclick="fcP('st','×10^')" style="font-size:11px">×10<sup>x</sup></button>
+      <button class="fc-k op"  onclick="fcP('st','+')">+</button>
+    </div>
+    <div class="fc-r1" style="margin-top:3px">
+      <div class="fc-r1text">Foc Calc version 3.00</div>
+      <button class="fc-k eq" onclick="fcEQ('st')">EXE =</button>
+    </div>
+  </div>
+</div>
       </div>
     </div>
 
@@ -2728,9 +2887,9 @@ body{background:var(--bg);}
       </div>
 
       <div class="sec-lbl">Tools</div>
-      <div class="mi" onclick="gSub('sub-calc')">
-        <div class="mi-icon" style="background:rgba(61,143,224,.1);">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg>
+      <div class="mi" onclick="gSub('sub-rem')">
+        <div class="mi-icon" style="background:rgba(61,143,224,.08);">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--accent3)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         </div>
         <div style="flex:1;"><div class="mi-t">Reminders</div><div class="mi-s">Set study alarms</div></div>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
@@ -3287,22 +3446,114 @@ body{background:var(--bg);}
     <button class="mclose" onclick="closeSessionCalc()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <div class="mtitle">Session Calculator</div>
     <div style="font-size:12px;color:var(--text2);font-weight:500;margin-bottom:12px;">Quick math without leaving your session.</div>
-    <div class="cdsp"><div class="cexpr" id="sc-expr"></div><div class="cres" id="sc-res">0</div></div>
-    <div class="cgrid">
-      <button class="cbtn cl" onclick="ca('C')">C</button>
-      <button class="cbtn op" onclick="ca('+/-')">+/-</button>
-      <button class="cbtn op" onclick="ca('%')">%</button>
-      <button class="cbtn op" onclick="ca('/')">÷</button>
-      <button class="cbtn" onclick="ca('7')">7</button><button class="cbtn" onclick="ca('8')">8</button><button class="cbtn" onclick="ca('9')">9</button>
-      <button class="cbtn op" onclick="ca('*')">×</button>
-      <button class="cbtn" onclick="ca('4')">4</button><button class="cbtn" onclick="ca('5')">5</button><button class="cbtn" onclick="ca('6')">6</button>
-      <button class="cbtn op" onclick="ca('-')">-</button>
-      <button class="cbtn" onclick="ca('1')">1</button><button class="cbtn" onclick="ca('2')">2</button><button class="cbtn" onclick="ca('3')">3</button>
-      <button class="cbtn op" onclick="ca('+')">+</button>
-      <button class="cbtn" onclick="ca('0')" style="grid-column:span 2;">0</button>
-      <button class="cbtn" onclick="ca('.')">.</button>
-      <button class="cbtn eq" onclick="ca('=')">=</button>
+    <div class="fc-calc" id="sc-calc" data-mode="normal">
+  <div class="fc-brand">
+    <div class="fc-brand-left"><span class="fc-brand-name">Foc Calc</span><span class="fc-brand-tag">Scientific</span></div>
+    <span class="fc-brand-model">v3.00</span>
+  </div>
+  <div class="fc-screen-frame">
+    <div class="fc-screen">
+      <div class="fc-mode-row">
+        <span class="fc-chip shift" id="sc-chip-shift">SHIFT</span>
+        <span class="fc-chip alpha" id="sc-chip-alpha">ALPHA</span>
+        <span class="fc-chip deg">DEG</span>
+      </div>
+      <div class="fc-expr" id="sc-expr">0</div>
+      <div class="fc-result" id="sc-result"></div>
+      <span class="fc-ans-hint" id="sc-ans-hint"></span>
     </div>
+  </div>
+  <div class="fc-r6" style="margin-bottom:4px">
+    <div class="fc-bc"><div class="fc-tl"></div><button class="fc-k kshift" id="sc-kshift" onclick="fcShift('sc')">SHIFT</button></div>
+    <div class="fc-bc"><div class="fc-tl"></div><button class="fc-k kalpha" id="sc-kalpha" onclick="fcAlpha('sc')">ALPHA</button></div>
+    <div class="fc-bc"><div class="fc-tl"><!--<span class="s" style="margin:auto">◀▶</span>--></div><button class="fc-k knav" onclick="fcCur('sc','left')" title="cursor left">◀</button></div>
+    <div class="fc-bc"><div class="fc-tl"></div><button class="fc-k knav" onclick="fcCur('sc','right')" title="cursor right">▶</button></div>
+    <div class="fc-bc"><div class="fc-tl"><span class="s" style="margin:auto">OFF</span></div><button class="fc-k kac" onclick="fcAC('sc')">AC</button></div>
+    <div class="fc-bc"><div class="fc-tl"><span class="s" style="margin:auto">INS</span></div><button class="fc-k kdel" onclick="fcDEL('sc')">DEL</button></div>
+  </div>
+  <div class="fc-div"></div>
+  <div class="fc-fn-block">
+    <div>
+      <div class="fc-r5" style="margin-bottom:1.5px">
+        <div class="fc-tl"><span class="s">10^x</span><span class="a">L</span></div>
+        <div class="fc-tl"><span class="s">e^x</span><span class="a">M</span></div>
+        <div class="fc-tl"><span class="s">sin⁻¹</span><span class="a">D</span></div>
+        <div class="fc-tl"><span class="s">cos⁻¹</span><span class="a">E</span></div>
+        <div class="fc-tl"><span class="s">tan⁻¹</span><span class="a">F</span></div>
+      </div>
+      <div class="fc-r5">
+        <button class="fc-k fn" onclick="fcP('sc','log(','10^(','L')">log</button>
+        <button class="fc-k fn" onclick="fcP('sc','ln(','exp(','M')">ln</button>
+        <button class="fc-k fn" onclick="fcP('sc','sin(','asin(','D')">sin</button>
+        <button class="fc-k fn" onclick="fcP('sc','cos(','acos(','E')">cos</button>
+        <button class="fc-k fn" onclick="fcP('sc','tan(','atan(','F')">tan</button>
+      </div>
+    </div>
+    <div>
+      <div class="fc-r5" style="margin-bottom:1.5px">
+        <div class="fc-tl"><span class="s">x³</span><span class="a">K</span></div>
+        <div class="fc-tl"><span class="s">∛</span><span class="a">J</span></div>
+        <div class="fc-tl"><span class="s">x^y</span><span class="a">H</span></div>
+        <div class="fc-tl"><span class="s">{</span><span class="a">[</span></div>
+        <div class="fc-tl"><span class="s">}</span><span class="a">]</span></div>
+      </div>
+      <div class="fc-r5">
+        <button class="fc-k fn" onclick="fcP('sc','²','³','K')">x²<span class="ks">□</span></button>
+        <button class="fc-k fn" onclick="fcP('sc','√(','∛(','J')">√<span class="ks">□</span></button>
+        <button class="fc-k fn" onclick="fcP('sc','^(','','H')">x^y</button>
+        <button class="fc-k fn" onclick="fcP('sc','(','','[')">(</button>
+        <button class="fc-k fn" onclick="fcP('sc',')','',']')">)</button>
+      </div>
+    </div>
+    <div>
+      <div class="fc-r5" style="margin-bottom:1.5px">
+        <div class="fc-tl"><span class="s">Σ</span><span class="a">i</span></div>
+        <div class="fc-tl"><span class="s">γ</span><span class="a">θ</span></div>
+        <div class="fc-tl"><span class="s">%</span><span class="a">:</span></div>
+        <div class="fc-tl"><span class="s">M-</span><span class="a">S</span></div>
+        <div class="fc-tl"><span class="s">MCL</span><span class="a">T</span></div>
+      </div>
+      <div class="fc-r5">
+        <button class="fc-k fn" onclick="fcP('sc','π','Σ','i')">π</button>
+        <button class="fc-k fn" onclick="fcP('sc','e','γ','θ')">e</button>
+        <button class="fc-k fn" onclick="fcP('sc','Ans','%','_:')">Ans</button>
+        <button class="fc-k fn" onclick="fcP('sc','M+','M-','S')" style="font-size:10px">M+</button>
+        <button class="fc-k fn" onclick="fcP('sc','RCL','MCL','T')" style="font-size:10px">RCL</button>
+      </div>
+    </div>
+  </div>
+  <div class="fc-div"></div>
+  <div class="fc-num-block">
+    <div class="fc-r4">
+      <button class="fc-k num" onclick="fcP('sc','7')">7</button>
+      <button class="fc-k num" onclick="fcP('sc','8')">8</button>
+      <button class="fc-k num" onclick="fcP('sc','9')">9</button>
+      <button class="fc-k op"  onclick="fcP('sc','÷')">÷</button>
+    </div>
+    <div class="fc-r4">
+      <button class="fc-k num" onclick="fcP('sc','4')">4</button>
+      <button class="fc-k num" onclick="fcP('sc','5')">5</button>
+      <button class="fc-k num" onclick="fcP('sc','6')">6</button>
+      <button class="fc-k op"  onclick="fcP('sc','×')">×</button>
+    </div>
+    <div class="fc-r4">
+      <button class="fc-k num" onclick="fcP('sc','1')">1</button>
+      <button class="fc-k num" onclick="fcP('sc','2')">2</button>
+      <button class="fc-k num" onclick="fcP('sc','3')">3</button>
+      <button class="fc-k op"  onclick="fcP('sc','−')">−</button>
+    </div>
+    <div class="fc-r4">
+      <button class="fc-k num" onclick="fcP('sc','0')">0</button>
+      <button class="fc-k num" onclick="fcP('sc','.')">.</button>
+      <button class="fc-k op"  onclick="fcP('sc','×10^')" style="font-size:11px">×10<sup>x</sup></button>
+      <button class="fc-k op"  onclick="fcP('sc','+')">+</button>
+    </div>
+    <div class="fc-r1" style="margin-top:3px">
+      <div class="fc-r1text">Foc Calc version 3.00</div>
+      <button class="fc-k eq" onclick="fcEQ('sc')">EXE =</button>
+    </div>
+  </div>
+</div>
   </div>
 </div>
 
@@ -3838,7 +4089,6 @@ function gSub(id,_skipHistory){
   var prevSub = _currentSub();
   document.querySelectorAll('#scr-more .subp').forEach(function(s){s.classList.remove('active');});
   var el=document.getElementById(id); if(el)el.classList.add('active');
-  if(id==='sub-calc'){ CALC_TARGET='main'; updateCalcUI(); }
   if(!_skipHistory){
     if(id==='more-main'){
       // going back to more-main — don't push, this IS the back action
@@ -5623,30 +5873,179 @@ function checkRems(){
   });
 }
 
-// ===== CALCULATOR =====
-var CE='',CR='0',CJE=false,CALC_TARGET='main';
+// ===== CALCULATOR (Foc Calc v3 — scientific, multi-instance) =====
+var FC = {}; // per-instance state, keyed by prefix ('st' studio tab, 'sc' session modal)
+function fcState(p){
+  if(!FC[p]) FC[p] = { expr:'', cur:0, mode:'normal', ans:0, mem:0, fresh:false };
+  return FC[p];
+}
+function fcIds(p){
+  return {
+    calc:p+'-calc', expr:p+'-expr', result:p+'-result',
+    kshift:p+'-kshift', kalpha:p+'-kalpha',
+    chipShift:p+'-chip-shift', chipAlpha:p+'-chip-alpha', hint:p+'-ans-hint'
+  };
+}
+function fcSetMode(p,m){
+  var S=fcState(p), ids=fcIds(p);
+  S.mode=m;
+  var calcEl=document.getElementById(ids.calc); if(calcEl) calcEl.dataset.mode=m;
+  var ks=document.getElementById(ids.kshift); if(ks) ks.classList.toggle('on', m==='shift');
+  var ka=document.getElementById(ids.kalpha); if(ka) ka.classList.toggle('on', m==='alpha');
+  var cs=document.getElementById(ids.chipShift); if(cs) cs.classList.toggle('on', m==='shift');
+  var ca_=document.getElementById(ids.chipAlpha); if(ca_) ca_.classList.toggle('on', m==='alpha');
+}
+function fcShift(p){ var S=fcState(p); fcSetMode(p, S.mode==='shift' ? 'normal' : 'shift'); }
+function fcAlpha(p){ var S=fcState(p); fcSetMode(p, S.mode==='alpha' ? 'normal' : 'alpha'); }
+
+function fcP(p, norm, shft, alph){
+  var S=fcState(p), token;
+  if(S.mode==='shift' && shft!=null && shft!==''){ token=shft; fcSetMode(p,'normal'); }
+  else if(S.mode==='alpha' && alph!=null && alph!==''){ token=alph; fcSetMode(p,'normal'); }
+  else { token=norm; }
+  fcDoToken(p, token);
+}
+
+function fcDoToken(p, t){
+  if(!t) return;
+  var S=fcState(p);
+  if(t==='M+'){ S.mem+=S.ans; toast('M = '+fcFmt(S.mem)); return; }
+  if(t==='M-'){ S.mem-=S.ans; toast('M = '+fcFmt(S.mem)); return; }
+  if(t==='RCL'){ fcIns(p, fcFmt(S.mem)); return; }
+  if(t==='MCL'){ S.mem=0; toast('Memory cleared'); return; }
+  if(S.fresh && /^[\d.]$/.test(t)){ S.expr=''; S.cur=0; }
+  S.fresh=false;
+  fcIns(p, t);
+}
+
+function fcIns(p, s){
+  var S=fcState(p);
+  S.expr = S.expr.slice(0,S.cur) + s + S.expr.slice(S.cur);
+  S.cur += s.length;
+  fcRender(p);
+}
+
+function fcAC(p){
+  var S=fcState(p), ids=fcIds(p);
+  S.expr=''; S.cur=0; S.fresh=false;
+  var resEl=document.getElementById(ids.result);
+  if(resEl){ resEl.className='fc-result'; resEl.textContent=''; }
+  var hintEl=document.getElementById(ids.hint); if(hintEl) hintEl.textContent='';
+  fcSetMode(p,'normal'); fcRender(p);
+}
+
+function fcDEL(p){
+  var S=fcState(p);
+  if(S.cur>0){ S.expr = S.expr.slice(0,S.cur-1)+S.expr.slice(S.cur); S.cur--; }
+  S.fresh=false; fcRender(p);
+}
+
+function fcCur(p, dir){
+  var S=fcState(p);
+  if(dir==='left' && S.cur>0) S.cur--;
+  if(dir==='right' && S.cur<S.expr.length) S.cur++;
+  fcRender(p);
+}
+
+function fcEQ(p){
+  var S=fcState(p), ids=fcIds(p);
+  var resEl=document.getElementById(ids.result), hintEl=document.getElementById(ids.hint);
+  if(!S.expr) return;
+  try{
+    var val=fcCalc(p, S.expr);
+    if(!isFinite(val)||isNaN(val)) throw new Error('Math ERROR');
+    S.ans=val;
+    var fv=fcFmt(val);
+    if(resEl){ resEl.className='fc-result'+(fv.length>14?' sm':''); resEl.textContent='= '+fv; }
+    if(hintEl) hintEl.textContent='Ans='+fv.slice(0,14);
+    S.fresh=true;
+    fcRender(p);
+  }catch(e){
+    if(resEl){ resEl.className='fc-result err'; resEl.textContent=e.message||'Math ERROR'; }
+  }
+  fcSetMode(p,'normal');
+}
+
+function fcRender(p){
+  var S=fcState(p), ids=fcIds(p);
+  var exprEl=document.getElementById(ids.expr), resEl=document.getElementById(ids.result);
+  if(!exprEl) return;
+  var d=S.expr||'0';
+  var pre=fcEsc(d.slice(0,S.cur)), post=fcEsc(d.slice(S.cur));
+  exprEl.innerHTML=pre+'<span style="border-right:1.8px solid var(--text3)">\u200b</span>'+post;
+  if(S.expr && !S.fresh && resEl){
+    try{
+      var v=fcCalc(p, S.expr);
+      if(isFinite(v)&&!isNaN(v)){
+        var fv=fcFmt(v);
+        resEl.className='fc-result'+(fv.length>14?' sm':'');
+        resEl.textContent=fv;
+      } else { resEl.textContent=''; resEl.className='fc-result'; }
+    }catch(e){ resEl.textContent=''; resEl.className='fc-result'; }
+  }
+}
+
+function fcEsc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function fcFmt(n){
+  if(!isFinite(n)) return n>0?'∞':'-∞';
+  if(Object.is(n,-0)) n=0;
+  var r=parseFloat(n.toPrecision(10));
+  if(r===0) return '0';
+  if(Math.abs(r)>=1e10 || (Math.abs(r)<1e-4 && r!==0)){
+    return r.toExponential(6).replace(/\.?0+(e)/,'$1').replace('e+','×10^').replace('e-','×10^-').replace('e','×10^');
+  }
+  return String(r);
+}
+
+function fcCalc(p, raw){
+  var S=fcState(p);
+  var s=raw;
+  s=s.replace(/%/g,'/100');
+  s=s.replace(/×10\^-(\d+\.?\d*)/g,'*1e-$1');
+  s=s.replace(/×10\^(\d+\.?\d*)/g,'*1e$1');
+  s=s.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');
+  s=s.replace(/\^/g,'**');
+  s=s.replace(/²/g,'**2').replace(/³/g,'**3');
+  s=s.replace(/\bAns\b/g, String(S.ans));
+  var op=(s.match(/\(/g)||[]).length, cl=(s.match(/\)/g)||[]).length;
+  if(op>cl) s+=')'.repeat(op-cl);
+  var DEG=Math.PI/180, RAD=180/Math.PI;
+  var scope={
+    sin:function(x){return Math.sin(x*DEG);}, cos:function(x){return Math.cos(x*DEG);}, tan:function(x){return Math.tan(x*DEG);},
+    asin:function(x){return Math.asin(x)*RAD;}, acos:function(x){return Math.acos(x)*RAD;}, atan:function(x){return Math.atan(x)*RAD;},
+    log:function(x){return Math.log10(x);}, ln:function(x){return Math.log(x);},
+    sqrt:function(x){return Math.sqrt(x);}, abs:function(x){return Math.abs(x);},
+    exp:function(x){return Math.exp(x);},
+    factorial:function(n){var r=1;for(var i=2;i<=Math.round(n);i++)r*=i;return r;},
+    π:Math.PI, e:Math.E,
+    Σ:0, γ:0, i:0, θ:0, S:0, T:0,
+    nCr:function(n,r){var top=1,bot=1;r=Math.min(r,n-r);for(var i=0;i<r;i++){top*=(n-i);bot*=(i+1);}return top/bot;},
+    nPr:function(n,r){var pr=1;for(var i=0;i<r;i++)pr*=(n-i);return pr;}
+  };
+  s=s.replace(/√\(/g,'sqrt(').replace(/∛\(/g,'Math.cbrt(');
+  var keys=Object.keys(scope), vals=keys.map(function(k){return scope[k];});
+  s=s.replace(/10\*\*\(/g,'(10**(');
+  return new Function(...keys,'Math',"\"use strict\";return(" + s + ")")(...vals, Math);
+}
+
 function calcIds(){
-  if(CALC_TARGET==='session')return{expr:'sc-expr',res:'sc-res'};
-  if(CALC_TARGET==='studio')return{expr:'sc2-expr',res:'sc2-res'};
-  return{expr:'c-expr',res:'c-res'};
+  var p = isCalcVisible();
+  return fcIds(p||'st');
 }
 function updateCalcUI(){
-  var ids=calcIds();
-  var exprEl=document.getElementById(ids.expr); var resEl=document.getElementById(ids.res);
-  if(exprEl)exprEl.textContent=CE; if(resEl)resEl.textContent=CR;
+  var p = isCalcVisible();
+  if(p) fcRender(p);
 }
-function openSessionCalc(){ CALC_TARGET='session'; updateCalcUI(); document.getElementById('session-calc-modal').classList.add('open'); }
-function closeSessionCalc(){ document.getElementById('session-calc-modal').classList.remove('open'); CALC_TARGET='main'; updateCalcUI(); }
+function openSessionCalc(){ fcRender('sc'); document.getElementById('session-calc-modal').classList.add('open'); }
+function closeSessionCalc(){ document.getElementById('session-calc-modal').classList.remove('open'); }
 function isCalcVisible(){
-  // session calc modal open
-  if(document.getElementById('session-calc-modal').classList.contains('open')) return true;
-  // more tab active and sub-calc sub-page active
-  var moreActive = document.getElementById('scr-more') && document.getElementById('scr-more').classList.contains('active');
-  var calcActive = document.getElementById('sub-calc') && document.getElementById('sub-calc').classList.contains('active');
-  if(moreActive&&calcActive)return true;
+  // returns the prefix of the visible calculator instance, or null
+  if(document.getElementById('session-calc-modal').classList.contains('open')) return 'sc';
   var studioActive=document.getElementById('scr-sounds')&&document.getElementById('scr-sounds').classList.contains('active');
-  var sc2=document.getElementById('studio-calc')&&document.getElementById('studio-calc').classList.contains('active');
-  return studioActive&&sc2;
+  var calcTab=document.getElementById('studio-calc')&&document.getElementById('studio-calc').classList.contains('active');
+  if(studioActive&&calcTab) return 'st';
+  return null;
 }
 document.addEventListener('keydown', function(kev){
   var k=kev.key;
@@ -5666,7 +6065,8 @@ document.addEventListener('keydown', function(kev){
     if(document.getElementById('auth-modal').classList.contains('open')){closeAuth();kev.preventDefault();return;}
     if(document.getElementById('manual-modal').classList.contains('open')){closeManualModal();kev.preventDefault();return;}
     if(document.getElementById('edit-session-modal').classList.contains('open')){closeEditModal();kev.preventDefault();return;}
-    if(isCalcVisible()){ca('C');kev.preventDefault();return;}
+    var pEsc=isCalcVisible();
+    if(pEsc){ fcAC(pEsc); kev.preventDefault(); return; }
     return;
   }
 
@@ -5692,15 +6092,24 @@ document.addEventListener('keydown', function(kev){
   if(k==='?'&&!inInput){kev.preventDefault();showKbShortcuts();return;}
 
   /* ── Calculator keys ── */
-  if(!isCalcVisible()) return;
+  var pCalc=isCalcVisible();
+  if(!pCalc) return;
   if(document.getElementById('mgate').classList.contains('open')) return;
-  if(inInput&&kev.target.id!=='sc-expr'&&kev.target.id!=='c-expr'&&kev.target.id!=='sc2-expr'&&kev.target.id!=='sc2-res') return;
-  if(k>='0'&&k<='9'){kev.preventDefault();ca(k);}
-  else if(k==='.'){kev.preventDefault();ca('.');}
-  else if(k==='+'||k==='-'||k==='*'||k==='/'){kev.preventDefault();ca(k);}
-  else if(k==='Enter'||k==='='){kev.preventDefault();ca('=');}
-  else if(k==='Backspace'){kev.preventDefault();if(CR.length>1)CR=CR.slice(0,-1);else CR='0';updateCalcUI();}
-  else if(k==='%'){kev.preventDefault();ca('%');}
+  if(inInput) return;
+  if(k>='0'&&k<='9'){kev.preventDefault();fcP(pCalc,k);return;}
+  if(k==='.'){kev.preventDefault();fcP(pCalc,'.');return;}
+  if(k==='+'){kev.preventDefault();fcP(pCalc,'+');return;}
+  if(k==='-'){kev.preventDefault();fcP(pCalc,'−');return;}
+  if(k==='*'){kev.preventDefault();fcP(pCalc,'×');return;}
+  if(k==='/'){kev.preventDefault();fcP(pCalc,'÷');return;}
+  if(k==='('||k==='['||k==='{'){kev.preventDefault();fcP(pCalc,'(');return;}
+  if(k===')'||k===']'||k==='}'){kev.preventDefault();fcP(pCalc,')');return;}
+  if(k==='Enter'||k==='='){kev.preventDefault();fcEQ(pCalc);return;}
+  if(k==='Backspace'){kev.preventDefault();fcDEL(pCalc);return;}
+  if(k==='ArrowLeft'){kev.preventDefault();fcCur(pCalc,'left');return;}
+  if(k==='ArrowRight'){kev.preventDefault();fcCur(pCalc,'right');return;}
+  if(k==='%'){kev.preventDefault();fcP(pCalc,'%');return;}
+  if(k==='^'){kev.preventDefault();fcP(pCalc,'^(');return;}
 });
 
 /* Keyboard shortcuts panel */
@@ -5723,8 +6132,10 @@ function showKbShortcuts(){
     +kbRow('Alt + H','Open Foco chat history')
     +kbRow('/','Focus Foco input (on Studio tab)')
     +kbRow('Shift + ?','Show this shortcuts panel')
-    +kbRow('0–9 + ± × ÷','Calculator input (when calc visible)')
+    +kbRow('0–9 + + − × ÷ ( )','Calculator input (when calc visible)')
     +kbRow('Enter','= result in calc / Send in Foco')
+    +kbRow('← / →','Move calculator cursor')
+    +kbRow('Backspace','Delete last calculator character')
     +kbRow('Shift+Enter','New line in Foco message')
     +'</div></div>';
   document.body.appendChild(ov);
@@ -5736,19 +6147,6 @@ function kbRow(k,desc){
     +'</div>';
 }
 
-function ca(v){
-  if(v==='C'){CE='';CR='0';CJE=false;}
-  else if(v==='='){
-    try{ CE+=CR; var r=Function('"use strict";return('+CE+')')(); CR=Number(r).toFixed(10).replace(/\.0+$/,'').replace(/(\.\d*?)0+$/,'$1'); CE=''; CJE=true; }
-    catch(e){CR='Error';CE='';}
-  }
-  else if(['+','-','*','/'].includes(v)){CE+=CR+v;CR='0';CJE=false;}
-  else if(v==='+/-'){CR=(parseFloat(CR)*-1).toString();if(CR==='-0')CR='0';}
-  else if(v==='%'){CR=(parseFloat(CR)/100).toString();}
-  else if(v==='.'){if(CJE){CR='0.';CJE=false;}else if(!String(CR).includes('.'))CR+='.';}
-  else{ if(CR==='0'||CJE){CR=v;CJE=false;}else CR+=v; if(CR.length>12)CR=CR.slice(0,12); }
-  updateCalcUI();
-}
 
 // ===== SETTINGS =====
 function saveGoal(v){ D.goal=parseInt(v)||120; localStorage.setItem('fl_g',D.goal); scheduleCloudSave(); updHome(); }
@@ -6326,8 +6724,6 @@ function setStudioTab(tab, el){
   if(el) el.classList.add('active');
   var panel = document.getElementById('studio-' + tab);
   if(panel) panel.classList.add('active');
-  if(tab === 'calc'){ CALC_TARGET = 'studio'; updateCalcUI(); }
-  else if(CALC_TARGET === 'studio'){ CALC_TARGET = 'main'; updateCalcUI(); }
   if(tab === 'notes'){ renderNotes(); }
 }
 
