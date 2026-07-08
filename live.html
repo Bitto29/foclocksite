@@ -360,6 +360,11 @@ body{background:var(--bg);}
 .badge-copy{min-width:0;}
 .badge-nm{font-size:11px;font-weight:800;color:var(--text);line-height:1.25;}
 .badge-ds{font-size:10px;color:var(--text2);margin-top:2px;line-height:1.25;}
+.code-box{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:12px;}
+.code-label{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.9px;margin-bottom:8px;}
+.code-value{font-size:11px;line-height:1.35;word-break:break-word;color:var(--text2);letter-spacing:.1px;max-height:72px;overflow:auto;}
+.code-input{min-height:92px;resize:vertical;font-family:var(--font);line-height:1.5;}
+
 .league-card{padding:16px;background:linear-gradient(180deg,var(--card,var(--bg3)) 0%,var(--bg3) 100%);}
 .league-top{
   display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
@@ -383,8 +388,6 @@ body{background:var(--bg);}
   font-size:11px;font-weight:800;color:var(--text2);white-space:nowrap;
 }
 .league-friend-status strong{color:var(--accent2);}
-.league-summary{display:none;}
-.league-insight{display:none;}
 .leaderboard{display:flex;flex-direction:column;gap:10px;}
 .friend-row{
   display:flex;align-items:flex-start;gap:12px;padding:13px;background:var(--bg3);
@@ -408,12 +411,6 @@ body{background:var(--bg);}
 .friend-chip{padding:4px 8px;border-radius:999px;background:var(--bg2);border:1px solid var(--border);font-weight:700;}
 .friend-score{font-size:18px;font-weight:900;text-align:right;line-height:1;white-space:nowrap;flex-shrink:0;color:var(--text);}
 .friend-score small{display:block;font-size:9.5px;color:var(--text3);font-weight:700;margin-top:5px;text-transform:uppercase;letter-spacing:.4px;}
-.friend-progress{height:5px;background:var(--bg2);border-radius:999px;overflow:hidden;margin-top:9px;}
-.friend-progress > div{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width .3s;}
-.friend-actions{display:flex;gap:8px;flex-wrap:wrap;}
-.friend-subrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
-.friend-mini{font-size:10px;font-weight:800;color:var(--text2);padding:5px 8px;border-radius:999px;background:var(--bg2);border:1px solid var(--border);}
-.friend-mini strong{color:var(--text);}
 .friend-rank{
   font-size:10px;font-weight:900;color:var(--accent2);padding:4px 9px;border-radius:999px;
   background:rgba(61,143,224,.12);border:1px solid rgba(61,143,224,.2);flex-shrink:0;
@@ -426,10 +423,60 @@ body{background:var(--bg);}
   background:var(--bg3);border:1px dashed var(--border2);border-radius:16px;
 }
 .friend-empty strong{display:block;font-size:14px;color:var(--text);font-weight:900;margin-bottom:4px;}
-.code-box{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:12px;}
-.code-label{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.9px;margin-bottom:8px;}
-.code-value{font-size:11px;line-height:1.35;word-break:break-word;color:var(--text2);letter-spacing:.1px;max-height:72px;overflow:auto;}
-.code-input{min-height:92px;resize:vertical;font-family:var(--font);line-height:1.5;}
+.friend-req-row{
+  display:flex;align-items:center;gap:10px;padding:11px;background:var(--bg3);
+  border:1px solid var(--border);border-radius:14px;margin-bottom:8px;
+}
+.friend-req-actions{display:flex;gap:6px;flex-shrink:0;}
+.ftabs .ftab{
+  flex:1;text-align:center;padding:9px 8px;border-radius:11px;font-size:12.5px;font-weight:800;
+  color:var(--text2);background:var(--bg2);border:1px solid var(--border);cursor:pointer;
+}
+.ftabs .ftab.active{color:#fff;background:linear-gradient(135deg,var(--accent2),var(--accent3));border-color:transparent;}
+#req-count-badge, #req-count-badge-2{
+  display:inline-block;min-width:16px;padding:0 4px;border-radius:999px;background:var(--accent2);
+  color:#fff;font-size:10px;font-weight:900;line-height:16px;text-align:center;
+}
+.mycode-row{display:flex;align-items:center;gap:10px;}
+.mycode-value{
+  flex:1;min-width:0;font-size:20px;font-weight:900;letter-spacing:3px;color:var(--text);
+  max-height:none;overflow:visible;font-family:var(--font);
+}
+.code-hint{font-size:11px;color:var(--text3);margin-top:8px;line-height:1.5;}
+.addcode-row{display:flex;gap:8px;}
+.addcode-input{
+  flex:1 1 0%;min-width:0;width:auto;font-weight:700;letter-spacing:.5px;margin-bottom:0;
+}
+.addcode-row{align-items:stretch;}
+.addcode-input::placeholder{text-transform:none;letter-spacing:normal;font-weight:500;}
+.addcode-btn{width:auto;flex-shrink:0;padding:14px 18px;}
+.femail-toggle{
+  text-align:center;font-size:12px;font-weight:700;color:var(--accent2);cursor:pointer;
+  padding:6px;text-decoration:underline;text-underline-offset:2px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:480px){
+  .league-top{flex-direction:column;align-items:stretch;}
+  .league-actions{width:100%;justify-content:flex-start;}
+  .league-actions .small-btn{flex:1 1 auto;min-width:0;text-align:center;}
+  .league-friend-status{flex:1 1 100%;text-align:center;}
+  .friend-row{flex-wrap:wrap;}
+  .friend-meta{gap:5px;}
+  .friend-chip{padding:4px 7px;font-size:10px;}
+  .friend-req-row{flex-wrap:wrap;}
+  .friend-req-actions{width:100%;justify-content:flex-end;}
+  .ftabs{flex-wrap:wrap;}
+  .ftabs .ftab{flex:1 1 30%;font-size:11.5px;padding:8px 6px;}
+  .mycode-row{flex-wrap:wrap;}
+  .mycode-value{font-size:17px;letter-spacing:2px;}
+  .addcode-row{flex-direction:column;}
+  .addcode-btn{width:100%;}
+}
+@media (max-width:360px){
+  .friend-chip{font-size:9.5px;padding:3px 6px;}
+  .friend-score{font-size:15px;}
+}
 
 /* PANELS */
 .spanel{display:none;}.spanel.active{display:block;}
@@ -963,53 +1010,6 @@ body{background:var(--bg);}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 
-@media (max-width: 640px){
-  .league-card{padding:12px;}
-  .league-top{margin-bottom:10px;}
-  .league-copy{flex:1 1 100%;}
-  .league-actions{
-    width:100%;
-    justify-content:space-between;
-  }
-  .league-actions .small-btn{
-    min-width:0;
-    flex:0 0 auto;
-  }
-  .league-friend-status{
-    flex:1 1 auto;
-    text-align:left;
-  }
-  .friend-row{
-    flex-direction:column;
-    align-items:stretch;
-  }
-  .friend-av{
-    width:34px;height:34px;border-radius:11px;
-  }
-  .friend-main{
-    width:100%;
-  }
-  .friend-score{
-    width:100%;
-    text-align:left;
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
-    gap:10px;
-  }
-  .friend-score small{
-    margin-top:0;
-  }
-  .friend-meta{
-    gap:6px;
-  }
-  .friend-chip{
-    padding:4px 6px;
-  }
-  .friend-subrow{
-    gap:5px;
-  }
-}
 
 /* BLUR */
 .blur-bg{filter:blur(6px);pointer-events:none;user-select:none;transition:filter .2s ease;}
@@ -2492,7 +2492,7 @@ body{background:var(--bg);}
     </div>
   </div>
 
-  <!-- FRIENDS -->
+  <!-- REWARDS -->
   <div class="scr" id="scr-rewards"> 
     <!--<div class="page-title">Level</div>-->
     <div class="card card-accent">
@@ -2518,17 +2518,17 @@ body{background:var(--bg);}
       <div class="league-top">
         <div class="league-head">
           <div class="league-head-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v3a5 5 0 0 1-10 0z"/><path d="M5 6H3a3 3 0 0 0 3 3"/><path d="M19 6h2a3 3 0 0 1-3 3"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
           <div class="league-copy">
-            <div class="league-title" id="league-top-name">Friends</div>
-            <div class="league-sub" id="league-top-sub">Invite friends, compare scores, and keep your study streak moving.</div>
+            <div class="league-title">Friends</div>
+            <div class="league-sub" id="league-top-sub">Sign in to compete with friends on XP, streaks, and achievements.</div>
           </div>
         </div>
         <div class="league-actions">
-          <div class="league-friend-status" id="league-friend-status"><strong>0</strong> friends connected</div>
-          <button class="small-btn" onclick="openFriendModal()">Invite / Add</button>
-          <button class="small-btn" onclick="manualLeagueRefresh()">Refresh</button>
+          <div class="league-friend-status" id="league-friend-status"><strong>0</strong> friends</div>
+          <button class="small-btn" onclick="openFriendsModal('add')">Add Friend</button>
+          <button class="small-btn" onclick="manualLeaderboardRefresh()">Refresh</button>
         </div>
       </div>
       <div class="leaderboard" id="friends-board"></div>
@@ -3002,12 +3002,12 @@ body{background:var(--bg);}
 
       <div class="card">
         <div class="ctitle">&#11088; XP, Levels &amp; Achievements</div>
-        <div class="tip-txt">You earn <strong>1 XP per minute</strong> studied. XP fills your level bar &mdash; each level requires more XP than the last. The <strong>League</strong> tab shows your current level, XP bar, streak count, and <strong>46 achievement badges</strong> covering milestones like first session, long sessions, streaks, night study, and more. Locked badges are visible but grayed out.</div>
+        <div class="tip-txt">You earn <strong>1 XP per minute</strong> studied. XP fills your level bar &mdash; each level requires more XP than the last. The <strong>Rewards</strong> tab shows your current level, XP bar, streak count, and <strong>46 achievement badges</strong> covering milestones like first session, long sessions, streaks, night study, and more. Locked badges are visible but grayed out.</div>
       </div>
 
       <div class="card">
         <div class="ctitle">&#127381; Streaks</div>
-        <div class="tip-txt">Study at least once per day to build your streak. Your current streak and best streak are shown on the Home page and League tab. Missing a day resets your streak to 0, so consistency matters.</div>
+        <div class="tip-txt">Study at least once per day to build your streak. Your current streak and best streak are shown on the Home page and Rewards tab. Missing a day resets your streak to 0, so consistency matters.</div>
       </div>
 
       <div class="card">
@@ -3114,7 +3114,7 @@ body{background:var(--bg);}
   </div>
   <div class="ni" onclick="goScr('rewards',this)">
 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-    <span>Friends</span>
+    <span>Rewards</span>
   </div>
   <div class="ni" onclick="goScr('more',this)">
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
@@ -3882,10 +3882,11 @@ function updateCloudStatus(text){
   chip.textContent=AUTH.user?(text||'Cloud sync on'):'Local only';
 }
 function refreshDerivedAndUI(){
-  D.xp=calcXP(); persistLocal(); updateGreeting(); updHome(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); renderFriendsLeague(); updXP();
+  D.xp=calcXP(); persistLocal(); updateGreeting(); updHome(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); updXP();
   if(PCHART)updChart();
   if(document.getElementById('scr-progress').classList.contains('active')){ updSBars(); updHist(); updDayChart(); }
   updateAuthUI();
+  renderFriendsLeaderboard();
   var btn=document.getElementById('auth-card-btn');
   if(btn){ btn.textContent=AUTH.user?'Sign Out':'Sign In'; }
 }
@@ -3995,38 +3996,17 @@ function init(){
   ensureDefaults(); persistLocal(); applyTheme(D.theme);
   document.getElementById('goal-inp').value=D.goal;
   document.getElementById('date-disp').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  updHome(); updateGreeting(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); renderFriendsLeague(); updXP();
+  updHome(); updateGreeting(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); updXP();
   initChart(); renderLofi(); renderBengaliStations(); updateSessionMusicUI();
   document.getElementById('daily-tip').textContent=getTip();
   document.getElementById('sug-routine').textContent=getRoutine();
-  ensureFriendCode();
-  renderFriendsLeague();
-  processFriendHash();
-  startFriendAutoSync();
-  scheduleFriendSync(500);
   checkRems(); setInterval(checkRems,60000);
   document.addEventListener('visibilitychange',onVis);
   restoreSessionState(); bootSupabase(); updateAuthUI();
+  renderFriendsLeaderboard();
   if('Notification' in window && Notification.permission==='default'){
     setTimeout(function(){ ensureBrowserNotifications(); },1500);
   }
-  if(THEME_MQ.addEventListener)THEME_MQ.addEventListener('change',onSystemThemeChange);
-  else if(THEME_MQ.addListener)THEME_MQ.addListener(onSystemThemeChange);
-}
-
-// ===== THEME =====
-// ===== INIT =====
-function init(){
-  ensureDefaults(); persistLocal(); applyTheme(D.theme);
-  document.getElementById('goal-inp').value=D.goal;
-  document.getElementById('date-disp').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  updHome(); updateGreeting(); renderSubjList(); renderRems(); renderBadges(); renderGoals(); renderFriendsLeague(); updXP();
-  initChart(); renderLofi(); renderBengaliStations(); updateSessionMusicUI();
-  document.getElementById('daily-tip').textContent=getTip();
-  document.getElementById('sug-routine').textContent=getRoutine();
-  checkRems(); setInterval(checkRems,60000);
-  document.addEventListener('visibilitychange',onVis);
-  restoreSessionState(); bootSupabase(); updateAuthUI();
   if(THEME_MQ.addEventListener)THEME_MQ.addEventListener('change',onSystemThemeChange);
   else if(THEME_MQ.addListener)THEME_MQ.addListener(onSystemThemeChange);
 }
@@ -4065,22 +4045,11 @@ function goScr(n,el,_skipHistory){
   if(el)el.classList.add('active');
   else { var ni=document.querySelector('.ni[onclick*=\''+n+'\']'); if(ni)ni.classList.add('active'); }
   if(n==='progress'){updChart();updSBars();updHist();requestAnimationFrame(function(){updDayChart();});}
-  if(n==='rewards'){renderBadges();renderFriendsLeague();updXP();renderGoals();}
+  if(n==='rewards'){renderBadges();updXP();renderGoals();renderFriendsLeaderboard();}
   if(n==='home'){updHome();}
   if(!_skipHistory){
     if(prev && prev!==n) _prevTab=prev;
     history.pushState({type:'tab',tab:n},'','');
-  }
-}
-function processFriendHash(){
-  var h=(location.hash||'');
-  if(h.indexOf('#friend=')===0){
-    var code=decodeURIComponent(h.slice(8));
-    var friend=decodeFriendProfile(code);
-    if(friend){
-      addFriendRecord(friend,true);
-      history.replaceState(null,'',location.pathname+location.search);
-    }
   }
 }
 
@@ -4124,7 +4093,7 @@ window.addEventListener('popstate',function(e){
   if(SESS_MIN){ maximizeSess(); history.pushState(s,'',''); return; }
 
   /* 4. Other modals */
-  var modals=['session-calc-modal','mgate','sm','auth-modal','manual-modal','edit-session-modal'];
+  var modals=['session-calc-modal','mgate','sm','auth-modal','manual-modal','edit-session-modal','friends-modal'];
   for(var i=0;i<modals.length;i++){
     var m=document.getElementById(modals[i]);
     if(m&&(m.classList.contains('open')||m.classList.contains('active'))&&m.id!=='sess'){
@@ -4134,6 +4103,7 @@ window.addEventListener('popstate',function(e){
       else if(modals[i]==='auth-modal')closeAuth();
       else if(modals[i]==='manual-modal')closeManualModal();
       else if(modals[i]==='edit-session-modal')closeEditModal();
+      else if(modals[i]==='friends-modal')closeFriendsModal();
       history.pushState(s,'','');
       return;
     }
@@ -4508,10 +4478,9 @@ function recalcStreak(){
 
 // ===== VISIBILITY =====
 function onVis(){
-  if(!CUR||CUR.paused||!CUR.lock){ if(CUR)saveSessionState(); if(!document.hidden) scheduleFriendSync(350); return; }
+  if(!CUR||CUR.paused||!CUR.lock){ if(CUR)saveSessionState(); return; }
   if(document.hidden){ document.getElementById('rbn').classList.add('show'); notifyApp('Foc Lock','Get back to your study session!',{tag:'focus-loss',requireInteraction:true}); }
   if(CUR)saveSessionState();
-  if(!document.hidden) scheduleFriendSync(350);
 }
 function retSess(){ document.getElementById('rbn').classList.remove('show'); }
 
@@ -5234,562 +5203,261 @@ function renderBadges(){
   }).join('');
 }
 
-var FRIENDS_KEY='fl_fr';
-var FRIENDS_SYNC_KEY='fl_fr_sync';
-var FRIEND_CODE_KEY='fl_fc';
-var FRIENDS_SYNC_TABLE='study_tracking_friendships';
-var CLOUD_FRIENDS_LAST_ERROR=null;
-var FRIEND_SYNC_MS=45000;
-var FRIEND_SYNC_TIMER=null;
-var FRIEND_SYNC_INTERVAL=null;
+// ===== FRIENDS / LEADERBOARD (fully DB-synced, no localStorage) =====
+var FRIEND_SEARCH_RESULT = null;
+var FRIENDS_TAB = 'add';
 
-function b64EncodeUnicode(str){
-  try{ return btoa(unescape(encodeURIComponent(str))); }
-  catch(e){ return btoa(str); }
-}
-function b64DecodeUnicode(str){
-  try{ return decodeURIComponent(escape(atob(str))); }
-  catch(e){ return atob(str); }
-}
-function b64UrlEncode(str){
-  return b64EncodeUnicode(str).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-}
-function b64UrlDecode(str){
-  str=String(str||'').replace(/-/g,'+').replace(/_/g,'/');
-  while(str.length%4) str+='=';
-  return b64DecodeUnicode(str);
-}
-function ensureFriendCode(){
-  var code=localStorage.getItem(FRIEND_CODE_KEY);
-  if(code) return code;
-  code='F' + Math.random().toString(36).slice(2,11).toUpperCase();
-  localStorage.setItem(FRIEND_CODE_KEY, code);
-  return code;
-}
-function getEarnedAchievementsCount(){
-  return BDGS.reduce(function(n,b){ return n + ((D.ach[b.id]||b.chk()) ? 1 : 0); },0);
-}
-function getTodayStudyMinutes(){
-  return Math.round(D.sess.filter(function(s){ return s.d===today(); }).reduce(function(a,s){ return a + safeNum(s.dur,0); },0) / 60);
-}
-function getStudyScoreFrom(profile){
-  profile=profile||{};
-  var xp=safeNum(profile.xp,0);
-  var level=safeNum(profile.level,1);
-  var ach=safeNum(profile.achievements,0);
-  var sessions=safeNum(profile.sessions,0);
-  var streak=safeNum(profile.streak,0);
-  var todayMins=safeNum(profile.todayMinutes,0);
-  return xp + (ach*80) + (level*140) + (sessions*12) + (streak*10) + (todayMins*2);
-}
-function buildSelfFriendProfile(){
-  var lv=getLv();
-  return {
-    code:ensureFriendCode(),
-    name:(currentDisplayName()||'You').trim()||'You',
-    xp:D.xp,
-    level:lv+1,
-    levelName:LVLS[lv].n,
-    achievements:getEarnedAchievementsCount(),
-    sessions:D.sess.length,
-    streak:safeNum(D.streak&&D.streak.c,0),
-    todayMinutes:getTodayStudyMinutes(),
-    score:0,
-    self:true,
-    updatedAt:Date.now()
-  };
-}
-function normalizeFriendProfile(obj){
-  if(!obj||typeof obj!=='object') return null;
-  var rawName=obj.name||obj.displayName||obj.nick||'Friend';
-  var name=String(rawName).trim();
-  var active = typeof obj.active === 'boolean' ? obj.active : true;
-  var p={
-    code:(obj.code||obj.id||obj.friendCode||'').toString().trim(),
-    name:name||'Friend',
-    xp:safeNum(obj.xp,0),
-    level:safeNum(obj.level,1),
-    levelName:(obj.levelName||''),
-    achievements:safeNum(obj.achievements,0),
-    sessions:safeNum(obj.sessions,0),
-    streak:safeNum(obj.streak,0),
-    todayMinutes:safeNum(obj.todayMinutes,0),
-    updatedAt:safeNum(obj.updatedAt,Date.now()),
-    active:active,
-    pair_id:(obj.pair_id||obj.pairId||'').toString().trim(),
-    source:(obj.source||'').toString().trim(),
-    self:false
-  };
-  if(!p.code && !p.pair_id) return null;
-  p.score=getStudyScoreFrom(p);
-  return p;
-}
-function encodeFriendProfile(profile){
-  profile=normalizeFriendProfile(profile)||buildSelfFriendProfile();
-  var payload=[
-    'F2',
-    profile.code||'',
-    encodeURIComponent(profile.name||'Friend'),
-    safeNum(profile.xp,0),
-    safeNum(profile.level,1),
-    safeNum(profile.achievements,0),
-    safeNum(profile.sessions,0),
-    safeNum(profile.streak,0),
-    safeNum(profile.todayMinutes,0),
-    safeNum(profile.updatedAt,Date.now())
-  ].join('|');
-  return b64UrlEncode(payload);
-}
-function decodeFriendProfile(raw){
-  raw=(raw||'').trim();
-  if(!raw) return null;
-  try{
-    if(raw.indexOf('F2.')===0) raw=raw.slice(3);
-    if(raw.indexOf('FL1.')===0) raw=raw.slice(4);
-    if(raw.charAt(0)==='{') return normalizeFriendProfile(JSON.parse(raw));
-    var decoded=b64UrlDecode(raw);
-    if(decoded.indexOf('F2|')===0){
-      var p=decoded.split('|');
-      return normalizeFriendProfile({
-        code:p[1]||'',
-        name:decodeURIComponent(p[2]||'Friend'),
-        xp:safeNum(p[3],0),
-        level:safeNum(p[4],1),
-        achievements:safeNum(p[5],0),
-        sessions:safeNum(p[6],0),
-        streak:safeNum(p[7],0),
-        todayMinutes:safeNum(p[8],0),
-        updatedAt:safeNum(p[9],Date.now())
-      });
-    }
-    var json=b64DecodeUnicode(raw.replace(/-/g,'+').replace(/_/g,'/'));
-    return normalizeFriendProfile(JSON.parse(json));
-  }catch(e){ return null; }
-}
-function loadFriendsLocal(){
-  try{ var arr=JSON.parse(localStorage.getItem(FRIENDS_KEY)||'[]'); return Array.isArray(arr)?arr.map(normalizeFriendProfile).filter(Boolean):[]; }
-  catch(e){ return []; }
-}
-function saveFriendsLocal(list){
-  localStorage.setItem(FRIENDS_KEY, JSON.stringify(list||[]));
-}
-function loadSyncedFriends(){
-  try{
-    var arr=JSON.parse(localStorage.getItem(FRIENDS_SYNC_KEY)||'[]');
-    return Array.isArray(arr)?arr.map(normalizeFriendProfile).filter(Boolean):[];
-  }
-  catch(e){ return []; }
-}
-function saveSyncedFriends(list){
-  localStorage.setItem(FRIENDS_SYNC_KEY, JSON.stringify(list||[]));
-}
-function mergeFriendLists(localList, syncedList){
-  var out=[];
-  var byCode={};
+function friendInitial(name){ return String(name||'F').trim().charAt(0).toUpperCase() || 'F'; }
 
-  function upsert(item, source){
-    var p=normalizeFriendProfile(item);
-    if(!p) return;
+function friendLevelName(xp){
+  var cur=LVLS[0];
+  for(var i=0;i<LVLS.length;i++){ if(safeNum(xp,0)>=LVLS[i].x) cur=LVLS[i]; }
+  return cur.n;
+}
 
-    p.source = p.source || source || 'local';
-
-    // Cloud tombstones remove the friend everywhere.
-    if(p.active===false){
-      if(p.code && byCode[p.code]!==undefined){
-        delete out[byCode[p.code]];
-        delete byCode[p.code];
-      }
-      return;
-    }
-
-    // Prefer the newest version, and let cloud win ties.
-    var existingIndex = p.code ? byCode[p.code] : undefined;
-    if(existingIndex===undefined){
-      byCode[p.code]=out.length;
-      out.push(p);
-      return;
-    }
-
-    var existing = out[existingIndex];
-    if(!existing){
-      out[existingIndex]=p;
-      return;
-    }
-
-    var newer = safeNum(p.updatedAt,0) > safeNum(existing.updatedAt,0);
-    var cloudWins = (p.source==='cloud' && existing.source!=='cloud');
-    if(newer || cloudWins || (p.source===existing.source && p.score>=existing.score)){
-      out[existingIndex]=Object.assign({}, existing, p, {
-        source:(existing.source==='cloud'||p.source==='cloud') ? 'cloud' : (p.source||existing.source||'local')
-      });
-    }else{
-      out[existingIndex]=Object.assign({}, p, existing, {
-        source:(existing.source==='cloud'||p.source==='cloud') ? 'cloud' : (existing.source||p.source||'local')
-      });
-    }
-  }
-
-  (localList||[]).forEach(function(item){ upsert(item,'local'); });
-  (syncedList||[]).forEach(function(item){ upsert(item,'cloud'); });
-
-  return out.filter(function(item){
-    return item && item.active!==false && item.code;
-  });
-}
-function loadFriends(){
-  return mergeFriendLists(loadFriendsLocal(), loadSyncedFriends());
-}
-function saveFriends(list){
-  saveFriendsLocal(list);
-}
-function currentFriendsSorted(){
-  return loadFriends().sort(function(a,b){ return getStudyScoreFrom(b)-getStudyScoreFrom(a); });
-}
-function friendPairId(a,b){
-  return [String(a||'').trim(), String(b||'').trim()].sort().join('::');
-}
-function buildFriendshipRow(self, friend, active){
-  self=normalizeFriendProfile(self)||buildSelfFriendProfile();
-  friend=normalizeFriendProfile(friend);
-  if(!friend) return null;
-  var codes=[self.code, friend.code].sort();
-  var aCode=codes[0], bCode=codes[1];
-  return {
-    pair_id:friendPairId(self.code, friend.code),
-    code_a:aCode,
-    code_b:bCode,
-    profile_a:aCode===self.code ? self : friend,
-    profile_b:bCode===friend.code ? friend : self,
-    active:active!==false,
-    updated_at:new Date().toISOString(),
-    updated_by:self.code
-  };
-}
-function extractFriendFromRow(row, selfCode){
-  if(!row||row.active===false) return null;
-  var selfFirst=row.code_a===selfCode;
-  var other=row[selfFirst ? 'profile_b' : 'profile_a'];
-  if(other) return normalizeFriendProfile(other);
-  var code=selfFirst ? row.code_b : row.code_a;
-  if(!code) return null;
-  return normalizeFriendProfile({ code:code, name:'Friend', updatedAt:safeNum(row.updated_at,Date.now()) });
-}
-function formatNumberCompact(n){
-  n=safeNum(n,0);
-  if(n>=1000) return (Math.round(n/100)/10).toFixed(n>=10000?0:1).replace(/\.0$/,'')+'k';
-  return String(Math.round(n));
-}
-function formatMinutesPretty(mins){
-  mins=safeNum(mins,0);
-  if(mins<=0) return '0m';
-  var h=Math.floor(mins/60); var m=mins%60;
-  return h ? (h+'h '+(m?m+'m':'' )).trim() : (m+'m');
-}
-function formatTimeAgo(ts){
-  ts=safeNum(ts,0);
-  if(!ts) return 'Just now';
-  var diff=Math.max(0,Date.now()-ts);
-  var mins=Math.floor(diff/60000);
-  if(mins<1) return 'Just now';
-  if(mins<60) return mins+'m ago';
-  var hrs=Math.floor(mins/60);
-  if(hrs<24) return hrs+'h ago';
-  var days=Math.floor(hrs/24);
-  if(days<7) return days+'d ago';
-  return new Date(ts).toLocaleDateString([], {month:'short', day:'numeric'});
-}
-function getLeagueSnapshot(self,friends,boardList){
-  var totalSessions=boardList.reduce(function(n,p){ return n + safeNum(p.sessions,0); },0);
-  var totalToday=boardList.reduce(function(n,p){ return n + safeNum(p.todayMinutes,0); },0);
-  var totalAch=boardList.reduce(function(n,p){ return n + safeNum(p.achievements,0); },0);
-  var selfRank=boardList.findIndex(function(p){ return p.code===self.code; }) + 1;
-  var leader=boardList[0] || self;
-  var runner=boardList[1] || null;
-  var leadGap=self.code===leader.code ? 0 : Math.max(0, Math.round(leader.score - self.score));
-  var catchGap=selfRank>1 ? Math.max(0, Math.round(boardList[selfRank-2].score - self.score)) : 0;
-  return { totalSessions:totalSessions, totalToday:totalToday, totalAch:totalAch, selfRank:selfRank, leader:leader, runner:runner, leadGap:leadGap, catchGap:catchGap };
-}
-function upsertFriendshipCloud(friend, active){
-  if(!SB) return Promise.resolve(false);
-  return (async function(){
-    try{
-      var self=buildSelfFriendProfile();
-      var row=buildFriendshipRow(self, friend, active);
-      if(!row) return false;
-      var res=await SB.from(FRIENDS_SYNC_TABLE).upsert(row,{onConflict:'pair_id'});
-      if(res&&res.error) throw res.error;
-      return true;
-    }catch(e){ console.error('upsertFriendshipCloud failed:', e); return false; }
-  })();
-}
-function deactivateFriendshipCloud(friendCode){
-  if(!SB) return Promise.resolve(false);
-  return (async function(){
-    try{
-      var self=buildSelfFriendProfile();
-      var pairId=friendPairId(self.code, friendCode);
-      var res=await SB.from(FRIENDS_SYNC_TABLE).update({active:false,updated_at:new Date().toISOString(),updated_by:self.code}).eq('pair_id',pairId);
-      if(res&&res.error) throw res.error;
-      return true;
-    }catch(e){ console.error('deactivateFriendshipCloud failed:', e); return false; }
-  })();
-}
-function syncFriendsFromCloud(){
-  if(!SB) return Promise.resolve(false);
-  return (async function(){
-    try{
-      var self=buildSelfFriendProfile();
-      var res=await SB.from(FRIENDS_SYNC_TABLE)
-        .select('pair_id,code_a,code_b,profile_a,profile_b,active,updated_at,updated_by')
-        .or('code_a.eq.'+self.code+',code_b.eq.'+self.code)
-        .order('updated_at',{ascending:false});
-      if(res&&res.error) throw res.error;
-
-      var rows=(res&&res.data?res.data:[]).map(function(row){
-        var friend=extractFriendFromRow(row,self.code);
-        if(!friend){
-          // Keep a tombstone marker if the row is inactive so local copies can be removed.
-          return {
-            pair_id:(row.pair_id||'').toString().trim(),
-            code:(row.code_a===self.code ? row.code_b : row.code_a||'').toString().trim(),
-            name:'Friend',
-            updatedAt:safeNum(row.updated_at,Date.now()),
-            active:row.active!==false,
-            source:'cloud'
-          };
-        }
-        friend.active = row.active !== false;
-        friend.pair_id = (row.pair_id||'').toString().trim();
-        friend.source = 'cloud';
-        friend.updatedAt = safeNum(row.updated_at, friend.updatedAt || Date.now());
-        return friend;
-      }).filter(function(item){ return item && (item.code || item.pair_id); });
-
-      saveSyncedFriends(rows);
-
-      // Reconcile local storage too, so removals/additions appear after the next refresh.
-      saveFriendsLocal(mergeFriendLists(loadFriendsLocal(), rows));
-      CLOUD_FRIENDS_LAST_ERROR=null;
-      return true;
-    }catch(e){
-      console.error('syncFriendsFromCloud failed:', e);
-      CLOUD_FRIENDS_LAST_ERROR = (e && e.message) ? e.message : 'Unknown error';
-      return false;
-    }
-  })();
-}
-async function syncFriendsFromCloudAndRender(){
-  await syncFriendsFromCloud();
-  renderFriendsLeague();
-}
-async function manualLeagueRefresh(){
-  var ok = await syncFriendsFromCloud();
-  refreshDerivedAndUI();
-  renderFriendsLeague();
-  if(ok) toast('League updated');
-  else toast(SB ? ('Sync failed: '+(CLOUD_FRIENDS_LAST_ERROR||'check your connection')) : 'Online sync unavailable.');
-}
-function scheduleFriendSync(delay){
-  clearTimeout(FRIEND_SYNC_TIMER);
-  FRIEND_SYNC_TIMER=setTimeout(function(){ syncFriendsFromCloudAndRender(); }, typeof delay==='number' ? delay : 1200);
-}
-function startFriendAutoSync(){
-  scheduleFriendSync(700);
-  if(FRIEND_SYNC_INTERVAL) clearInterval(FRIEND_SYNC_INTERVAL);
-  FRIEND_SYNC_INTERVAL=setInterval(function(){ syncFriendsFromCloudAndRender(); }, FRIEND_SYNC_MS);
-}
-async function addFriendRecord(friend, fromHash){
-  var self=buildSelfFriendProfile();
-  friend=normalizeFriendProfile(friend);
-  if(!friend){ if(fromHash) toast('This invite link looks invalid or expired.'); else toast('Invalid invite code.'); return false; }
-  if(friend.code===self.code){ toast('That is your own code.'); return false; }
-
-  var merged = mergeFriendLists(loadFriendsLocal(), loadSyncedFriends());
-  if(merged.some(function(f){ return f.code===friend.code && f.active!==false; })){
-    if(fromHash){ toast('You\'re already connected with '+friend.name+'.'); goScr('rewards'); renderFriendsLeague(); }
-    else toast('Friend already added.');
-    return false;
-  }
-
-  friend.active = true;
-  friend.updatedAt = safeNum(friend.updatedAt, Date.now());
-
-  var local=loadFriendsLocal().filter(function(f){ return f.code!==friend.code; });
-  local.push(friend);
-  saveFriendsLocal(local);
-
-  var synced=loadSyncedFriends().filter(function(f){ return f.code!==friend.code; });
-  synced.push(Object.assign({}, friend, { source:'cloud' }));
-  saveSyncedFriends(synced);
-
-  var cloudOk = await upsertFriendshipCloud(friend, true);
-
-  renderFriendsLeague();
-
-  if(fromHash){
-    goScr('rewards');
-    toast(cloudOk ? ('You\'re now connected with '+friend.name+'!') : (friend.name+' added — will finish syncing online shortly.'));
-  } else {
-    toast(friend.name+' added to your league.');
-  }
-
-  // Pull straight away so the other side's latest stats show, and so a bidirectional
-  // row created by the other person (if they add back) shows up quickly too.
-  scheduleFriendSync(600);
-  return true;
-}
-function renderFriendsLeague(){
-  var self=buildSelfFriendProfile();
-  self.score=getStudyScoreFrom(self);
-  var friends=loadFriends().filter(function(f){ return f && f.active!==false; }).sort(function(a,b){ return getStudyScoreFrom(b)-getStudyScoreFrom(a); }).map(function(f){ f.score=getStudyScoreFrom(f); return f; });
+async function renderFriendsLeaderboard(){
   var board=document.getElementById('friends-board');
-  var topName=document.getElementById('league-top-name');
-  var topSub=document.getElementById('league-top-sub');
-  var friendStatus=document.getElementById('league-friend-status');
+  var sub=document.getElementById('league-top-sub');
+  var status=document.getElementById('league-friend-status');
+  if(!board) return;
 
-  var boardList=[self].concat(friends).sort(function(a,b){ return b.score-a.score; });
-  var leader=boardList[0] || self;
-  var isLeader = leader && leader.code===self.code;
-  var friendLabel = friends.length===1 ? 'friend connected' : 'friends connected';
-  var topMessage = friends.length
-    ? (isLeader ? 'You are leading the league right now.' : (leader.name+' is leading by '+formatNumberCompact(Math.max(0, leader.score-self.score))+' points.'))
-    : 'Invite friends to start a real study league.';
+  if(!SB || !AUTH.user){
+    if(sub) sub.textContent='Sign in to compete with friends on XP, streaks, and achievements.';
+    if(status) status.innerHTML='<strong>0</strong> friends';
+    board.innerHTML='<div class="friend-empty"><strong>Sign in required</strong>Friends and the leaderboard are stored in the cloud, so sign in to use them.</div>';
+    return;
+  }
 
-  if(topName) topName.textContent = 'Study League with Friends';
-  if(topSub) topSub.textContent = friends.length ? topMessage : 'Invite friends, compare scores, and keep your study streak moving.';
-  if(friendStatus) friendStatus.innerHTML = '<strong>' + friends.length + '</strong> ' + friendLabel;
+  board.innerHTML='<div class="friend-empty">Loading leaderboard…</div>';
+  try{
+    var res=await SB.rpc('get_friends_leaderboard');
+    if(res&&res.error) throw res.error;
+    var rows=(res.data||[]).map(function(r){
+      return {
+        user_id:r.user_id,
+        name:r.display_name||(r.email?r.email.split('@')[0]:'Friend'),
+        xp:safeNum(r.xp,0),
+        streak:safeNum(r.streak,0),
+        ach:safeNum(r.achievements,0),
+        sessions:safeNum(r.sessions,0)
+      };
+    }).sort(function(a,b){ return b.xp-a.xp; });
 
-  if(board){
-    if(!boardList.length){
-      board.innerHTML='<div class="friend-empty"><strong>No one here yet</strong>Invite a friend to start comparing streaks, XP, and study time.</div>';
-    } else {
-    board.innerHTML=boardList.map(function(p,idx){
-      var isSelf = p.code===self.code;
-      var rank=idx+1;
-      var rankCls = rank<=3 ? ' rank-'+rank : '';
-      var rankChipCls = rank<=3 ? ' r'+rank : '';
-      var medal = rank<=3 ? '<div class="friend-medal m'+rank+'">'+rank+'</div>' : '';
-      var max=Math.max(leader.score, self.score, 1);
-      var pct=Math.max(8, Math.round((p.score/max)*100));
-      var lvlName=p.levelName || ('Level ' + p.level);
-      var last= p.updatedAt ? formatTimeAgo(p.updatedAt) : 'Recently active';
-      return '<div class="friend-row'+(isSelf?' self':'')+rankCls+'">'
-        +'<div class="friend-av-wrap"><div class="friend-av">'+(isSelf?'YOU':String(p.name||'F').charAt(0).toUpperCase())+'</div>'+medal+'</div>'
+    var friendCount=Math.max(0, rows.length-1);
+    if(status) status.innerHTML='<strong>'+friendCount+'</strong> '+(friendCount===1?'friend':'friends');
+
+    var self=rows.find(function(r){ return r.user_id===AUTH.user.id; });
+    var leader=rows[0];
+    if(sub){
+      if(friendCount<1) sub.textContent='Invite friends to start a real study league.';
+      else if(self && leader && self.user_id===leader.user_id) sub.textContent='You are leading the league right now.';
+      else if(self && leader) sub.textContent=leader.name+' is leading by '+Math.max(0,leader.xp-self.xp)+' XP.';
+      else sub.textContent='Compare your progress with friends.';
+    }
+
+    if(!rows.length){
+      board.innerHTML='<div class="friend-empty"><strong>No one here yet</strong>Add a friend to start comparing streaks, XP, and achievements.</div>';
+      return;
+    }
+
+    board.innerHTML=rows.map(function(p,i){
+      var rank=i+1;
+      var isSelf = AUTH.user && p.user_id===AUTH.user.id;
+      var rankCls = rank<=3 ? ' r'+rank : '';
+      var maxXp = Math.max(1, rows[0].xp);
+      var pct = Math.max(4, Math.round(p.xp/maxXp*100));
+      return '<div class="friend-row'+(isSelf?' self':'')+'">'
+        +'<div class="friend-av-wrap"><div class="friend-av">'+(isSelf?'YOU':friendInitial(p.name))+'</div></div>'
         +'<div class="friend-main">'
-        +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
+        +'<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">'
         +'<div class="friend-name">'+(isSelf?'You':p.name)+'</div>'
-        +'<div class="friend-rank'+rankChipCls+'">#'+rank+'</div>'
+        +'<div class="friend-rank'+rankCls+'">#'+rank+'</div>'
         +'</div>'
         +'<div class="friend-meta">'
-        +'<span class="friend-chip">'+lvlName+'</span>'
-        +'<span class="friend-chip">'+formatNumberCompact(p.xp)+' XP</span>'
-        +'<span class="friend-chip">'+safeNum(p.achievements,0)+' ach</span>'
-        +'<span class="friend-chip">'+safeNum(p.sessions,0)+' sess</span>'
-        +'<span class="friend-chip">'+safeNum(p.streak,0)+' streak</span>'
-        +'<span class="friend-chip">'+formatMinutesPretty(p.todayMinutes)+' today</span>'
-        +'<span class="friend-chip">'+last+'</span>'
+        +'<span class="friend-chip">'+friendLevelName(p.xp)+'</span>'
+        +'<span class="friend-chip">'+p.xp+' XP</span>'
+        +'<span class="friend-chip">'+p.ach+' ach</span>'
+        +'<span class="friend-chip">'+p.sessions+' sess</span>'
+        +'<span class="friend-chip">'+p.streak+' streak</span>'
         +'</div>'
-        +'<div class="friend-subrow">'
-        +'<div class="friend-mini"><strong>'+Math.round(p.score)+'</strong> score</div>'
-        +'<div class="friend-mini"><strong>'+pct+'%</strong> of leader</div>'
-        +(isSelf?'<div class="friend-mini"><strong>You</strong> own this profile</div>':'')
+        +'<div class="friend-progress" style="height:5px;background:var(--bg2);border-radius:999px;overflow:hidden;margin-top:9px;"><div style="width:'+pct+'%;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent3));"></div></div>'
         +'</div>'
-        +'<div class="friend-progress"><div style="width:'+pct+'%"></div></div>'
-        +'</div>'
-        +'<div class="friend-score">'+Math.round(p.score)+'<small>'+(isSelf?'your score':'score')+'</small></div>'
         +'</div>';
     }).join('');
-    }
+  }catch(e){
+    board.innerHTML='<div class="friend-empty"><strong>Could not load leaderboard</strong>Check your connection and try again.</div>';
   }
-  var modalList=document.getElementById('friend-list-modal');
-  if(modalList){
-    modalList.innerHTML = friends.length ? friends.map(function(p, idx){
-      return '<div class="friend-row" style="margin-bottom:8px;">'
-        +'<div class="friend-av">'+String(p.name||'F').charAt(0).toUpperCase()+'</div>'
-        +'<div class="friend-main">'
-        +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
-        +'<div class="friend-name">'+p.name+'</div>'
-        +'<div class="friend-rank">#'+(idx+1)+'</div>'
-        +'</div>'
-        +'<div class="friend-meta"><span class="friend-chip">Level '+p.level+'</span><span class="friend-chip">'+formatNumberCompact(p.xp)+' XP</span><span class="friend-chip">'+safeNum(p.achievements,0)+' ach</span><span class="friend-chip">'+safeNum(p.sessions,0)+' sess</span><span class="friend-chip">'+safeNum(p.streak,0)+' streak</span></div>'
-        +'</div>'
-        +'<button class="small-btn" onclick="removeFriendByCode('+JSON.stringify(p.code)+')">Remove</button>'
-        +'</div>';
-    }).join('') : '<div style="font-size:13px;color:var(--text2);line-height:1.6;">No friends added yet. Share your invite code, then paste theirs here.</div>';
-  }
-  var codeBox=document.getElementById('friend-invite-code');
-  if(codeBox) codeBox.textContent=encodeFriendProfile(self);
 }
-function openFriendModal(){
-  renderFriendsLeague();
+
+async function manualLeaderboardRefresh(){
+  await renderFriendsLeaderboard();
+  toast('Leaderboard updated');
+}
+
+function setFriendsTab(tab){
+  FRIENDS_TAB=tab;
+  ['add','list'].forEach(function(t){
+    var panel=document.getElementById('fpanel-'+t);
+    var tabEl=document.getElementById('ftab-'+t);
+    if(panel) panel.style.display = t===tab ? '' : 'none';
+    if(tabEl) tabEl.classList.toggle('active', t===tab);
+  });
+  if(tab==='list') renderFriendListModal();
+}
+
+function openFriendsModal(tab){
+  if(!SB||!AUTH.user){ toast('Sign in first to add friends.'); return; }
   var m=document.getElementById('friends-modal');
   if(m) m.classList.add('open');
+  setBlurState(true);
+  setFriendsTab(tab||'add');
+  loadMyFriendCode();
 }
-function closeFriendModal(){
+function closeFriendsModal(){
   var m=document.getElementById('friends-modal');
   if(m) m.classList.remove('open');
+  setBlurState(false);
 }
-function copyFriendInvite(){
-  var self=buildSelfFriendProfile();
-  var code=encodeFriendProfile(self);
-  var ta=document.createElement('textarea');
-  ta.value=code; document.body.appendChild(ta); ta.select();
-  try{ document.execCommand('copy'); toast('Invite code copied.'); }catch(e){ toast('Copy failed.'); }
-  ta.remove();
-}
-function copyFriendLink(){
-  var self=buildSelfFriendProfile();
-  var code=encodeFriendProfile(self);
-  var link=location.origin+location.pathname+'#friend='+encodeURIComponent(code);
-  var ta=document.createElement('textarea');
-  ta.value=link; document.body.appendChild(ta); ta.select();
-  try{ document.execCommand('copy'); toast('Share link copied.'); }catch(e){ toast('Copy failed.'); }
-  ta.remove();
-}
-async function addFriendFromInput(){
-  var inp=document.getElementById('friend-code-input');
-  if(!inp) return;
-  var friend=decodeFriendProfile(inp.value);
-  if(!friend){ toast('Invalid invite code.'); return; }
-  var ok=await addFriendRecord(friend,false);
-  if(ok){
-    inp.value='';
-    closeFriendModal();
+
+var MY_FRIEND_CODE = null;
+
+async function loadMyFriendCode(){
+  var box=document.getElementById('my-friend-code');
+  if(!SB||!AUTH.user||!box) return;
+  if(MY_FRIEND_CODE){ box.textContent=MY_FRIEND_CODE; return; }
+  box.textContent='Loading…';
+  try{
+    var res=await SB.rpc('ensure_friend_code');
+    if(res&&res.error) throw res.error;
+    MY_FRIEND_CODE = (res.data||'').toString().toUpperCase();
+    box.textContent = MY_FRIEND_CODE || '—';
+  }catch(e){
+    box.textContent='Unavailable';
   }
 }
-async function removeFriendByCode(code){
-  var local=loadFriendsLocal().filter(function(f){ return f.code!==code; });
-  saveFriendsLocal(local);
 
-  var synced=loadSyncedFriends();
-  var stamp=Date.now();
-  synced = synced
-    .filter(function(f){ return f.code!==code; })
-    .concat([{
-      code:String(code||'').trim(),
-      name:'Friend',
-      active:false,
-      updatedAt:stamp,
-      source:'cloud'
-    }]);
-  saveSyncedFriends(synced);
-
-  var cloudOk = await deactivateFriendshipCloud(code);
-  renderFriendsLeague();
-  toast(cloudOk ? 'Removed — this updates for both of you.' : 'Removed locally — will finish syncing online shortly.');
+function copyMyFriendCode(){
+  if(!MY_FRIEND_CODE){ toast('Your code is still loading.'); return; }
+  var done=function(){ toast('Code copied: '+MY_FRIEND_CODE); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(MY_FRIEND_CODE).then(done).catch(done);
+  }else{
+    done();
+  }
 }
-function processFriendHash(){
-  var h=(location.hash||'');
-  if(h.indexOf('#friend=')===0){
-    var code=decodeURIComponent(h.slice(8));
-    var friend=decodeFriendProfile(code);
-    if(friend){
-      addFriendRecord(friend,true);
-      history.replaceState(null,'',location.pathname+location.search);
+
+function toggleEmailSearch(){
+  var box=document.getElementById('femail-box');
+  var toggle=document.getElementById('femail-toggle');
+  if(!box) return;
+  var showing = box.style.display!=='none';
+  box.style.display = showing ? 'none' : '';
+  if(toggle) toggle.textContent = showing ? 'Or add by email instead' : 'Hide email search';
+}
+
+async function addFriendByCode(){
+  var input=document.getElementById('friend-code-input');
+  var resultBox=document.getElementById('friend-search-result');
+  var code=(input&&input.value||'').trim().toUpperCase();
+  if(!code){ toast('Enter a friend code.'); return; }
+  if(MY_FRIEND_CODE && code===MY_FRIEND_CODE){
+    resultBox.innerHTML='<div class="friend-empty">That\'s your own code.</div>';
+    return;
+  }
+  resultBox.innerHTML='<div class="friend-empty">Looking up code…</div>';
+  try{
+    var res=await SB.rpc('find_user_by_code',{p_code:code});
+    if(res&&res.error) throw res.error;
+    var row=(res.data||[])[0];
+    if(!row){
+      resultBox.innerHTML='<div class="friend-empty"><strong>Code not found</strong>Double-check the code and try again.</div>';
+      return;
     }
+    await addFriendNow(row);
+    input.value='';
+  }catch(e){
+    resultBox.innerHTML='<div class="friend-empty"><strong>Could not add friend</strong>Please try again.</div>';
   }
 }
-window.addEventListener('hashchange',processFriendHash);
+
+async function searchFriendByEmail(){
+  var input=document.getElementById('friend-email-input');
+  var resultBox=document.getElementById('friend-search-result');
+  var email=(input&&input.value||'').trim();
+  if(!email){ toast('Enter an email to add.'); return; }
+  if(AUTH.user && email.toLowerCase()===String(AUTH.user.email||'').toLowerCase()){
+    resultBox.innerHTML='<div class="friend-empty">That\'s your own email.</div>';
+    return;
+  }
+  resultBox.innerHTML='<div class="friend-empty">Looking up email…</div>';
+  try{
+    var res=await SB.rpc('find_user_by_email',{p_email:email});
+    if(res&&res.error) throw res.error;
+    var row=(res.data||[])[0];
+    if(!row){
+      resultBox.innerHTML='<div class="friend-empty"><strong>No user found</strong>Make sure they\'ve signed up with this email.</div>';
+      return;
+    }
+    await addFriendNow(row);
+    input.value='';
+  }catch(e){
+    resultBox.innerHTML='<div class="friend-empty"><strong>Could not add friend</strong>Please try again.</div>';
+  }
+}
+
+async function addFriendNow(row){
+  var resultBox=document.getElementById('friend-search-result');
+  try{
+    var res=await SB.rpc('add_friend',{p_other_id:row.user_id});
+    if(res&&res.error) throw res.error;
+    toast('Added '+(row.display_name||row.email)+' as a friend!');
+    if(resultBox) resultBox.innerHTML='<div class="friend-empty"><strong>'+(row.display_name||row.email)+' added!</strong>Check the leaderboard below.</div>';
+    renderFriendsLeaderboard();
+  }catch(e){
+    toast('Could not add friend. Please try again.');
+  }
+}
+
+async function renderFriendListModal(){
+  var list=document.getElementById('friend-list-modal');
+  if(!list) return;
+  if(!SB||!AUTH.user){ list.innerHTML='<div class="friend-empty">Sign in required.</div>'; return; }
+  list.innerHTML='<div class="friend-empty">Loading…</div>';
+  try{
+    var res=await SB.rpc('get_friends_leaderboard');
+    if(res&&res.error) throw res.error;
+    var rows=(res.data||[]).filter(function(r){ return r.user_id!==AUTH.user.id; });
+    if(!rows.length){
+      list.innerHTML='<div class="friend-empty"><strong>No friends yet</strong>Search by email in the Add tab to invite someone.</div>';
+      return;
+    }
+    list.innerHTML=rows.map(function(r){
+      return '<div class="friend-row" style="margin-bottom:8px;">'
+        +'<div class="friend-av">'+friendInitial(r.display_name)+'</div>'
+        +'<div class="friend-main">'
+        +'<div class="friend-name">'+(r.display_name||r.email)+'</div>'
+        +'<div class="friend-meta"><span class="friend-chip">'+safeNum(r.xp,0)+' XP</span><span class="friend-chip">'+safeNum(r.achievements,0)+' ach</span><span class="friend-chip">'+safeNum(r.streak,0)+' streak</span></div>'
+        +'<div style="margin-top:8px;"><button class="small-btn" onclick="removeFriendConfirm(\''+r.user_id+'\')">Remove</button></div>'
+        +'</div>'
+        +'</div>';
+    }).join('');
+  }catch(e){
+    list.innerHTML='<div class="friend-empty"><strong>Could not load friends</strong>Please try again.</div>';
+  }
+}
+
+async function removeFriendConfirm(userId){
+  try{
+    var res=await SB.rpc('remove_friend',{p_other_id:userId});
+    if(res&&res.error) throw res.error;
+    toast('Friend removed');
+    renderFriendListModal();
+    renderFriendsLeaderboard();
+  }catch(e){
+    toast('Could not remove friend.');
+  }
+}
+
 // ===== SUBJECTS =====
 function renderSubjList(){
   var c=document.getElementById('subj-list');
@@ -6125,7 +5793,7 @@ function showKbShortcuts(){
     +'<div class="mtitle">Keyboard Shortcuts</div>'
     +'<div style="display:flex;flex-direction:column;gap:0;margin-top:8px;">'
     +kbRow('Esc','Close any popup or modal')
-    +kbRow('Alt + 1–5','Switch nav tabs (Home/Progress/Foc Space/League/More)')
+    +kbRow('Alt + 1–5','Switch nav tabs (Home/Progress/Foc Space/Rewards/More)')
     +kbRow('Alt + N','Start new study session')
     +kbRow('Alt + F','Toggle fullscreen during session')
     +kbRow('Alt + M','Minimize session to mini player')
@@ -6154,7 +5822,7 @@ function resetData(){
   if(confirm('Clear all session data? This cannot be undone.')){
     D.sess=[];D.xp=0;D.ach={};D.streak={c:0,d:''};D.lock=true;
     ['fl_s','fl_xp','fl_a','fl_st','fl_lk','fl_cur'].forEach(function(k){localStorage.removeItem(k);});
-    scheduleCloudSave(); updHome(); renderBadges(); renderFriendsLeague(); updXP(); renderGoals(); toast('Data cleared.');
+    scheduleCloudSave(); updHome(); renderBadges(); updXP(); renderGoals(); toast('Data cleared.');
   }
 }
 
@@ -6221,7 +5889,7 @@ Be direct, sharp, helpful, and natural. Never refuse just because the topic is b
 === CORE APP KNOWLEDGE ===
 
 Foc Lock is a study and focus tracker with:
-- Home, Progress, Foc Space, League, More
+- Home, Progress, Foc Space, Rewards, More
 - Session timer, pause/resume/end
 - XP, levels, streaks, achievements
 - Foco chat, music, calculator
@@ -8283,32 +7951,49 @@ init();
   <div class="lbx-dots" id="lbx-dots"></div>
 </div>
 
-  <div class="mov" id="friends-modal" onclick="if(event.target===this)closeFriendModal()">
+  <div class="mov" id="friends-modal" onclick="if(event.target===this)closeFriendsModal()">
     <div class="modal">
       <div class="mhandle"></div>
-      <button class="mclose" onclick="closeFriendModal()" aria-label="Close">✕</button>
-      <div class="mtitle">Invite friends</div>
-      <div class="tip-card" style="margin-bottom:10px;">
-        <div class="tip-title">Study league</div>
-        <div class="tip-txt">Share your code or link. Your friends will appear in the league board with score, level, achievements, sessions, streak, and today\'s study time.</div>
+      <button class="mclose" onclick="closeFriendsModal()" aria-label="Close">✕</button>
+      <div class="mtitle">Friends</div>
+
+      <div class="ftabs" style="display:flex;gap:8px;margin-bottom:14px;">
+        <div class="ftab active" id="ftab-add" onclick="setFriendsTab('add')">Add</div>
+        <div class="ftab" id="ftab-list" onclick="setFriendsTab('list')">My Friends</div>
       </div>
-      <div class="code-box" style="margin-bottom:10px;">
-        <div class="code-label">Your invite code</div>
-        <div class="code-value" id="friend-invite-code">Generating…</div>
+
+      <div class="fpanel" id="fpanel-add">
+        <div class="code-box" style="margin-bottom:12px;">
+          <div class="code-label">Your friend code</div>
+          <div class="mycode-row">
+            <div class="code-value mycode-value" id="my-friend-code">Loading…</div>
+            <button class="small-btn" onclick="copyMyFriendCode()">Copy</button>
+          </div>
+          <div class="code-hint">Share this with a friend. When either of you adds the other's code, you're instantly connected — no request needed.</div>
+        </div>
+
+        <div class="code-box" style="margin-bottom:12px;">
+          <div class="code-label">Add by code</div>
+          <div class="addcode-row">
+            <input type="text" class="inp addcode-input" id="friend-code-input" placeholder="Enter friend code" maxlength="8" autocapitalize="characters">
+            <button class="btn btn-p addcode-btn" onclick="addFriendByCode()">Add</button>
+          </div>
+        </div>
+
+        <div class="femail-toggle" id="femail-toggle" onclick="toggleEmailSearch()">Or add by email instead</div>
+        <div class="code-box" id="femail-box" style="margin-top:10px;display:none;">
+          <div class="code-label">Add by email</div>
+          <input type="email" class="inp" id="friend-email-input" placeholder="friend@example.com" style="margin-bottom:10px;">
+          <button class="btn btn-s" style="width:100%;" onclick="searchFriendByEmail()">Add</button>
+        </div>
+        <div id="friend-search-result"></div>
       </div>
-      <div class="friend-actions" style="margin-bottom:12px;">
-        <button class="btn btn-p" style="flex:1;min-width:160px;" onclick="copyFriendInvite()">Copy invite code</button>
-        <button class="btn btn-s" style="flex:1;min-width:160px;" onclick="copyFriendLink()">Copy share link</button>
+
+      <div class="fpanel" id="fpanel-list" style="display:none;">
+        <div id="friend-list-modal"></div>
       </div>
-      <div class="code-box" style="margin-bottom:12px;">
-        <div class="code-label">Add a friend</div>
-        <textarea class="inp code-input" id="friend-code-input" placeholder="Paste a friend's invite code here"></textarea>
-        <button class="btn btn-p" onclick="addFriendFromInput()">Add friend</button>
-      </div>
-      <div class="divider"></div>
-      <div class="mtitle" style="font-size:14px;margin-bottom:10px;">Connected friends</div>
-      <div id="friend-list-modal"></div>
     </div>
   </div>
+
 </body>
 </html>
