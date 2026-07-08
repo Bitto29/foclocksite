@@ -409,6 +409,9 @@ body{background:var(--bg);}
 .friend-name{font-size:13.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .friend-meta{font-size:11px;color:var(--text2);margin-top:5px;display:flex;gap:6px;flex-wrap:wrap;}
 .friend-chip{padding:4px 8px;border-radius:999px;background:var(--bg2);border:1px solid var(--border);font-weight:700;}
+.friend-chip-today{color:var(--text2);}
+.friend-chip-today.active{color:var(--accent2);background:rgba(61,143,224,.12);border-color:rgba(61,143,224,.25);font-weight:800;}
+.friend-last-active{font-size:10px;color:var(--text3);margin-top:6px;font-weight:600;}
 .friend-score{font-size:18px;font-weight:900;text-align:right;line-height:1;white-space:nowrap;flex-shrink:0;color:var(--text);}
 .friend-score small{display:block;font-size:9.5px;color:var(--text3);font-weight:700;margin-top:5px;text-transform:uppercase;letter-spacing:.4px;}
 .friend-rank{
@@ -5215,6 +5218,28 @@ function friendLevelName(xp){
   return cur.n;
 }
 
+function fmtFriendMinutes(total){
+  total=Math.max(0,safeNum(total,0));
+  if(total<60) return total+'m';
+  var h=Math.floor(total/60), m=total%60;
+  return m===0 ? (h+'h') : (h+'h '+m+'m');
+}
+
+function fmtFriendLastActive(iso){
+  if(!iso) return '';
+  var t=new Date(iso).getTime();
+  if(!t) return '';
+  var diff=Math.max(0, Date.now()-t);
+  var mins=Math.floor(diff/60000);
+  if(mins<2) return 'Active just now';
+  if(mins<60) return 'Active '+mins+'m ago';
+  var hrs=Math.floor(mins/60);
+  if(hrs<24) return 'Active '+hrs+'h ago';
+  var days=Math.floor(hrs/24);
+  if(days<7) return 'Active '+days+'d ago';
+  return 'Active '+new Date(iso).toLocaleDateString();
+}
+
 async function renderFriendsLeaderboard(){
   var board=document.getElementById('friends-board');
   var sub=document.getElementById('league-top-sub');
@@ -5239,7 +5264,11 @@ async function renderFriendsLeaderboard(){
         xp:safeNum(r.xp,0),
         streak:safeNum(r.streak,0),
         ach:safeNum(r.achievements,0),
-        sessions:safeNum(r.sessions,0)
+        sessions:safeNum(r.sessions,0),
+        today:safeNum(r.today_minutes,0),
+        total:safeNum(r.total_minutes,0),
+        longest:safeNum(r.longest_session_minutes,0),
+        updatedAt:r.updated_at
       };
     }).sort(function(a,b){ return b.xp-a.xp; });
 
@@ -5248,10 +5277,12 @@ async function renderFriendsLeaderboard(){
 
     var self=rows.find(function(r){ return r.user_id===AUTH.user.id; });
     var leader=rows[0];
+    var todayLeader=rows.slice().sort(function(a,b){return b.today-a.today;})[0];
     if(sub){
       if(friendCount<1) sub.textContent='Invite friends to start a real study league.';
       else if(self && leader && self.user_id===leader.user_id) sub.textContent='You are leading the league right now.';
       else if(self && leader) sub.textContent=leader.name+' is leading by '+Math.max(0,leader.xp-self.xp)+' XP.';
+      else if(todayLeader && todayLeader.today>0) sub.textContent=todayLeader.name+' has studied the most today ('+fmtFriendMinutes(todayLeader.today)+').';
       else sub.textContent='Compare your progress with friends.';
     }
 
@@ -5266,6 +5297,7 @@ async function renderFriendsLeaderboard(){
       var rankCls = rank<=3 ? ' r'+rank : '';
       var maxXp = Math.max(1, rows[0].xp);
       var pct = Math.max(4, Math.round(p.xp/maxXp*100));
+      var lastActive = isSelf ? '' : fmtFriendLastActive(p.updatedAt);
       return '<div class="friend-row'+(isSelf?' self':'')+'">'
         +'<div class="friend-av-wrap"><div class="friend-av">'+(isSelf?'YOU':friendInitial(p.name))+'</div></div>'
         +'<div class="friend-main">'
@@ -5274,12 +5306,16 @@ async function renderFriendsLeaderboard(){
         +'<div class="friend-rank'+rankCls+'">#'+rank+'</div>'
         +'</div>'
         +'<div class="friend-meta">'
+        +'<span class="friend-chip friend-chip-today'+(p.today>0?' active':'')+'">Today: '+fmtFriendMinutes(p.today)+'</span>'
         +'<span class="friend-chip">'+friendLevelName(p.xp)+'</span>'
         +'<span class="friend-chip">'+p.xp+' XP</span>'
+        +'<span class="friend-chip">'+p.streak+' streak</span>'
         +'<span class="friend-chip">'+p.ach+' ach</span>'
         +'<span class="friend-chip">'+p.sessions+' sess</span>'
-        +'<span class="friend-chip">'+p.streak+' streak</span>'
+        +'<span class="friend-chip">Total: '+fmtFriendMinutes(p.total)+'</span>'
+        +'<span class="friend-chip">Best: '+fmtFriendMinutes(p.longest)+'</span>'
         +'</div>'
+        +(lastActive?'<div class="friend-last-active">'+lastActive+'</div>':'')
         +'<div class="friend-progress" style="height:5px;background:var(--bg2);border-radius:999px;overflow:hidden;margin-top:9px;"><div style="width:'+pct+'%;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent3));"></div></div>'
         +'</div>'
         +'</div>';
@@ -5436,7 +5472,8 @@ async function renderFriendListModal(){
         +'<div class="friend-av">'+friendInitial(r.display_name)+'</div>'
         +'<div class="friend-main">'
         +'<div class="friend-name">'+(r.display_name||r.email)+'</div>'
-        +'<div class="friend-meta"><span class="friend-chip">'+safeNum(r.xp,0)+' XP</span><span class="friend-chip">'+safeNum(r.achievements,0)+' ach</span><span class="friend-chip">'+safeNum(r.streak,0)+' streak</span></div>'
+        +'<div class="friend-meta"><span class="friend-chip friend-chip-today'+(safeNum(r.today_minutes,0)>0?' active':'')+'">Today: '+fmtFriendMinutes(r.today_minutes)+'</span><span class="friend-chip">'+safeNum(r.xp,0)+' XP</span><span class="friend-chip">'+safeNum(r.achievements,0)+' ach</span><span class="friend-chip">'+safeNum(r.streak,0)+' streak</span></div>'
+        +'<div class="friend-last-active">'+fmtFriendLastActive(r.updated_at)+'</div>'
         +'<div style="margin-top:8px;"><button class="small-btn" onclick="removeFriendConfirm(\''+r.user_id+'\')">Remove</button></div>'
         +'</div>'
         +'</div>';
