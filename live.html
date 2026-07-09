@@ -93,6 +93,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 body{background:var(--bg);}
 #app{display:flex;flex-direction:column;height:100vh;height:100dvh;background:var(--bg);color:var(--text);position:relative;overflow:hidden;}
 
+/* Desktop/wide-screen centering: constrain app to a phone-like column without touching mobile layout */
+@media (min-width:769px){
+  body{
+    display:flex;
+    justify-content:center;
+    background:var(--bg);
+  }
+  #app{
+    max-width:768px;
+    width:100%;
+    margin:0 auto;
+    /* Creates a containing block for position:fixed descendants (modals, overlays, bottom sheets, toasts)
+       so they stay confined to the 768px column instead of spanning the full viewport. */
+    transform:translateZ(0);
+    box-shadow:0 0 60px rgba(0,0,0,.5);
+  }
+}
+
 /* Ambient background mesh */
 #app::before{
   content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
@@ -3745,11 +3763,29 @@ function updateGreeting(){
   var el=document.getElementById('home-greeting');
   if(el) el.innerHTML=greetingText()+(name?', <span>'+name+'</span>':', <span>there</span>');
 }
+function mergeRems(remoteArr,localArr){
+  var map={};
+  function keyFor(r){ return r.id||[r.t||'',r.l||''].join('|'); }
+  (remoteArr||[]).forEach(function(r){ map[keyFor(r)]=r; });
+  (localArr||[]).forEach(function(r){
+    var k=keyFor(r);
+    var ex=map[k];
+    if(ex){
+      // Keep whichever _lastHit is more recent so a reminder that already fired
+      // doesn't get "forgotten" and re-notify repeatedly after a cloud sync.
+      var lastHit=(r._lastHit||'')>(ex._lastHit||'')?r._lastHit:ex._lastHit;
+      map[k]=Object.assign({},ex,r,{_lastHit:lastHit||''});
+    }else{
+      map[k]=r;
+    }
+  });
+  return Object.keys(map).map(function(k){return map[k];});
+}
 function mergeStates(remote){
   remote=remote&&remote.state?remote.state:remote;
   if(!remote||typeof remote!=='object')return;
   D.sess=mergeByKey(remote.sess||[],D.sess||[],function(s){ return s.id||[s.ts||0,s.d||'',s.subj||'',s.dur||0].join('|'); }).sort(function(a,b){ return safeNum(a.ts,0)-safeNum(b.ts,0); });
-  D.rems=mergeByKey(remote.rems||[],D.rems||[],function(r){ return r.id||[r.t||'',r.l||''].join('|'); });
+  D.rems=mergeRems(remote.rems||[],D.rems||[]);
   D.subj=uniqueStrings([].concat(remote.subj||[],D.subj||[]));
   D.ach=Object.assign({},remote.ach||{},D.ach||{});
   D.goal=pickScalar(remote.goal,D.goal,120);
@@ -4004,6 +4040,7 @@ function init(){
   document.getElementById('daily-tip').textContent=getTip();
   document.getElementById('sug-routine').textContent=getRoutine();
   checkRems(); setInterval(checkRems,60000);
+  initNotifServiceWorker();
   document.addEventListener('visibilitychange',onVis);
   restoreSessionState(); bootSupabase(); updateAuthUI();
   renderFriendsLeaderboard();
@@ -4527,17 +4564,40 @@ function resumeSess(){
 }
 
 // ===== NOTIFICATIONS =====
-var NOTIF_ICON='https://i.postimg.cc/g0LW01fr/18936-removebg-preview.png';
+var NOTIF_ICON='https://foclock.vercel.app/clogo.png';
+var NOTIF_BADGE='https://foclock.vercel.app/clogo.png';
+var SW_REG=null;
+function initNotifServiceWorker(){
+  if(!('serviceWorker' in navigator))return;
+  try{
+    var swCode="self.addEventListener('notificationclick',function(e){e.notification.close();e.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(function(list){for(var i=0;i<list.length;i++){if('focus' in list[i])return list[i].focus();}if(clients.openWindow)return clients.openWindow('/');}));});";
+    var blob=new Blob([swCode],{type:'application/javascript'});
+    var swUrl=URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).then(function(reg){ SW_REG=reg; }).catch(function(){});
+  }catch(e){}
+}
 function ensureBrowserNotifications(){
   if(!('Notification' in window))return Promise.resolve(false);
+  initNotifServiceWorker();
   if(Notification.permission==='granted')return Promise.resolve(true);
   if(Notification.permission==='denied')return Promise.resolve(false);
   return Notification.requestPermission().then(function(p){return p==='granted';}).catch(function(){return false;});
 }
 function sndNotif(t,b,o){
   if(!('Notification' in window)||Notification.permission!=='granted')return false;
-  try{ new Notification(t,{body:String(b||''),icon:NOTIF_ICON,tag:o&&o.tag?String(o.tag):undefined,renotify:true,silent:false,requireInteraction:!!(o&&o.requireInteraction)}); return true; }
-  catch(e){return false;}
+  var opts={body:String(b||''),icon:NOTIF_ICON,badge:NOTIF_BADGE,tag:o&&o.tag?String(o.tag):undefined,renotify:true,silent:false,requireInteraction:!!(o&&o.requireInteraction)};
+  // Prefer the service worker path: required on Android Chrome, where the
+  // bare `new Notification()` constructor is blocked and fails silently.
+  if(SW_REG&&SW_REG.showNotification){
+    try{ SW_REG.showNotification(t,opts); return true; }catch(e){}
+  }
+  try{ new Notification(t,opts); return true; }
+  catch(e){
+    if(SW_REG&&SW_REG.showNotification){
+      try{ SW_REG.showNotification(t,opts); return true; }catch(e2){}
+    }
+    return false;
+  }
 }
 function notifyApp(t,b,o){ if(!sndNotif(t,b,o))toast(b||t); }
 function enableBrowserNotifications(){ ensureBrowserNotifications().then(function(ok){ toast(ok?'Browser notifications enabled.':'Notifications are blocked.'); }); }
