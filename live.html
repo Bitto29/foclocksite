@@ -2513,7 +2513,7 @@ body{background:var(--bg);}
     </div>
   </div>
 
-  <!-- REWARDS -->
+  <!-- FRIENDS -->
   <div class="scr" id="scr-rewards"> 
     <!--<div class="page-title">Level</div>-->
     <div class="card card-accent">
@@ -2714,7 +2714,7 @@ body{background:var(--bg);}
             </button>
           </div>
           <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px;margin-bottom:12px;">
-            <div id="beng-current-name" style="font-size:14px;font-weight:800;">Station 1</div>
+            <div id="beng-current-name" style="font-size:14px;font-weight:800;">Radio 1</div>
             <div id="beng-status" style="font-size:11px;color:var(--text2);margin-top:3px;font-weight:500;">Ready to play</div>
           </div>
           <audio id="bg-audio" preload="none" playsinline></audio>
@@ -3135,7 +3135,7 @@ body{background:var(--bg);}
   </div>
   <div class="ni" onclick="goScr('rewards',this)">
 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-    <span>Rewards</span>
+    <span>Friends</span>
   </div>
   <div class="ni" onclick="goScr('more',this)">
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
@@ -4644,13 +4644,13 @@ function togAmb(type,btn){
 function setAmbVol(v){ if(CURNAMB&&ANODES[CURNAMB]){var m={white:0.28,rain:0.55,forest:0.5,ocean:0.6}[CURNAMB]||0.28; ANODES[CURNAMB].gain.gain.value=v/100*m;} }
 
 var BENGALI_STATIONS=[
-  {name:'Station 1',sub:'Music',url:'https://stream.zeno.fm/nxfshdayjrdvv'},
-  {name:'Station 2',sub:'Music',url:'https://stream.zeno.fm/ie8zrtpn7i5vv'},
-  {name:'Station 3',sub:'Music',url:'https://radio.mellowbangla.com/stream'},
-  {name:'Station 4',sub:'Music',url:'https://stream.zeno.fm/8wv4d8g4344tv'},
-  {name:'Station 5',sub:'Music',url:'https://stream.zeno.fm/ie8zrtpn7i5vv'},
-  {name:'Station 6',sub:'Music',url:'https://stream.zeno.fm/xuin6ocdc2juv'},
-  {name:'Station 7',sub:'Music',url:'https://stream.zeno.fm/cwa3vg8s8druv'}
+  {name:'Radio 1',sub:'Music',url:'https://stream.zeno.fm/nxfshdayjrdvv'},
+  {name:'Radio 2',sub:'Music',url:'https://stream.zeno.fm/ie8zrtpn7i5vv'},
+  {name:'Radio 3',sub:'Music',url:'https://radio.mellowbangla.com/stream'},
+  {name:'Radio 4',sub:'Music',url:'https://stream.zeno.fm/8wv4d8g4344tv'},
+  {name:'Radio 5',sub:'Music',url:'https://stream.zeno.fm/ie8zrtpn7i5vv'},
+  {name:'Radio 6',sub:'Music',url:'https://stream.zeno.fm/xuin6ocdc2juv'},
+  {name:'Radio 7',sub:'Music',url:'https://stream.zeno.fm/cwa3vg8s8druv'}
 ];
 var CUR_BENGALI_INDEX=0;
 var LOFI_STATIONS=[
